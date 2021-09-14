@@ -1,0 +1,56 @@
+{
+  "name": "ds-utilities",
+  "version": "1.0.0",
+  "description": "A helper library that provides functions to handle Domain Specifications.",
+  "main": "src/index.js",
+  "scripts": {
+    "buildAll": "npm run-script build && npm run-script buildMinified",
+    "build": "browserify src/index.js -s DsUtilities | derequire -cm --toplevel > dist/ds-utilities.js",
+    "buildMinified": "browserify src/index.js -s DsUtilities -g [uglifyify] | derequire -cm --toplevel > dist/ds-utilities.min.js",
+    "test": "jest",
+    "badges": "jest-coverage-badges",
+    "test:badges": "npm run-script test && npm run-script badges",
+    "eslint-check": "eslint \"{**/*,*}.js\"",
+    "eslint-repair": "eslint --fix \"{**/*,*}.js\"",
+    "prettier-check": "prettier --check \"{**/*,*}.js\"",
+    "prettier-repair": "prettier --write \"{**/*,*}.js\""
+  },
+  "keywords": [
+    "domain",
+    "specifications",
+    "ds",
+    "utilities"
+  ],
+  "author": "Omar JAH",
+  "license": "MIT",
+  "dependencies": {
+    "nanoid": "^3.1.25",
+    "uglifyify": "^5.0.2"
+  },
+  "devDependencies": {
+    "browserify": "^17.0.0",
+    "derequire": "^2.1.1",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jest": "^24.4.0",
+    "eslint-plugin-markdown": "^2.2.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^27.1.1",
+    "jest-coverage-badges": "^1.1.2",
+    "prettier": "^2.4.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testTimeout": 30000,
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/*.js"
+    ],
+    "coverageReporters": [
+      "json-summary",
+      "text",
+      "lcov"
+    ]
+  }
+}

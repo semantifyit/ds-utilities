@@ -1,0 +1,54 @@
+{
+  "env": {
+    "es6": true,
+    "node": true,
+    "jest": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:node/recommended",
+    "plugin:jest/recommended",
+    "prettier"
+  ],
+  "plugins": [
+    "jest",
+    "markdown",
+    "node",
+    "prettier"
+  ],
+//  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "rules": {
+    // respect the prettier style guide
+    "prettier/prettier": "error",
+    "no-console": "warn",
+    // there should be a space at the beginning of each comment
+    "spaced-comment": [
+      "warn",
+      "always",
+      {
+        "block": {
+          // whitespace for block comments must be the same at the beginning and at the end
+          "balanced": true,
+          /*--------------
+          should be allowed
+          ----------------*/
+          "exceptions": [
+            "-"
+          ]
+        },
+        "line": {
+          //-------------- should be allowed
+          "exceptions": [
+            "-"
+          ]
+        }
+      }
+    ],
+    "node/no-unpublished-require": "off",
+    "no-unused-vars": "warn"
+  }
+}

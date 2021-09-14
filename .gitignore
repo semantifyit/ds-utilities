@@ -1,0 +1,41 @@
+# Coverage directory used by tools like istanbul
+coverage/lcov-report
+coverage/lcov.info
+coverage/coverage-summary.json
+
+# Dependency directories
+node_modules/
+
+# Optional npm cache directory
+.npm
+
+# Output of 'npm pack'
+*.tgz
+
+# dotenv environment variables file
+.env
+
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
+# User-specific stuff:
+.idea/*
+
+# Sensitive or high-churn files:
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.xml
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+
+# Mongo Explorer plugin:
+.idea/**/mongoSettings.xml
+
+## Plugin-specific files:
+
+# IntelliJ
+out/
+jsDoc/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
