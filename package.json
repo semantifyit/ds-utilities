@@ -21,8 +21,8 @@
     "ds",
     "utilities"
   ],
-  "author": "Omar JAH",
-  "license": "MIT",
+  "author": "Omar J. A. Holzknecht",
+  "license": "CC-BY-SA-4.0",
   "dependencies": {
     "nanoid": "^3.1.25",
     "uglifyify": "^5.0.2"
