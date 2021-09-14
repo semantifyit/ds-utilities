@@ -31,11 +31,5 @@ node_modules/
 # Mongo Explorer plugin:
 .idea/**/mongoSettings.xml
 
-## Plugin-specific files:
-
-# IntelliJ
-out/
-jsDoc/
-
 # JIRA plugin
 atlassian-ide-plugin.xml

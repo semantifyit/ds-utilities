@@ -24,7 +24,7 @@
     "utilities"
   ],
   "author": "Omar J. A. Holzknecht",
-  "license": "CC-BY-SA-4.0",
+  "license": "Apache-2.0",
   "dependencies": {
     "nanoid": "^3.1.25"
   },
@@ -54,5 +54,13 @@
       "text",
       "lcov"
     ]
-  }
+  },
+  "files": [
+    "src/**/*",
+    "dist/**/*",
+    "README.md",
+    "History.md",
+    "LICENSE",
+    "package.json"
+  ]
 }
