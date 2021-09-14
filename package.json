@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "A helper library that provides functions to handle Domain Specifications.",
   "main": "src/index.js",
+  "types": "dist/types/index.d.ts",
   "scripts": {
-    "buildAll": "npm run-script build && npm run-script buildMinified",
+    "buildAll": "npm run-script build && npm run-script buildMinified && npm run-script buildtypes",
     "build": "browserify src/index.js -s DsUtilities | derequire -cm --toplevel > dist/ds-utilities.js",
     "buildMinified": "browserify src/index.js -s DsUtilities -g [uglifyify] | derequire -cm --toplevel > dist/ds-utilities.min.js",
+    "buildtypes": "npx -p typescript tsc src/**/*.js --declaration --allowJs --emitDeclarationOnly --outDir dist/types",
     "test": "jest",
     "badges": "jest-coverage-badges",
     "test:badges": "npm run-script test && npm run-script badges",
