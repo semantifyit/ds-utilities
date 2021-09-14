@@ -24,8 +24,7 @@
   "author": "Omar J. A. Holzknecht",
   "license": "CC-BY-SA-4.0",
   "dependencies": {
-    "nanoid": "^3.1.25",
-    "uglifyify": "^5.0.2"
+    "nanoid": "^3.1.25"
   },
   "devDependencies": {
     "browserify": "^17.0.0",
@@ -38,7 +37,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.1.1",
     "jest-coverage-badges": "^1.1.2",
-    "prettier": "^2.4.0"
+    "prettier": "^2.4.0",
+    "uglifyify": "^5.0.2"
   },
   "jest": {
     "testEnvironment": "node",

@@ -19,7 +19,7 @@ class DsUtilitiesV7 extends DsUtilitiesBase {
     this.getDsAuthorName = fV7.getDsAuthorNameV7;
     this.getDsSchemaVersion = fV7.getDsSchemaVersionV7;
     this.getDsVersion = fV7.getDsVersionV7;
-    // this.getDsExternalVocabularies = getDsExternalVocabulariesV7;
+    this.getDsExternalVocabularies = fV7.getDsExternalVocabulariesV7;
     // this.getDsTargetClasses = getDsTargetClassesV7;
   }
 }

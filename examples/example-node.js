@@ -1,4 +1,4 @@
-const DsUtilities = require('./../../src/index.js');
+const DsUtilities = require('../src');
 
 // const myDsUtilitiesV5 = DsUtilities.getDsUtilitiesForDsSpecVersion("5.0");
 const myDsUtilitiesV7 = DsUtilities.getDsUtilitiesForDsSpecVersion("7.0");

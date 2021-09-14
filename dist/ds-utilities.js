@@ -76,7 +76,6 @@ module.exports = {
  * This is the super class for all DsUtilities classes
  * It includes functions that are shared by all DsUtilities classes
  */
-const helper = _dereq_("../helperFunctions.js");
 const fBase = _dereq_("./functions/functionsBase.js");
 
 class DsUtilitiesBase {
@@ -99,7 +98,7 @@ class DsUtilitiesBase {
 
 module.exports = DsUtilitiesBase;
 
-},{"../helperFunctions.js":1,"./functions/functionsBase.js":7}],4:[function(_dereq_,module,exports){
+},{"./functions/functionsBase.js":7}],4:[function(_dereq_,module,exports){
 const DsUtilitiesBase = _dereq_("./DsUtilitiesBase.js");
 const fV5 = _dereq_("./functions/functionsV5.js");
 
@@ -146,10 +145,10 @@ class DsUtilitiesV7 extends DsUtilitiesBase {
     // functions that ease the UI interaction with DS
     this.getDsName = fV7.getDsNameV7;
     this.getDsDescription = fV7.getDsDescriptionV7;
-    // this.getDsAuthorName = getDsAuthorV7;
-    // this.getDsSchemaVersion = getDsSchemaVersionV7;
-    // this.getDsVersion = getDsVersionV7;
-    // this.getDsExternalVocabularies = getDsExternalVocabulariesV7;
+    this.getDsAuthorName = fV7.getDsAuthorNameV7;
+    this.getDsSchemaVersion = fV7.getDsSchemaVersionV7;
+    this.getDsVersion = fV7.getDsVersionV7;
+    this.getDsExternalVocabularies = fV7.getDsExternalVocabulariesV7;
     // this.getDsTargetClasses = getDsTargetClassesV7;
   }
 }
@@ -480,6 +479,7 @@ const getDsRootNodeV7 = (ds) => {
 
 /**
  * Returns the standard @context for DS-V7
+ *
  * @return {object} - the standard @context for DS-V7
  */
 const getDsStandardContextV7 = () => {
@@ -487,7 +487,9 @@ const getDsStandardContextV7 = () => {
 };
 
 /**
- * Returns the @id of the given DS (for DS-V7 this @id is found in the root node)
+ * Returns the @id of the given DS (for DS-V7 this @id is found in the root node).
+ * A DS @id is mandatory for DS-V7.
+ *
  * @param ds  {object} - the input DS
  * @return {string} - the @id of the given DS
  */
@@ -502,13 +504,14 @@ const getDsIdV7 = (ds) => {
 };
 
 /**
- * Returns the name (schema:name) of the given DS. schema:name is optional in DS-V7.
+ * Returns the name (schema:name) of the given DS.
+ * schema:name is optional in DS-V7.
+ *
  * @param ds {object} - the input DS
  * @param language {string?} - the wished language for the name (optional)
  * @return {string|undefined} - the name of the given DS
  */
 const getDsNameV7 = (ds, language = undefined) => {
-  // schema:name is not required by DS-V7
   const rootNode = getDsRootNodeV7(ds);
   if (rootNode["schema:name"]) {
     return helper.getLanguageString(rootNode["schema:name"], language);
@@ -517,18 +520,81 @@ const getDsNameV7 = (ds, language = undefined) => {
 };
 
 /**
- * Returns the description (schema:description) of the given DS. schema:description is optional in DS-V7.
+ * Returns the description (schema:description) of the given DS.
+ * schema:description is optional in DS-V7.
+ *
  * @param ds {object} - the input DS
  * @param language {string?} - the wished language for the description (optional)
  * @return {string|undefined} - the description of the given DS
  */
 const getDsDescriptionV7 = (ds, language = undefined) => {
-  // schema:name is not required by DS-V7
   const rootNode = getDsRootNodeV7(ds);
   if (rootNode["schema:description"]) {
     return helper.getLanguageString(rootNode["schema:description"], language);
   }
   return undefined;
+};
+
+/**
+ * Returns the author name (schema:author -> schema:name) of the given DS.
+ * schema:author is optional in DS-V7.
+ *
+ * @param ds {object} - the input DS
+ * @return {string|undefined} - the author name of the given DS
+ */
+const getDsAuthorNameV7 = (ds) => {
+  const rootNode = getDsRootNodeV7(ds);
+  if (rootNode["schema:author"] && rootNode["schema:author"]["schema:name"]) {
+    return rootNode["schema:author"]["schema:name"];
+  }
+  return undefined;
+};
+
+/**
+ * Returns the used schema.org version (schema:schemaVersion) of the given DS.
+ * schema:schemaVersion is mandatory in DS-V7.
+ *
+ * @param ds {object} - the input DS
+ * @return {string|undefined} - the schema.org version identifier as simple string, e.g. "11.0"
+ */
+const getDsSchemaVersionV7 = (ds) => {
+  const rootNode = getDsRootNodeV7(ds);
+  if (!rootNode["schema:schemaVersion"]) {
+    throw new Error(
+      "The given DS has no schema:schemaVersion for its root node, which is mandatory for a DS in DS-V7 format."
+    );
+  }
+  return rootNode["schema:schemaVersion"];
+};
+
+/**
+ * Returns the used ds version (schema:version) of the given DS.
+ * schema:version is optional in DS-V7.
+ *
+ * @param ds {object} - the input DS
+ * @return {string|undefined} - the ds version as simple string, e.g. "1.04"
+ */
+const getDsVersionV7 = (ds) => {
+  const rootNode = getDsRootNodeV7(ds);
+  if (rootNode["schema:version"]) {
+    return rootNode["schema:version"];
+  }
+  return undefined;
+};
+
+/**
+ * Returns the used external vocabularies (ds:usedVocabulary) of the given DS.
+ * ds:usedVocabulary is optional in DS-V7.
+ *
+ * @param ds {object} - the input DS
+ * @return {string[]} - array with the used external vocabularies (empty if none)
+ */
+const getDsExternalVocabulariesV7 = (ds) => {
+  const rootNode = getDsRootNodeV7(ds);
+  if (rootNode["ds:usedVocabulary"]) {
+    return rootNode["ds:usedVocabulary"];
+  }
+  return []; // instead of undefined, send an empty array for convenience
 };
 
 /*
@@ -543,6 +609,10 @@ module.exports = {
   getDsIdV7,
   getDsNameV7,
   getDsDescriptionV7,
+  getDsAuthorNameV7,
+  getDsSchemaVersionV7,
+  getDsVersionV7,
+  getDsExternalVocabulariesV7,
 };
 
 },{"./../../helperFunctions.js":1,"./../data/dataV7.js":6}]},{},[2])(2)

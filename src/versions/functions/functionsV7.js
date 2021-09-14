@@ -139,6 +139,21 @@ const getDsVersionV7 = (ds) => {
   return undefined;
 };
 
+/**
+ * Returns the used external vocabularies (ds:usedVocabulary) of the given DS.
+ * ds:usedVocabulary is optional in DS-V7.
+ *
+ * @param ds {object} - the input DS
+ * @return {string[]} - array with the used external vocabularies (empty if none)
+ */
+const getDsExternalVocabulariesV7 = (ds) => {
+  const rootNode = getDsRootNodeV7(ds);
+  if (rootNode["ds:usedVocabulary"]) {
+    return rootNode["ds:usedVocabulary"];
+  }
+  return []; // instead of undefined, send an empty array for convenience
+};
+
 /*
  * ===========================================
  * functions that ease the UI interaction with DS
@@ -154,4 +169,5 @@ module.exports = {
   getDsAuthorNameV7,
   getDsSchemaVersionV7,
   getDsVersionV7,
+  getDsExternalVocabulariesV7,
 };
