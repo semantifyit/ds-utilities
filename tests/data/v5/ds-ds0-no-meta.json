@@ -68,19 +68,6 @@
         "sh:NodeShape",
         "schema:CreativeWork"
       ],
-      "schema:author": {
-        "@type": "schema:Person",
-        "schema:name": "Test person",
-        "schema:memberOf": {
-          "@type": "schema:Organisation",
-          "schema:name": "STI Innsbruck"
-        }
-      },
-      "ds:usedVocabularies": [],
-      "schema:description": "Airport Domain Specification is a pattern for annotating airports using schema.org vocabulary. The goal is to define a set of types and properties needed for semantic annotation.",
-      "schema:name": "Airport",
-      "schema:schemaVersion": "https://schema.org/version/3.4/",
-      "schema:version": "1.1",
       "sh:property": [
         {
           "@type": "sh:PropertyShape",
@@ -801,8 +788,7 @@
           "sh:order": 16,
           "sh:path": "schema:sameAs"
         }
-      ],
-      "sh:targetClass": "schema:Airport"
+      ]
     }
   ],
   "@id": "http://semantify.it/ds/adsi345n3"

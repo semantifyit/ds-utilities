@@ -29,10 +29,12 @@ const getDsSpecificationVersion = (ds) => {
     if (rootNode) {
       return rootNode["ds:version"];
     }
-  } catch (e) {}
+  } catch (e) {
+    // DS is not from 7.0 or later
+  }
   // check if the version used is "5.0"
   try {
-    // expected root node format for DS-V7 and later
+    // expected root node format for DS-V5
     const rootNode = ds["@graph"].find(
       (el) =>
         Array.isArray(el["@type"]) &&
@@ -42,7 +44,9 @@ const getDsSpecificationVersion = (ds) => {
     if (rootNode) {
       return "5.0";
     }
-  } catch (e) {}
+  } catch (e) {
+    // DS is not from 5.0
+  }
   // throw an error if the version could not been determined
   throw new Error(
     "The DS specification version for the given DS could not been determined - the DS has an unexpected structure."

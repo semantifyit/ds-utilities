@@ -1,9 +1,10 @@
-/*
- * This file contains the functions used by DsUtilitiesV7
+/**
+ * @file This file contains the functions used by DsUtilitiesV7
  */
 
 const helper = require("./../../helperFunctions.js");
 const data = require("./../data/dataV7.js");
+const { customAlphabet } = require("nanoid");
 
 /*
  * ===========================================
@@ -15,7 +16,7 @@ const data = require("./../data/dataV7.js");
  * Returns the root node of the given DS
  *
  * @param ds {object} - The input DS
- * @return {object} - The detected root node of the DS
+ * @return {object} The detected root node of the DS
  */
 const getDsRootNodeV7 = (ds) => {
   if (!ds["@graph"]) {
@@ -37,7 +38,7 @@ const getDsRootNodeV7 = (ds) => {
 /**
  * Returns the standard @context for DS-V7
  *
- * @return {object} - the standard @context for DS-V7
+ * @return {object} the standard @context for DS-V7
  */
 const getDsStandardContextV7 = () => {
   return helper.jhcpy(data.standardContext);
@@ -48,7 +49,7 @@ const getDsStandardContextV7 = () => {
  * A DS @id is mandatory for DS-V7.
  *
  * @param ds  {object} - the input DS
- * @return {string} - the @id of the given DS
+ * @return {string} the @id of the given DS
  */
 const getDsIdV7 = (ds) => {
   const rootNode = getDsRootNodeV7(ds);
@@ -61,12 +62,42 @@ const getDsIdV7 = (ds) => {
 };
 
 /**
+ * Creates a new fragment id according to the DS-V7 specification.
+ * See https://gitbook.semantify.it/domainspecifications/ds-v7/devnotes#3-generating-ids-for-inner-nodeshape
+ * It is possible to pass the current DS, this way it is ensured that the generated fragment id has not been used yet in the given DS
+ *
+ * @param {object} ds - the input DS (optional)
+ * @return {string} returns a new the fragment id
+ */
+const generateInnerNodeIdV7 = (ds = undefined) => {
+  let dsId;
+  let newId;
+  if (ds) {
+    dsId = getDsIdV7(ds);
+  }
+  const nanoid = customAlphabet(
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+    5
+  );
+  do {
+    newId = nanoid();
+  } while (ds !== undefined && JSON.stringify(ds).includes(dsId + "#" + newId));
+  return newId;
+};
+
+/*
+ * ===========================================
+ * functions that ease the UI interaction with DS
+ * ===========================================
+ */
+
+/**
  * Returns the name (schema:name) of the given DS.
  * schema:name is optional in DS-V7.
  *
  * @param ds {object} - the input DS
  * @param language {string?} - the wished language for the name (optional)
- * @return {string|undefined} - the name of the given DS
+ * @return {?string} the name of the given DS
  */
 const getDsNameV7 = (ds, language = undefined) => {
   const rootNode = getDsRootNodeV7(ds);
@@ -82,7 +113,7 @@ const getDsNameV7 = (ds, language = undefined) => {
  *
  * @param ds {object} - the input DS
  * @param language {string?} - the wished language for the description (optional)
- * @return {string|undefined} - the description of the given DS
+ * @return {?string} the description of the given DS
  */
 const getDsDescriptionV7 = (ds, language = undefined) => {
   const rootNode = getDsRootNodeV7(ds);
@@ -97,7 +128,7 @@ const getDsDescriptionV7 = (ds, language = undefined) => {
  * schema:author is optional in DS-V7.
  *
  * @param ds {object} - the input DS
- * @return {string|undefined} - the author name of the given DS
+ * @return {?string} the author name of the given DS
  */
 const getDsAuthorNameV7 = (ds) => {
   const rootNode = getDsRootNodeV7(ds);
@@ -112,7 +143,7 @@ const getDsAuthorNameV7 = (ds) => {
  * schema:schemaVersion is mandatory in DS-V7.
  *
  * @param ds {object} - the input DS
- * @return {string|undefined} - the schema.org version identifier as simple string, e.g. "11.0"
+ * @return {string} the schema.org version identifier as simple string, e.g. "11.0"
  */
 const getDsSchemaVersionV7 = (ds) => {
   const rootNode = getDsRootNodeV7(ds);
@@ -129,7 +160,7 @@ const getDsSchemaVersionV7 = (ds) => {
  * schema:version is optional in DS-V7.
  *
  * @param ds {object} - the input DS
- * @return {string|undefined} - the ds version as simple string, e.g. "1.04"
+ * @return {?string} the ds version as simple string, e.g. "1.04"
  */
 const getDsVersionV7 = (ds) => {
   const rootNode = getDsRootNodeV7(ds);
@@ -144,7 +175,7 @@ const getDsVersionV7 = (ds) => {
  * ds:usedVocabulary is optional in DS-V7.
  *
  * @param ds {object} - the input DS
- * @return {string[]} - array with the used external vocabularies (empty if none)
+ * @return {string[]} array with the used external vocabularies (empty if none)
  */
 const getDsExternalVocabulariesV7 = (ds) => {
   const rootNode = getDsRootNodeV7(ds);
@@ -154,20 +185,31 @@ const getDsExternalVocabulariesV7 = (ds) => {
   return []; // instead of undefined, send an empty array for convenience
 };
 
-/*
- * ===========================================
- * functions that ease the UI interaction with DS
- * ===========================================
+/**
+ * Returns the target classes (sh:targetClass) of the given DS.
+ * sh:targetClass is optional in DS-V7.
+ *
+ * @param ds {object} - the input DS
+ * @return {string[]} array with the target classes (empty if none)
  */
+const getDsTargetClassesV7 = (ds) => {
+  const rootNode = getDsRootNodeV7(ds);
+  if (rootNode["sh:targetClass"]) {
+    return rootNode["sh:targetClass"];
+  }
+  return []; // instead of undefined, send an empty array for convenience
+};
 
 module.exports = {
   getDsRootNodeV7,
   getDsStandardContextV7,
   getDsIdV7,
+  generateInnerNodeIdV7,
   getDsNameV7,
   getDsDescriptionV7,
   getDsAuthorNameV7,
   getDsSchemaVersionV7,
   getDsVersionV7,
   getDsExternalVocabulariesV7,
+  getDsTargetClassesV7,
 };

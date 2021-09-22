@@ -63,10 +63,8 @@
   },
   "@graph": [
     {
-      "@id": "_:RootNode",
       "@type": [
-        "sh:NodeShape",
-        "schema:CreativeWork"
+        "sh:NodeShape"
       ],
       "schema:author": {
         "@type": "schema:Person",

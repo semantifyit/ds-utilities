@@ -1,6 +1,6 @@
 {
   "name": "ds-utilities",
-  "version": "1.0.0",
+  "version": "0.9.1",
   "description": "A helper library that provides functions to handle Domain Specifications.",
   "main": "src/index.js",
   "types": "dist/types/index.d.ts",
@@ -12,6 +12,7 @@
     "test": "jest",
     "badges": "jest-coverage-badges",
     "test:badges": "npm run-script test && npm run-script badges",
+    "getJsDocMD": "jsdoc2md src/index.js src/versions/*.js src/versions/functions/*.js > API.md",
     "eslint-check": "eslint \"{**/*,*}.js\"",
     "eslint-repair": "eslint --fix \"{**/*,*}.js\"",
     "prettier-check": "prettier --check \"{**/*,*}.js\"",
@@ -34,11 +35,14 @@
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "^24.4.0",
+    "eslint-plugin-jsdoc": "^36.1.0",
     "eslint-plugin-markdown": "^2.2.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.1.1",
     "jest-coverage-badges": "^1.1.2",
+    "jsdoc": "^3.6.7",
+    "jsdoc-to-markdown": "^7.0.1",
     "prettier": "^2.4.0",
     "uglifyify": "^5.0.2"
   },
@@ -47,7 +51,7 @@
     "testTimeout": 30000,
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/*.js"
+      "src/**/*.js"
     ],
     "coverageReporters": [
       "json-summary",
@@ -59,7 +63,7 @@
     "src/**/*",
     "dist/**/*",
     "README.md",
-    "History.md",
+    "HISTORY.md",
     "LICENSE",
     "package.json"
   ]

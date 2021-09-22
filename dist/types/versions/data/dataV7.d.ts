@@ -3,6 +3,17 @@ export const nodeTermsDsObject: {
     required: boolean;
     valueType: string;
 }[];
+export const nodeTermsRootNode: ({
+    term: string;
+    required: boolean;
+    valueType: string;
+    value?: undefined;
+} | {
+    term: string;
+    required: boolean;
+    value: string;
+    valueType?: undefined;
+})[];
 export const dsNodePropertyOrder: string[];
 export const standardContext: {
     ds: string;

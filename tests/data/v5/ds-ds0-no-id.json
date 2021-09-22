@@ -804,6 +804,5 @@
       ],
       "sh:targetClass": "schema:Airport"
     }
-  ],
-  "@id": "http://semantify.it/ds/adsi345n3"
+  ]
 }

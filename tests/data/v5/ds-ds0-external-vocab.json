@@ -76,7 +76,9 @@
           "schema:name": "STI Innsbruck"
         }
       },
-      "ds:usedVocabularies": [],
+      "ds:usedVocabularies": [
+        "https://semantify.it/voc/IaiA2RES_"
+      ],
       "schema:description": "Airport Domain Specification is a pattern for annotating airports using schema.org vocabulary. The goal is to define a set of types and properties needed for semantic annotation.",
       "schema:name": "Airport",
       "schema:schemaVersion": "https://schema.org/version/3.4/",

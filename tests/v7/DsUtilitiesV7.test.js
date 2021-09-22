@@ -5,6 +5,7 @@ testData.dsDs0 = require("../data/v7/ds-ds0.json");
 testData.dsDs0NoRoot = require("../data/v7/ds-ds0-no-rootnode.json");
 testData.dsDs0NoGraph = require("../data/v7/ds-ds0-no-graph.json");
 testData.dsDs0NoMeta = require("../data/v7/ds-ds0-no-meta.json");
+testData.dsDs1 = require("../data/v7/ds-ds1.json");
 
 describe("DsUtilitiesV7", () => {
   test("getDsRootNode()", () => {
@@ -46,6 +47,16 @@ describe("DsUtilitiesV7", () => {
     }).toThrow(
       "The given DS has no @id for its root node, which is mandatory for a DS in DS-V7 format."
     );
+  });
+  test("generateInnerNodeId()", () => {
+    const dsu = new DsUtilitiesV7();
+    expect(dsu.generateInnerNodeId().length).toBe(5);
+    // correct root node with sh:targetClass
+    expect(dsu.generateInnerNodeId(testData.dsDs0).length).toBe(5);
+    // no root node - same error as for getDsRootNode() since that function is reused
+    expect(() => {
+      dsu.generateInnerNodeId(testData.dsDs0NoRoot);
+    }).toThrow("The given DS has no identifiable root node in DS-V7 format.");
   });
   test("getDsName()", () => {
     const dsu = new DsUtilitiesV7();
@@ -110,6 +121,32 @@ describe("DsUtilitiesV7", () => {
     // no root node - same error as for getDsRootNode() since that function is reused
     expect(() => {
       dsu.getDsVersion(testData.dsDs0NoRoot);
+    }).toThrow("The given DS has no identifiable root node in DS-V7 format.");
+  });
+  test("getDsExternalVocabularies()", () => {
+    const dsu = new DsUtilitiesV7();
+    // correct root node with ds:usedVocabulary
+    expect(dsu.getDsExternalVocabularies(testData.dsDs1)).toContainEqual(
+      "https://semantify.it/voc/IaiA2RES_"
+    );
+    // correct root node with no ds:usedVocabulary
+    expect(dsu.getDsExternalVocabularies(testData.dsDs0).length).toBe(0);
+    // no root node - same error as for getDsRootNode() since that function is reused
+    expect(() => {
+      dsu.getDsExternalVocabularies(testData.dsDs0NoRoot);
+    }).toThrow("The given DS has no identifiable root node in DS-V7 format.");
+  });
+  test("getDsTargetClasses()", () => {
+    const dsu = new DsUtilitiesV7();
+    // correct root node with sh:targetClass
+    expect(dsu.getDsTargetClasses(testData.dsDs0)).toContainEqual(
+      "schema:Drawing"
+    );
+    // correct root node with no sh:targetClass
+    expect(dsu.getDsTargetClasses(testData.dsDs0NoMeta).length).toBe(0);
+    // no root node - same error as for getDsRootNode() since that function is reused
+    expect(() => {
+      dsu.getDsTargetClasses(testData.dsDs0NoRoot);
     }).toThrow("The given DS has no identifiable root node in DS-V7 format.");
   });
 });

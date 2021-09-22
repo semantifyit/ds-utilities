@@ -55,13 +55,6 @@
   "@graph": [
     {
       "@type": "ds:DomainSpecification",
-      "ds:subDSOf": "https://semantify.it/ds/8gmtfiLfm",
-      "sh:targetClass": [
-        "schema:Drawing"
-      ],
-      "sh:class": [
-        "schema:Drawing"
-      ],
       "ds:version": "7.0",
       "sh:closed": true,
       "sh:property": [
