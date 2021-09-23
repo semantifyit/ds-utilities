@@ -13,7 +13,8 @@ class DsUtilitiesV7 extends DsUtilitiesBase {
     this.getDsRootNode = fV7.getDsRootNodeV7;
     this.getDsStandardContext = fV7.getDsStandardContextV7;
     this.getDsId = fV7.getDsIdV7;
-    // this.reorderDsNode = reorderDsNodeV7;
+    this.reorderDs = fV7.reorderDsV7;
+    this.reorderDsNode = fV7.reorderDsNodeV7;
     this.generateInnerNodeId = fV7.generateInnerNodeIdV7;
     // functions for the handling of DS Paths, e.g. "$.schema:address/schema:PostalAddress"
     // this.getDsNodeForPath = getDsNodeForPathV7; // e.g. "$.schema:address/schema:PostalAddress"

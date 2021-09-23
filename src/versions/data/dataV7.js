@@ -17,6 +17,39 @@ const nodeTermsDsObject = [
   },
 ];
 
+// These are the terms used by the @context for DS-V7
+// Listed in the recommended order as they should be listed in their lexical representation
+// This list is dynamically built out of the standard @context
+const nodeTermsContext = () => {
+  const result = [];
+  for (const t of Object.keys(standardContext)) {
+    const entry = {
+      term: t,
+      required: true,
+    };
+    if (typeof standardContext[t] === "string") {
+      entry.valueType = "string";
+      entry.value = standardContext[t];
+    } else {
+      entry.valueType = "object";
+    }
+    result.push(entry);
+  }
+  return result;
+};
+
+//   {
+//     term: "@context",
+//     required: true,
+//     valueType: "object",
+//   },
+//   {
+//     term: "@graph",
+//     required: true,
+//     valueType: "array",
+//   },
+// ];
+
 // These are the terms used by a DS Root node for DS-V7
 // Listed in the recommended order as they should be listed in their lexical representation
 const nodeTermsRootNode = [
@@ -28,6 +61,7 @@ const nodeTermsRootNode = [
   {
     term: "@type",
     required: true,
+    valueType: "string",
     value: "ds:DomainSpecification",
   },
   {
@@ -102,54 +136,222 @@ const nodeTermsRootNode = [
   },
 ];
 
-const dsNodePropertyOrder = [
-  "@context",
-  "@graph",
-  "@id",
-  "@type",
-  "@language",
-  "@value",
-  "ds:subDSOf",
-  "sh:targetClass",
-  "sh:targetObjectsOf",
-  "sh:targetSubjectsOf",
-  "sh:class",
-  "sh:datatype",
-  "schema:name",
-  "schema:description",
-  "schema:author",
-  "rdfs:comment",
-  "ds:version",
-  "schema:version",
-  "schema:schemaVersion",
-  "ds:usedVocabulary",
-  "sh:closed",
-  "sh:order",
-  "sh:path",
-  "sh:minCount",
-  "sh:maxCount",
-  "sh:equals",
-  "sh:disjoint",
-  "sh:lessThan",
-  "sh:lessThanOrEquals",
-  "sh:defaultValue",
-  "ds:defaultLanguage",
-  "sh:minExclusive",
-  "sh:minInclusive",
-  "sh:maxExclusive",
-  "sh:maxInclusive",
-  "sh:minLength",
-  "sh:maxLength",
-  "sh:pattern",
-  "sh:flag",
-  "sh:languageIn",
-  "ds:hasLanguage",
-  "sh:uniqueLang",
-  "sh:in",
-  "sh:hasValue",
-  "sh:property",
-  "sh:or",
-  "sh:node",
+// These are the terms used by a property node for DS-V7
+// Listed in the recommended order as they should be listed in their lexical representation
+const nodeTermsPropertyNode = [
+  {
+    term: "@type",
+    required: true,
+    valueType: "string",
+    value: "sh:PropertyShape",
+  },
+  {
+    term: "sh:order",
+    required: false,
+    valueType: "integer",
+  },
+  {
+    term: "sh:path",
+    required: true,
+    valueType: "string",
+  },
+  {
+    term: "rdfs:comment",
+    required: false,
+    valueType: "array",
+  },
+  {
+    term: "sh:minCount",
+    required: false,
+    valueType: "integer",
+  },
+  {
+    term: "sh:maxCount",
+    required: false,
+    valueType: "integer",
+  },
+  {
+    term: "sh:equals",
+    required: false,
+    valueType: "array",
+  },
+  {
+    term: "sh:disjoint",
+    required: false,
+    valueType: "array",
+  },
+  {
+    term: "sh:lessThan",
+    required: false,
+    valueType: "array",
+  },
+  {
+    term: "sh:lessThanOrEquals",
+    required: false,
+    valueType: "array",
+  },
+  {
+    term: "sh:or",
+    required: true,
+    valueType: "array",
+  },
+];
+
+// These are the terms used by a Class node for DS-V7
+// Listed in the recommended order as they should be listed in their lexical representation
+const nodeTermsClassNode = [
+  {
+    term: "@id",
+    required: true,
+    valueType: "string",
+  },
+  {
+    term: "@type",
+    required: true,
+    valueType: "string",
+    value: "sh:NodeShape",
+  },
+  {
+    term: "sh:class",
+    required: true,
+    valueType: "array",
+  },
+  {
+    term: "sh:closed",
+    required: false,
+    valueType: "boolean",
+  },
+  {
+    term: "sh:property",
+    required: false,
+    valueType: "array",
+  },
+];
+
+// These are the terms used by an enumeration node for DS-V7
+// Listed in the recommended order as they should be listed in their lexical representation
+const nodeTermsEnumerationNode = [
+  {
+    term: "@id",
+    required: true,
+    valueType: "string",
+  },
+  {
+    term: "@type",
+    required: true,
+    valueType: "string",
+    value: "sh:NodeShape",
+  },
+  {
+    term: "sh:class",
+    required: true,
+    valueType: "array",
+  },
+  {
+    term: "sh:in",
+    required: false,
+    valueType: "array",
+  },
+];
+
+// These are the terms used by a data type node for DS-V7
+// Listed in the recommended order as they should be listed in their lexical representation
+const nodeTermsDataTypeNode = [
+  {
+    term: "sh:datatype",
+    required: true,
+    valueType: "string",
+  },
+  {
+    term: "sh:defaultValue",
+    required: false,
+    valueType: "any",
+  },
+  {
+    term: "ds:defaultLanguage",
+    required: false,
+    valueType: "string",
+  },
+  {
+    term: "sh:minExclusive",
+    required: false,
+    valueType: "any",
+  },
+  {
+    term: "sh:minInclusive",
+    required: false,
+    valueType: "any",
+  },
+  {
+    term: "sh:maxExclusive",
+    required: false,
+    valueType: "any",
+  },
+  {
+    term: "sh:maxInclusive",
+    required: false,
+    valueType: "any",
+  },
+  {
+    term: "sh:minLength",
+    required: false,
+    valueType: "integer",
+  },
+  {
+    term: "sh:maxLength",
+    required: false,
+    valueType: "integer",
+  },
+  {
+    term: "sh:pattern",
+    required: false,
+    valueType: "array",
+  },
+  {
+    term: "sh:flag",
+    required: false,
+    valueType: "string",
+  },
+  {
+    term: "sh:languageIn",
+    required: false,
+    valueType: "array",
+  },
+  {
+    term: "ds:hasLanguage",
+    required: false,
+    valueType: "array",
+  },
+  {
+    term: "sh:uniqueLang",
+    required: false,
+    valueType: "boolean",
+  },
+  {
+    term: "sh:in",
+    required: false,
+    valueType: "array",
+  },
+  {
+    term: "sh:hasValue",
+    required: false,
+    valueType: "array",
+  },
+];
+
+// These are the terms used by a language tagged value for DS-V7 (e.g. value of schema:name)
+// Listed in the recommended order as they should be listed in their lexical representation
+const nodeTermsLanguageTaggedValue = [
+  {
+    term: "@language",
+    required: true,
+    valueType: "string",
+  },
+  {
+    term: "@value",
+    required: true,
+    valueType: "string",
+  },
 ];
 
 const standardContext = {
@@ -208,7 +410,12 @@ const standardContext = {
 
 module.exports = {
   nodeTermsDsObject,
+  nodeTermsContext,
   nodeTermsRootNode,
-  dsNodePropertyOrder,
+  nodeTermsPropertyNode,
+  nodeTermsClassNode,
+  nodeTermsEnumerationNode,
+  nodeTermsDataTypeNode,
+  nodeTermsLanguageTaggedValue,
   standardContext,
 };

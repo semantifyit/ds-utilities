@@ -59,7 +59,8 @@
     "sh:lessThanOrEquals": {
       "@id": "sh:lessThanOrEquals",
       "@type": "@id"
-    }
+    },
+    "ex": "https://example-vocab.ex/"
   },
   "@graph": [
     {

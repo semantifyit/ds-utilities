@@ -5,6 +5,7 @@
 const helper = require("./../../helperFunctions.js");
 const data = require("./../data/dataV7.js");
 const { customAlphabet } = require("nanoid");
+const { isObject } = require("../../helperFunctions.js");
 
 /*
  * ===========================================
@@ -59,6 +60,134 @@ const getDsIdV7 = (ds) => {
     );
   }
   return rootNode["@id"];
+};
+
+/**
+ * Reorders all nodes of the given DS according to the DS specification for DS-V7
+ *
+ * @param ds  {object} - the input DS
+ */
+const reorderDsV7 = (ds) => {
+  if (!isObject(ds)) {
+    throw new Error("The given input was not an object, as required.");
+  }
+  // reorder the meta values (language-tagged strings) in a given array
+  const reorderMetaValues = (valuesArray) => {
+    for (const valObj of valuesArray) {
+      helper.reorderNodeBasedOnNodeTermArray(
+        valObj,
+        data.nodeTermsLanguageTaggedValue
+      );
+    }
+  };
+  const reorderClassNode = (classNode) => {
+    reorderDsNodeV7(classNode);
+    if (classNode["schema:name"]) {
+      reorderMetaValues(classNode["schema:name"]);
+    }
+    if (classNode["schema:description"]) {
+      reorderMetaValues(classNode["schema:description"]);
+    }
+    if (classNode["sh:property"]) {
+      for (const propertyNode of classNode["sh:property"]) {
+        reorderPropertyNode(propertyNode);
+      }
+    }
+  };
+  const reorderPropertyNode = (propertyNode) => {
+    reorderDsNodeV7(propertyNode);
+    if (propertyNode["rdfs:comment"]) {
+      reorderMetaValues(propertyNode["rdfs:comment"]);
+    }
+    for (const rangeNode of propertyNode["sh:or"]) {
+      reorderDsNodeV7(rangeNode);
+      if (rangeNode["sh:node"]) {
+        reorderClassNode(rangeNode["sh:node"]);
+      }
+    }
+  };
+  // reorder DS object
+  helper.reorderNodeBasedOnNodeTermArray(ds, data.nodeTermsDsObject);
+  // reorder context
+  helper.reorderNodeBasedOnNodeTermArray(
+    ds["@context"],
+    data.nodeTermsContext()
+  );
+  // reorder graph nodes (root node + internal references)
+  // root node should be the first in the @graph array
+  const indexOfRootNode = ds["@graph"].findIndex(
+    (el) => el["@type"] === "ds:DomainSpecification"
+  );
+  if (indexOfRootNode !== 0) {
+    ds["@graph"] = [
+      ds["@graph"][indexOfRootNode],
+      ...ds["@graph"].slice(0, indexOfRootNode),
+      ...ds["@graph"].slice(indexOfRootNode + 1),
+    ];
+  }
+  for (const graphNode of ds["@graph"]) {
+    reorderClassNode(graphNode);
+  }
+};
+
+/**
+ * Reorders the given DS node according to the DS specification for DS-V7. The corresponding node type is detected automatically.
+ *
+ * @param dsNode
+ */
+const reorderDsNodeV7 = (dsNode) => {
+  // automatically detect the dsNode type
+  // ds object, context, root node, property node, class node, datatype node, enumeration node
+  if (!isObject(dsNode)) {
+    throw new Error("The given input was not an object, as required.");
+  }
+  if (dsNode["@type"]) {
+    switch (dsNode["@type"]) {
+      // root node
+      case "ds:DomainSpecification":
+        helper.reorderNodeBasedOnNodeTermArray(dsNode, data.nodeTermsRootNode);
+        break;
+      // property node
+      case "sh:PropertyShape":
+        helper.reorderNodeBasedOnNodeTermArray(
+          dsNode,
+          data.nodeTermsPropertyNode
+        );
+        break;
+      // class node / enumeration node
+      case "sh:NodeShape":
+        if (dsNode["sh:in"]) {
+          helper.reorderNodeBasedOnNodeTermArray(
+            dsNode,
+            data.nodeTermsEnumerationNode
+          );
+        } else {
+          // class node (restricted, standard class, standard enumeration)
+          helper.reorderNodeBasedOnNodeTermArray(
+            dsNode,
+            data.nodeTermsClassNode
+          );
+        }
+        break;
+    }
+  } else if (dsNode["@context"]) {
+    // ds object
+    helper.reorderNodeBasedOnNodeTermArray(dsNode, data.nodeTermsDsObject);
+  } else if (dsNode.ds && dsNode.schema && dsNode.sh) {
+    // context
+    helper.reorderNodeBasedOnNodeTermArray(dsNode, data.nodeTermsContext());
+  } else if (dsNode["sh:datatype"]) {
+    // datatype node
+    helper.reorderNodeBasedOnNodeTermArray(dsNode, data.nodeTermsDataTypeNode);
+  } else if (dsNode["sh:node"]) {
+    // wrapper for class node / enumeration node - typically no term would be added here
+  } else if (dsNode["@value"]) {
+    // a language tagged-value
+    helper.reorderNodeBasedOnNodeTermArray(
+      dsNode,
+      data.nodeTermsLanguageTaggedValue
+    );
+  }
 };
 
 /**
@@ -204,6 +333,8 @@ module.exports = {
   getDsRootNodeV7,
   getDsStandardContextV7,
   getDsIdV7,
+  reorderDsV7,
+  reorderDsNodeV7,
   generateInnerNodeIdV7,
   getDsNameV7,
   getDsDescriptionV7,

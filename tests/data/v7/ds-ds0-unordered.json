@@ -1,0 +1,335 @@
+{
+  "@graph": [
+    {
+      "sh:closed": true,
+      "sh:class": [
+        "schema:Person"
+      ],
+      "@id": "https://semantify.it/ds/rsFn_FabM#tMMiT",
+      "@type": "sh:NodeShape",
+      "sh:property": [
+        {
+          "@type": "sh:PropertyShape",
+          "sh:path": "schema:name",
+          "sh:maxCount": 1,
+          "sh:minCount": 1,
+          "sh:order": 0,
+          "sh:or": [
+            {
+              "sh:datatype": "xsd:string"
+            }
+          ]
+        },
+        {
+          "sh:path": "schema:worksFor",
+          "@type": "sh:PropertyShape",
+          "sh:order": 1,
+          "sh:minCount": 1,
+          "sh:or": [
+            {
+              "sh:node": {
+                "@type": "sh:NodeShape",
+                "@id": "https://semantify.it/ds/rsFn_FabM#QVtTv",
+                "sh:closed": true,
+                "sh:class": [
+                  "schema:Organization"
+                ],
+                "sh:property": [
+                  {
+                    "sh:order": 0,
+                    "@type": "sh:PropertyShape",
+                    "sh:path": "schema:name",
+                    "sh:maxCount": 1,
+                    "sh:or": [
+                      {
+                        "sh:datatype": "xsd:string"
+                      }
+                    ],
+                    "sh:minCount": 1
+                  },
+                  {
+                    "@type": "sh:PropertyShape",
+                    "sh:minCount": 1,
+                    "sh:maxCount": 1,
+                    "sh:order": 1,
+                    "sh:path": "schema:legalName",
+                    "sh:or": [
+                      {
+                        "sh:datatype": "xsd:string"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "@type": "ds:DomainSpecification",
+      "ds:usedVocabulary": [
+        "https://semantify.it/voc/IaiA2RES_"
+      ],
+      "sh:class": [
+        "schema:Drawing"
+      ],
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "test"
+        },
+        {
+          "@value": "test de",
+          "@language": "de"
+        }
+      ],
+      "ds:subDSOf": "https://semantify.it/ds/8gmtfiLfm",
+      "schema:name": [
+        {
+          "@language": "en",
+          "@value": "poptest_ds0"
+        },
+        {
+          "@language": "de",
+          "@value": "poptest_ds0 deutsch"
+        }
+      ],
+      "@id": "https://semantify.it/ds/rsFn_FabM",
+      "schema:author": {
+        "@type": "schema:Person",
+        "schema:name": "omar",
+        "schema:memberOf": {
+          "@type": "schema:Organization",
+          "schema:name": "STI Innsbruck"
+        }
+      },
+      "sh:closed": true,
+      "ds:version": "7.0",
+      "schema:version": "1",
+      "sh:property": [
+        {
+          "rdfs:comment": [
+            {
+              "@value": "DS0_EXT0",
+              "@language": "en"
+            }
+          ],
+          "@type": "sh:PropertyShape",
+          "sh:path": "schema:about",
+          "sh:minCount": 1,
+          "sh:or": [
+            {
+              "sh:node": {
+                "@id": "https://semantify.it/ds/gsaTefLCP"
+              }
+            }
+          ],
+          "sh:order": 0
+        },
+        {
+          "sh:order": 1,
+          "@type": "sh:PropertyShape",
+          "sh:path": "schema:accountablePerson",
+          "rdfs:comment": [
+            {
+              "@language": "en",
+              "@value": "DS0_INT0"
+            }
+          ],
+          "sh:minCount": 1,
+          "sh:or": [
+            {
+              "sh:node": {
+                "@id": "https://semantify.it/ds/rsFn_FabM#tMMiT"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "sh:PropertyShape",
+          "sh:order": 2,
+          "sh:path": "schema:copyrightHolder",
+          "rdfs:comment": [
+            {
+              "@language": "en",
+              "@value": "DS0_INT1"
+            }
+          ],
+          "sh:minCount": 1,
+          "sh:or": [
+            {
+              "sh:node": {
+                "@id": "https://semantify.it/ds/rsFn_FabM#UhVfN"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "sh:PropertyShape",
+          "sh:order": 3,
+          "sh:path": "schema:creator",
+          "rdfs:comment": [
+            {
+              "@language": "en",
+              "@value": "DS0_INT0"
+            }
+          ],
+          "sh:minCount": 1,
+          "sh:or": [
+            {
+              "sh:node": {
+                "@id": "https://semantify.it/ds/rsFn_FabM#tMMiT"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "sh:PropertyShape",
+          "sh:order": 4,
+          "sh:path": "schema:citation",
+          "rdfs:comment": [
+            {
+              "@value": "own property",
+              "@language": "en"
+            }
+          ],
+          "sh:minCount": 1,
+          "sh:or": [
+            {
+              "sh:datatype": "xsd:string"
+            }
+          ]
+        },
+        {
+          "@type": "sh:PropertyShape",
+          "sh:order": 5,
+          "sh:path": "schema:dateCreated",
+          "rdfs:comment": [
+            {
+              "@language": "en",
+              "@value": "overrides property of SDS2"
+            }
+          ],
+          "sh:maxCount": 1,
+          "sh:minCount": 1,
+          "sh:or": [
+            {
+              "sh:datatype": "xsd:dateTime"
+            }
+          ]
+        },
+        {
+          "@type": "sh:PropertyShape",
+          "sh:order": 6,
+          "sh:path": "schema:discussionUrl",
+          "rdfs:comment": [
+            {
+              "@value": "Overrides property form SDS1",
+              "@language": "en"
+            }
+          ],
+          "sh:minCount": 1,
+          "sh:maxCount": 4,
+          "sh:or": [
+            {
+              "sh:datatype": "xsd:anyURI"
+            }
+          ]
+        }
+      ],
+      "schema:schemaVersion": "12.0",
+      "sh:targetClass": [
+        "schema:Drawing"
+      ]
+    },
+    {
+      "sh:class": [
+        "schema:Organization"
+      ],
+      "@type": "sh:NodeShape",
+      "@id": "https://semantify.it/ds/rsFn_FabM#UhVfN",
+      "sh:closed": true,
+      "sh:property": [
+        {
+          "@type": "sh:PropertyShape",
+          "sh:order": 0,
+          "sh:path": "schema:name",
+          "sh:minCount": 1,
+          "sh:maxCount": 1,
+          "sh:or": [
+            {
+              "sh:datatype": "xsd:string"
+            }
+          ]
+        },
+        {
+          "@type": "sh:PropertyShape",
+          "sh:order": 1,
+          "sh:path": "schema:legalName",
+          "sh:minCount": 1,
+          "sh:maxCount": 1,
+          "sh:or": [
+            {
+              "sh:datatype": "xsd:string"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "@context": {
+    "ds:usedVocabulary": {
+      "@type": "@id"
+    },
+    "ds": "https://vocab.sti2.at/ds/",
+    "sh": "http://www.w3.org/ns/shacl#",
+    "sh:targetObjectsOf": {
+      "@type": "@id"
+    },
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "sh:or": {
+      "@container": "@list"
+    },
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "ds:subDSOf": {
+      "@type": "@id"
+    },
+    "sh:targetClass": {
+      "@type": "@id"
+    },
+    "sh:targetSubjectsOf": {
+      "@type": "@id"
+    },
+    "sh:class": {
+      "@type": "@id"
+    },
+    "sh:path": {
+      "@type": "@id"
+    },
+    "sh:datatype": {
+      "@type": "@id"
+    },
+    "sh:equals": {
+      "@type": "@id"
+    },
+    "sh:disjoint": {
+      "@type": "@id"
+    },
+    "sh:lessThan": {
+      "@type": "@id"
+    },
+    "sh:lessThanOrEquals": {
+      "@type": "@id"
+    },
+    "sh:in": {
+      "@container": "@list"
+    },
+    "sh:languageIn": {
+      "@container": "@list"
+    },
+    "ex": "https://example-vocab.ex/",
+    "schema": "https://schema.org/"
+  }
+}

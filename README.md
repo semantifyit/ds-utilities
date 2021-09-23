@@ -11,6 +11,9 @@ DS-Utilities provides an API to handle Domain Specifications according to the DS
 
 ## Installation
 
+Install via npm directly from GitHub:
+
+
 todo
 
 ## Usage
