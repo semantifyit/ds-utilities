@@ -3,6 +3,10 @@ export const nodeTermsDsObject: {
     required: boolean;
     valueType: string;
 }[];
+export function nodeTermsContext(): {
+    term: string;
+    required: boolean;
+}[];
 export const nodeTermsRootNode: ({
     term: string;
     required: boolean;
@@ -11,10 +15,52 @@ export const nodeTermsRootNode: ({
 } | {
     term: string;
     required: boolean;
+    valueType: string;
     value: string;
-    valueType?: undefined;
 })[];
-export const dsNodePropertyOrder: string[];
+export const nodeTermsPropertyNode: ({
+    term: string;
+    required: boolean;
+    valueType: string;
+    value: string;
+} | {
+    term: string;
+    required: boolean;
+    valueType: string;
+    value?: undefined;
+})[];
+export const nodeTermsClassNode: ({
+    term: string;
+    required: boolean;
+    valueType: string;
+    value?: undefined;
+} | {
+    term: string;
+    required: boolean;
+    valueType: string;
+    value: string;
+})[];
+export const nodeTermsEnumerationNode: ({
+    term: string;
+    required: boolean;
+    valueType: string;
+    value?: undefined;
+} | {
+    term: string;
+    required: boolean;
+    valueType: string;
+    value: string;
+})[];
+export const nodeTermsDataTypeNode: {
+    term: string;
+    required: boolean;
+    valueType: string;
+}[];
+export const nodeTermsLanguageTaggedValue: {
+    term: string;
+    required: boolean;
+    valueType: string;
+}[];
 export const standardContext: {
     ds: string;
     rdf: string;

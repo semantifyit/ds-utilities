@@ -87,6 +87,12 @@ sh:targetClass is optional in DS-V5.</p>
 <dd><p>Returns the @id of the given DS (for DS-V7 this @id is found in the root node).
 A DS @id is mandatory for DS-V7.</p>
 </dd>
+<dt><a href="#reorderDsV7">reorderDsV7(ds)</a></dt>
+<dd><p>Reorders all nodes of the given DS according to the DS specification for DS-V7</p>
+</dd>
+<dt><a href="#reorderDsNodeV7">reorderDsNodeV7(dsNode)</a></dt>
+<dd><p>Reorders the given DS node according to the DS specification for DS-V7. The corresponding node type is detected automatically.</p>
+</dd>
 <dt><a href="#generateInnerNodeIdV7">generateInnerNodeIdV7(ds)</a> ⇒ <code>string</code></dt>
 <dd><p>Creates a new fragment id according to the DS-V7 specification.
 See <a href="https://gitbook.semantify.it/domainspecifications/ds-v7/devnotes#3-generating-ids-for-inner-nodeshape">https://gitbook.semantify.it/domainspecifications/ds-v7/devnotes#3-generating-ids-for-inner-nodeshape</a>
@@ -357,6 +363,28 @@ A DS @id is mandatory for DS-V7.
 | Param | Type | Description |
 | --- | --- | --- |
 | ds | <code>object</code> | the input DS |
+
+<a name="reorderDsV7"></a>
+
+## reorderDsV7(ds)
+Reorders all nodes of the given DS according to the DS specification for DS-V7
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ds | <code>object</code> | the input DS |
+
+<a name="reorderDsNodeV7"></a>
+
+## reorderDsNodeV7(dsNode)
+Reorders the given DS node according to the DS specification for DS-V7. The corresponding node type is detected automatically.
+
+**Kind**: global function  
+
+| Param |
+| --- |
+| dsNode | 
 
 <a name="generateInnerNodeIdV7"></a>
 

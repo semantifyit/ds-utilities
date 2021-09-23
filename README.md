@@ -13,12 +13,32 @@ DS-Utilities provides an API to handle Domain Specifications according to the DS
 
 Install via npm directly from GitHub:
 
-
-todo
+```shell
+npm install https://github.com/semantifyit/ds-utilities
+``` 
 
 ## Usage
 
-todo
+#### Node
+
+```javascript 
+const DsUtilities = require("../src/index.js"); // path to the ds-utilities folder
+const myDsUtilitiesV7 = DsUtilities.getDsUtilitiesForDsSpecVersion("7.0");
+``` 
+
+### Browser
+
+Include the compiled dist file:
+
+```html 
+<script src="../dist/ds-utilities.js"></script>
+``` 
+
+Use the global DsUtilities class:
+
+```javascript 
+const myDsUtilitiesV7 = DsUtilities.getDsUtilitiesForDsSpecVersion("7.0");
+``` 
 
 ## Documentation
 

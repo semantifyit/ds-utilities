@@ -7,6 +7,8 @@ declare class DsUtilitiesV7 extends DsUtilitiesBase {
     getDsRootNode: (ds: any) => any;
     getDsStandardContext: () => any;
     getDsId: (ds: any) => string;
+    reorderDs: (ds: any) => void;
+    reorderDsNode: (dsNode: any) => void;
     generateInnerNodeId: (ds?: any) => string;
     getDsName: (ds: any, language?: string) => string;
     getDsDescription: (ds: any, language?: string) => string;

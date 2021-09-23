@@ -331,9 +331,39 @@ const getLanguageString = (valuesArray, language = undefined) => {
   return undefined;
 };
 
+const reorderNodeBasedOnNodeTermArray = (dsNode, nodeTermArray) => {
+  // always use first the terms used in nodeTermArray, then add any terms that are not listed there
+  const dsNodeCopy = jhcpy(dsNode);
+  // delete all used terms
+  for (const p of Object.keys(dsNode)) {
+    delete dsNode[p];
+  }
+  // add all known terms by order
+  for (const t of nodeTermArray) {
+    const term = t.term;
+    if (dsNodeCopy[term] !== undefined) {
+      dsNode[term] = dsNodeCopy[term];
+    }
+  }
+  // add all unknown terms by order of their appearance in the original object
+  for (const p of Object.keys(dsNodeCopy)) {
+    const standardTerm = nodeTermArray.find((el) => el.term === p);
+    if (standardTerm === undefined) {
+      dsNode[p] = dsNodeCopy[p];
+    }
+  }
+};
+
+// checks if a given input is really an object
+const isObject = (val) => {
+  return val instanceof Object && !(val instanceof Array);
+};
+
 module.exports = {
   jhcpy,
   getLanguageString,
+  reorderNodeBasedOnNodeTermArray,
+  isObject,
 };
 
 },{}],5:[function(_dereq_,module,exports){
@@ -456,7 +486,8 @@ class DsUtilitiesV7 extends DsUtilitiesBase {
     this.getDsRootNode = fV7.getDsRootNodeV7;
     this.getDsStandardContext = fV7.getDsStandardContextV7;
     this.getDsId = fV7.getDsIdV7;
-    // this.reorderDsNode = reorderDsNodeV7;
+    this.reorderDs = fV7.reorderDsV7;
+    this.reorderDsNode = fV7.reorderDsNodeV7;
     this.generateInnerNodeId = fV7.generateInnerNodeIdV7;
     // functions for the handling of DS Paths, e.g. "$.schema:address/schema:PostalAddress"
     // this.getDsNodeForPath = getDsNodeForPathV7; // e.g. "$.schema:address/schema:PostalAddress"
@@ -609,6 +640,7 @@ const standardContext = {
 };
 
 module.exports = {
+  nodeTermsDsObject,
   dsNodePropertyOrder,
   standardContext,
 };
@@ -633,6 +665,39 @@ const nodeTermsDsObject = [
   },
 ];
 
+// These are the terms used by the @context for DS-V7
+// Listed in the recommended order as they should be listed in their lexical representation
+// This list is dynamically built out of the standard @context
+const nodeTermsContext = () => {
+  const result = [];
+  for (const t of Object.keys(standardContext)) {
+    const entry = {
+      term: t,
+      required: true,
+    };
+    if (typeof standardContext[t] === "string") {
+      entry.valueType = "string";
+      entry.value = standardContext[t];
+    } else {
+      entry.valueType = "object";
+    }
+    result.push(entry);
+  }
+  return result;
+};
+
+//   {
+//     term: "@context",
+//     required: true,
+//     valueType: "object",
+//   },
+//   {
+//     term: "@graph",
+//     required: true,
+//     valueType: "array",
+//   },
+// ];
+
 // These are the terms used by a DS Root node for DS-V7
 // Listed in the recommended order as they should be listed in their lexical representation
 const nodeTermsRootNode = [
@@ -644,6 +709,7 @@ const nodeTermsRootNode = [
   {
     term: "@type",
     required: true,
+    valueType: "string",
     value: "ds:DomainSpecification",
   },
   {
@@ -718,54 +784,222 @@ const nodeTermsRootNode = [
   },
 ];
 
-const dsNodePropertyOrder = [
-  "@context",
-  "@graph",
-  "@id",
-  "@type",
-  "@language",
-  "@value",
-  "ds:subDSOf",
-  "sh:targetClass",
-  "sh:targetObjectsOf",
-  "sh:targetSubjectsOf",
-  "sh:class",
-  "sh:datatype",
-  "schema:name",
-  "schema:description",
-  "schema:author",
-  "rdfs:comment",
-  "ds:version",
-  "schema:version",
-  "schema:schemaVersion",
-  "ds:usedVocabulary",
-  "sh:closed",
-  "sh:order",
-  "sh:path",
-  "sh:minCount",
-  "sh:maxCount",
-  "sh:equals",
-  "sh:disjoint",
-  "sh:lessThan",
-  "sh:lessThanOrEquals",
-  "sh:defaultValue",
-  "ds:defaultLanguage",
-  "sh:minExclusive",
-  "sh:minInclusive",
-  "sh:maxExclusive",
-  "sh:maxInclusive",
-  "sh:minLength",
-  "sh:maxLength",
-  "sh:pattern",
-  "sh:flag",
-  "sh:languageIn",
-  "ds:hasLanguage",
-  "sh:uniqueLang",
-  "sh:in",
-  "sh:hasValue",
-  "sh:property",
-  "sh:or",
-  "sh:node",
+// These are the terms used by a property node for DS-V7
+// Listed in the recommended order as they should be listed in their lexical representation
+const nodeTermsPropertyNode = [
+  {
+    term: "@type",
+    required: true,
+    valueType: "string",
+    value: "sh:PropertyShape",
+  },
+  {
+    term: "sh:order",
+    required: false,
+    valueType: "integer",
+  },
+  {
+    term: "sh:path",
+    required: true,
+    valueType: "string",
+  },
+  {
+    term: "rdfs:comment",
+    required: false,
+    valueType: "array",
+  },
+  {
+    term: "sh:minCount",
+    required: false,
+    valueType: "integer",
+  },
+  {
+    term: "sh:maxCount",
+    required: false,
+    valueType: "integer",
+  },
+  {
+    term: "sh:equals",
+    required: false,
+    valueType: "array",
+  },
+  {
+    term: "sh:disjoint",
+    required: false,
+    valueType: "array",
+  },
+  {
+    term: "sh:lessThan",
+    required: false,
+    valueType: "array",
+  },
+  {
+    term: "sh:lessThanOrEquals",
+    required: false,
+    valueType: "array",
+  },
+  {
+    term: "sh:or",
+    required: true,
+    valueType: "array",
+  },
+];
+
+// These are the terms used by a Class node for DS-V7
+// Listed in the recommended order as they should be listed in their lexical representation
+const nodeTermsClassNode = [
+  {
+    term: "@id",
+    required: true,
+    valueType: "string",
+  },
+  {
+    term: "@type",
+    required: true,
+    valueType: "string",
+    value: "sh:NodeShape",
+  },
+  {
+    term: "sh:class",
+    required: true,
+    valueType: "array",
+  },
+  {
+    term: "sh:closed",
+    required: false,
+    valueType: "boolean",
+  },
+  {
+    term: "sh:property",
+    required: false,
+    valueType: "array",
+  },
+];
+
+// These are the terms used by an enumeration node for DS-V7
+// Listed in the recommended order as they should be listed in their lexical representation
+const nodeTermsEnumerationNode = [
+  {
+    term: "@id",
+    required: true,
+    valueType: "string",
+  },
+  {
+    term: "@type",
+    required: true,
+    valueType: "string",
+    value: "sh:NodeShape",
+  },
+  {
+    term: "sh:class",
+    required: true,
+    valueType: "array",
+  },
+  {
+    term: "sh:in",
+    required: false,
+    valueType: "array",
+  },
+];
+
+// These are the terms used by a data type node for DS-V7
+// Listed in the recommended order as they should be listed in their lexical representation
+const nodeTermsDataTypeNode = [
+  {
+    term: "sh:datatype",
+    required: true,
+    valueType: "string",
+  },
+  {
+    term: "sh:defaultValue",
+    required: false,
+    valueType: "any",
+  },
+  {
+    term: "ds:defaultLanguage",
+    required: false,
+    valueType: "string",
+  },
+  {
+    term: "sh:minExclusive",
+    required: false,
+    valueType: "any",
+  },
+  {
+    term: "sh:minInclusive",
+    required: false,
+    valueType: "any",
+  },
+  {
+    term: "sh:maxExclusive",
+    required: false,
+    valueType: "any",
+  },
+  {
+    term: "sh:maxInclusive",
+    required: false,
+    valueType: "any",
+  },
+  {
+    term: "sh:minLength",
+    required: false,
+    valueType: "integer",
+  },
+  {
+    term: "sh:maxLength",
+    required: false,
+    valueType: "integer",
+  },
+  {
+    term: "sh:pattern",
+    required: false,
+    valueType: "array",
+  },
+  {
+    term: "sh:flag",
+    required: false,
+    valueType: "string",
+  },
+  {
+    term: "sh:languageIn",
+    required: false,
+    valueType: "array",
+  },
+  {
+    term: "ds:hasLanguage",
+    required: false,
+    valueType: "array",
+  },
+  {
+    term: "sh:uniqueLang",
+    required: false,
+    valueType: "boolean",
+  },
+  {
+    term: "sh:in",
+    required: false,
+    valueType: "array",
+  },
+  {
+    term: "sh:hasValue",
+    required: false,
+    valueType: "array",
+  },
+];
+
+// These are the terms used by a language tagged value for DS-V7 (e.g. value of schema:name)
+// Listed in the recommended order as they should be listed in their lexical representation
+const nodeTermsLanguageTaggedValue = [
+  {
+    term: "@language",
+    required: true,
+    valueType: "string",
+  },
+  {
+    term: "@value",
+    required: true,
+    valueType: "string",
+  },
 ];
 
 const standardContext = {
@@ -824,8 +1058,13 @@ const standardContext = {
 
 module.exports = {
   nodeTermsDsObject,
+  nodeTermsContext,
   nodeTermsRootNode,
-  dsNodePropertyOrder,
+  nodeTermsPropertyNode,
+  nodeTermsClassNode,
+  nodeTermsEnumerationNode,
+  nodeTermsDataTypeNode,
+  nodeTermsLanguageTaggedValue,
   standardContext,
 };
 
@@ -1147,6 +1386,7 @@ module.exports = {
 const helper = _dereq_("./../../helperFunctions.js");
 const data = _dereq_("./../data/dataV7.js");
 const { customAlphabet } = _dereq_("nanoid");
+const { isObject } = _dereq_("../../helperFunctions.js");
 
 /*
  * ===========================================
@@ -1201,6 +1441,134 @@ const getDsIdV7 = (ds) => {
     );
   }
   return rootNode["@id"];
+};
+
+/**
+ * Reorders all nodes of the given DS according to the DS specification for DS-V7
+ *
+ * @param ds  {object} - the input DS
+ */
+const reorderDsV7 = (ds) => {
+  if (!isObject(ds)) {
+    throw new Error("The given input was not an object, as required.");
+  }
+  // reorder the meta values (language-tagged strings) in a given array
+  const reorderMetaValues = (valuesArray) => {
+    for (const valObj of valuesArray) {
+      helper.reorderNodeBasedOnNodeTermArray(
+        valObj,
+        data.nodeTermsLanguageTaggedValue
+      );
+    }
+  };
+  const reorderClassNode = (classNode) => {
+    reorderDsNodeV7(classNode);
+    if (classNode["schema:name"]) {
+      reorderMetaValues(classNode["schema:name"]);
+    }
+    if (classNode["schema:description"]) {
+      reorderMetaValues(classNode["schema:description"]);
+    }
+    if (classNode["sh:property"]) {
+      for (const propertyNode of classNode["sh:property"]) {
+        reorderPropertyNode(propertyNode);
+      }
+    }
+  };
+  const reorderPropertyNode = (propertyNode) => {
+    reorderDsNodeV7(propertyNode);
+    if (propertyNode["rdfs:comment"]) {
+      reorderMetaValues(propertyNode["rdfs:comment"]);
+    }
+    for (const rangeNode of propertyNode["sh:or"]) {
+      reorderDsNodeV7(rangeNode);
+      if (rangeNode["sh:node"]) {
+        reorderClassNode(rangeNode["sh:node"]);
+      }
+    }
+  };
+  // reorder DS object
+  helper.reorderNodeBasedOnNodeTermArray(ds, data.nodeTermsDsObject);
+  // reorder context
+  helper.reorderNodeBasedOnNodeTermArray(
+    ds["@context"],
+    data.nodeTermsContext()
+  );
+  // reorder graph nodes (root node + internal references)
+  // root node should be the first in the @graph array
+  const indexOfRootNode = ds["@graph"].findIndex(
+    (el) => el["@type"] === "ds:DomainSpecification"
+  );
+  if (indexOfRootNode !== 0) {
+    ds["@graph"] = [
+      ds["@graph"][indexOfRootNode],
+      ...ds["@graph"].slice(0, indexOfRootNode),
+      ...ds["@graph"].slice(indexOfRootNode + 1),
+    ];
+  }
+  for (const graphNode of ds["@graph"]) {
+    reorderClassNode(graphNode);
+  }
+};
+
+/**
+ * Reorders the given DS node according to the DS specification for DS-V7. The corresponding node type is detected automatically.
+ *
+ * @param dsNode
+ */
+const reorderDsNodeV7 = (dsNode) => {
+  // automatically detect the dsNode type
+  // ds object, context, root node, property node, class node, datatype node, enumeration node
+  if (!isObject(dsNode)) {
+    throw new Error("The given input was not an object, as required.");
+  }
+  if (dsNode["@type"]) {
+    switch (dsNode["@type"]) {
+      // root node
+      case "ds:DomainSpecification":
+        helper.reorderNodeBasedOnNodeTermArray(dsNode, data.nodeTermsRootNode);
+        break;
+      // property node
+      case "sh:PropertyShape":
+        helper.reorderNodeBasedOnNodeTermArray(
+          dsNode,
+          data.nodeTermsPropertyNode
+        );
+        break;
+      // class node / enumeration node
+      case "sh:NodeShape":
+        if (dsNode["sh:in"]) {
+          helper.reorderNodeBasedOnNodeTermArray(
+            dsNode,
+            data.nodeTermsEnumerationNode
+          );
+        } else {
+          // class node (restricted, standard class, standard enumeration)
+          helper.reorderNodeBasedOnNodeTermArray(
+            dsNode,
+            data.nodeTermsClassNode
+          );
+        }
+        break;
+    }
+  } else if (dsNode["@context"]) {
+    // ds object
+    helper.reorderNodeBasedOnNodeTermArray(dsNode, data.nodeTermsDsObject);
+  } else if (dsNode.ds && dsNode.schema && dsNode.sh) {
+    // context
+    helper.reorderNodeBasedOnNodeTermArray(dsNode, data.nodeTermsContext());
+  } else if (dsNode["sh:datatype"]) {
+    // datatype node
+    helper.reorderNodeBasedOnNodeTermArray(dsNode, data.nodeTermsDataTypeNode);
+  } else if (dsNode["sh:node"]) {
+    // wrapper for class node / enumeration node - typically no term would be added here
+  } else if (dsNode["@value"]) {
+    // a language tagged-value
+    helper.reorderNodeBasedOnNodeTermArray(
+      dsNode,
+      data.nodeTermsLanguageTaggedValue
+    );
+  }
 };
 
 /**
@@ -1346,6 +1714,8 @@ module.exports = {
   getDsRootNodeV7,
   getDsStandardContextV7,
   getDsIdV7,
+  reorderDsV7,
+  reorderDsNodeV7,
   generateInnerNodeIdV7,
   getDsNameV7,
   getDsDescriptionV7,
@@ -1356,5 +1726,5 @@ module.exports = {
   getDsTargetClassesV7,
 };
 
-},{"./../../helperFunctions.js":4,"./../data/dataV7.js":10,"nanoid":1}]},{},[5])(5)
+},{"../../helperFunctions.js":4,"./../../helperFunctions.js":4,"./../data/dataV7.js":10,"nanoid":1}]},{},[5])(5)
 });

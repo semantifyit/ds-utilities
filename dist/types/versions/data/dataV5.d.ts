@@ -1,3 +1,8 @@
+export const nodeTermsDsObject: {
+    term: string;
+    required: boolean;
+    valueType: string;
+}[];
 export const dsNodePropertyOrder: string[];
 export const standardContext: {
     rdf: string;

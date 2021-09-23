@@ -133,6 +133,7 @@ const standardContext = {
 };
 
 module.exports = {
+  nodeTermsDsObject,
   dsNodePropertyOrder,
   standardContext,
 };
