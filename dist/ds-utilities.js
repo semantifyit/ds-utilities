@@ -1720,9 +1720,11 @@ const dsPathGetNodeV7 = (ds, dsPath) => {
             el["sh:node"] &&
             el["sh:node"]["@id"] === rootNode["@id"] + rangeToken.substring(1)
         );
-        referencedNode = ds["@graph"].find(
-          (el) => el["@id"] === actRange["sh:node"]["@id"]
-        );
+        if (actRange) {
+          referencedNode = ds["@graph"].find(
+            (el) => el["@id"] === actRange["sh:node"]["@id"]
+          );
+        }
       } else {
         // external (internal) node reference
         actRange = actDsObj.find(
@@ -1730,9 +1732,11 @@ const dsPathGetNodeV7 = (ds, dsPath) => {
             el["sh:node"] &&
             el["sh:node"]["@id"].endsWith(rangeToken.substring(1))
         );
-        referencedNode = ds["@graph"].find(
-          (el) => el["@id"] === actRange["sh:node"]["@id"]
-        );
+        if (actRange) {
+          referencedNode = ds["@graph"].find(
+            (el) => el["@id"] === actRange["sh:node"]["@id"]
+          );
+        }
       }
     } else {
       actRange = actDsObj.find(
