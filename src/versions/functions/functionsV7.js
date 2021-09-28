@@ -216,6 +216,316 @@ const generateInnerNodeIdV7 = (ds = undefined) => {
 
 /*
  * ===========================================
+ * functions for the handling of DS Paths
+ * ===========================================
+ */
+
+const NODE_TYPE_ROOT = "RootNode";
+const NODE_TYPE_PROPERTY = "Property";
+const NODE_TYPE_CLASS = "Class";
+const NODE_TYPE_ENUMERATION = "Enumeration";
+const NODE_TYPE_DATATYPE = "DataType";
+const NODE_TYPE_REF_ROOT = "RootReference";
+const NODE_TYPE_REF_INTERNAL = "InternalReference";
+const NODE_TYPE_REF_EXTERNAL = "ExternalReference";
+const NODE_TYPE_REF_INTERNAL_EXTERNAL = "InternalExternalReference";
+const NODE_TYPE_DEF_INTERNAL = "InternalReferenceDefinition";
+const NODE_TYPE_DEF_EXTERNAL = "ExternalReferenceDefinition";
+const NODE_TYPE_DEF_INTERNAL_EXTERNAL = "InternalExternalReferenceDefinition";
+// "@context" is a special dsPath that points to the @context object of the DS
+
+/**
+ * Initializes a DS Path string, based on the given inputs
+ *
+ * @param [nodeType=RootNode] {string} - the type of the initial token, "RootNode" being the standard. Other possibilities are: "InternalReferenceDefinition", "ExternalReferenceDefinition", "InternalExternalReferenceDefinition"
+ * @param [nodeId] {string} - the id of the node which starts the DS path (e.g. "https://semantify.it/ds/_1hRVOT8Q"). Can be left blank in case of "RootNode".
+ * @return {string} - the generated DS Path
+ */
+const dsPathInitV7 = (nodeType = NODE_TYPE_ROOT, nodeId = undefined) => {
+  switch (nodeType) {
+    case NODE_TYPE_ROOT:
+      return "$";
+    case NODE_TYPE_DEF_INTERNAL:
+      return "#" + nodeId.split("#")[1]; // nodeId = @id of the internal node, e.g. "https://semantify.it/ds/_1hRVOT8Q#sXZwe"
+    case NODE_TYPE_DEF_EXTERNAL:
+      return nodeId.split("/")[(nodeId.match(/\//g) || []).length]; // nodeId = @id of the external node, e.g. "https://semantify.it/ds/_1hRVOT8Q"
+    case NODE_TYPE_DEF_INTERNAL_EXTERNAL:
+      return nodeId.split("/")[(nodeId.match(/\//g) || []).length]; // nodeId = @id of the internal node from an external reference, e.g. "https://semantify.it/ds/_1hRVOT8Q#sXZwe"
+    default:
+      throw new Error("Unknown node type to initialize a DS Path: " + nodeType);
+  }
+};
+
+/**
+ * Appends a new token to a given DS Path. The inputs and additions depend on the token type to be added.
+ *
+ * @param dsPath {string} - the given DS Path to augment
+ * @param additionType {string} - the kind of addition to be added
+ * @param [inputForPath] {string|string[]} - input that depends on the given additionType, which is used for the dsPath addition
+ * @return {string} - the resulting DS Path
+ */
+const dsPathAdditionV7 = (dsPath, additionType, inputForPath = undefined) => {
+  // Property
+  if (additionType === NODE_TYPE_PROPERTY) {
+    return dsPath + "." + inputForPath; // inputForPath = IRI of Property, e.g. schema:url
+  }
+  // DataType
+  if (additionType === NODE_TYPE_DATATYPE) {
+    return dsPath + "/" + inputForPath; // inputForPath = IRI of DataType, e.g. xsd:string
+  }
+  // Class/Enumeration
+  if (
+    additionType === NODE_TYPE_CLASS ||
+    additionType === NODE_TYPE_ENUMERATION
+  ) {
+    return dsPath + "/" + inputForPath.join(","); // inputForPath = sh:class array, e.g. ["schema:Room", "schema:Product"]
+  }
+  // Reference - Root Node
+  if (additionType === NODE_TYPE_REF_ROOT) {
+    return dsPath + "/@$"; // inputForPath is not needed
+  }
+  // Reference - Internal reference
+  if (additionType === NODE_TYPE_REF_INTERNAL) {
+    return dsPath + "/@#" + inputForPath.split("#")[1]; // inputForPath = @id of the internal node, e.g. "https://semantify.it/ds/_1hRVOT8Q#sXZwe"
+  }
+  // Reference - External reference
+  if (additionType === NODE_TYPE_REF_EXTERNAL) {
+    return (
+      dsPath +
+      "/@" +
+      inputForPath.split("/")[(inputForPath.match(/\//g) || []).length]
+    ); // inputForPath = @id of the external node, e.g. "https://semantify.it/ds/_1hRVOT8Q"
+  }
+  // Reference - Internal node of an External reference
+  if (additionType === NODE_TYPE_REF_INTERNAL_EXTERNAL) {
+    return (
+      dsPath +
+      "/@" +
+      inputForPath.split("/")[(inputForPath.match(/\//g) || []).length]
+    ); // inputForPath = @id of the internal node from an external reference, e.g. "https://semantify.it/ds/_1hRVOT8Q#sXZwe"
+  }
+};
+
+/**
+ * Returns a node within the given DS based on the given ds-path.
+ *
+ * @param ds {object} - The input DS
+ * @param dsPath {string} - The input ds-path
+ * @return {object} - The node at the given ds-path
+ */
+const dsPathGetNodeV7 = (ds, dsPath) => {
+  // helper function to check if a given class combination array matches another class combination array
+  function checkClassMatch(arr1, arr2) {
+    return (
+      !arr1.find((el) => !arr2.includes(el)) &&
+      !arr2.find((el) => !arr1.includes(el))
+    );
+  }
+
+  //  helper function - actDsObj is an array of ranges
+  function getRangeNode(actDsObj, actRestPath, ds) {
+    const rootNode = getDsRootNodeV7(ds);
+    const pathTokens = actRestPath.split(".");
+    const rangeToken = pathTokens[0];
+    let actRange;
+    let referencedNode;
+    // reference node
+    if (rangeToken.startsWith("@")) {
+      if (rangeToken === "@$") {
+        // root node reference
+        actRange = actDsObj.find(
+          (el) => el["sh:node"] && el["sh:node"]["@id"] === rootNode["@id"]
+        );
+        referencedNode = rootNode;
+      } else if (rangeToken.startsWith("@#")) {
+        // internal node reference
+        actRange = actDsObj.find(
+          (el) =>
+            el["sh:node"] &&
+            el["sh:node"]["@id"] === rootNode["@id"] + rangeToken.substring(1)
+        );
+        referencedNode = ds["@graph"].find(
+          (el) => el["@id"] === actRange["sh:node"]["@id"]
+        );
+      } else {
+        // external (internal) node reference
+        actRange = actDsObj.find(
+          (el) =>
+            el["sh:node"] &&
+            el["sh:node"]["@id"].endsWith(rangeToken.substring(1))
+        );
+        referencedNode = ds["@graph"].find(
+          (el) => el["@id"] === actRange["sh:node"]["@id"]
+        );
+      }
+    } else {
+      actRange = actDsObj.find(
+        (el) =>
+          el["sh:datatype"] === pathTokens[0] ||
+          (el["sh:node"] &&
+            el["sh:node"]["sh:class"] &&
+            checkClassMatch(
+              el["sh:node"]["sh:class"],
+              pathTokens[0].split(",")
+            )) ||
+          (el["sh:node"] &&
+            el["sh:node"]["@id"].endsWith(pathTokens[0].substring(1)))
+      );
+    }
+    if (!actRange) {
+      throw new Error(
+        "Could not find a fitting range-node for path-token " + pathTokens[0]
+      );
+    }
+    if (pathTokens.length === 1) {
+      if (actRange["sh:node"]) {
+        return actRange["sh:node"];
+      } else {
+        return actRange;
+      }
+    } else {
+      if (referencedNode) {
+        return getPropertyNode(
+          referencedNode["sh:property"],
+          actRestPath.substring(pathTokens[0].length + 1),
+          ds
+        );
+      } else {
+        return getPropertyNode(
+          actRange["sh:node"]["sh:property"],
+          actRestPath.substring(pathTokens[0].length + 1),
+          ds
+        );
+      }
+    }
+  }
+
+  // helper function
+  function getPropertyNode(actDsObj, actRestPath, ds) {
+    const pathTokens = actRestPath.split("/");
+    const actProp = actDsObj.find((el) => el["sh:path"] === pathTokens[0]);
+    if (!actProp) {
+      throw new Error(
+        "Could not find a fitting property-node for path-token " + pathTokens[0]
+      );
+    }
+    if (pathTokens.length === 1) {
+      return actProp;
+    } else {
+      // check next token -> range
+      return getRangeNode(
+        actProp["sh:or"],
+        actRestPath.substring(pathTokens[0].length + 1),
+        ds
+      );
+    }
+  }
+
+  if (dsPath === "@context") {
+    // special case for @context
+    if (!ds["@context"]) {
+      throw new Error(
+        "The given DS has no @context, which is mandatory for a DS in DS-V7 format."
+      );
+    }
+    return ds["@context"];
+  } else if (dsPath.startsWith("$")) {
+    // normal DS root
+    const dsRoot = getDsRootNodeV7(ds);
+    if (dsPath === "$") {
+      return dsRoot;
+    } else {
+      return getPropertyNode(dsRoot["sh:property"], dsPath.substring(2), ds);
+    }
+  } else {
+    // could be:
+    // Internal reference definition
+    // External reference definition
+    // Internal node of an External reference
+    const pathTokens = dsPath.split(".");
+    const referenceDefinition = ds["@graph"].find((el) =>
+      el["@id"].endsWith(pathTokens[0])
+    );
+    if (!referenceDefinition) {
+      throw new Error(
+        "Could not find a fitting reference definition for path-token " +
+          pathTokens[0]
+      );
+    }
+    if (pathTokens.length === 1) {
+      return referenceDefinition;
+    } else {
+      return getPropertyNode(
+        referenceDefinition["sh:property"],
+        dsPath.substring(pathTokens[0].length + 1),
+        ds
+      );
+    }
+  }
+};
+
+/**
+ * Returns the type/role of the given DS Node within the given DS
+ *
+ * @param dsNode {object?} - the input DS Node
+ * @param ds {object} - the input DS
+ * @return {string} the type of the given node
+ */
+const dsPathIdentifyNodeTypeV7 = (dsNode, ds) => {
+  const rootNode = getDsRootNodeV7(ds);
+  // if there is only 1 attribute that is @id, then this is a reference node
+  if (dsNode["@id"] && Object.keys(dsNode).length === 1) {
+    if (dsNode["@id"] === rootNode["@id"]) {
+      return NODE_TYPE_REF_ROOT;
+    } else if (dsNode["@id"].startsWith(rootNode["@id"])) {
+      return NODE_TYPE_REF_INTERNAL;
+    } else if (dsNode["@id"].charAt(dsNode["@id"].length - 6) === "#") {
+      return NODE_TYPE_REF_INTERNAL_EXTERNAL;
+    } else {
+      return NODE_TYPE_REF_EXTERNAL;
+    }
+  }
+  // nodes in @graph array
+  if (dsNode["@type"] === "ds:DomainSpecification") {
+    return NODE_TYPE_ROOT; // root node
+  } else if (
+    dsNode["@type"] === "sh:NodeShape" &&
+    ds["@graph"].find((el) => el["@id"] === dsNode["@id"]) !== undefined
+  ) {
+    // a reference definition
+    if (dsNode["@id"].startsWith(rootNode["@id"])) {
+      return NODE_TYPE_DEF_INTERNAL;
+    } else if (dsNode["@id"].charAt(dsNode["@id"].length - 6) === "#") {
+      return NODE_TYPE_DEF_INTERNAL_EXTERNAL;
+    } else {
+      return NODE_TYPE_DEF_EXTERNAL;
+    }
+  }
+  // other nodes
+  if (dsNode["@type"] === "sh:PropertyShape") {
+    return NODE_TYPE_PROPERTY;
+  }
+  if (dsNode["sh:datatype"] !== undefined) {
+    return NODE_TYPE_DATATYPE;
+  }
+  if (dsNode["@type"] === "sh:NodeShape" && dsNode["sh:in"] !== undefined) {
+    return NODE_TYPE_ENUMERATION;
+  } else if (
+    dsNode["@type"] === "sh:NodeShape" &&
+    dsNode["sh:property"] !== undefined
+  ) {
+    return NODE_TYPE_CLASS;
+  } else if (
+    dsNode["@type"] === "sh:NodeShape" &&
+    dsNode["sh:class"] !== undefined
+  ) {
+    // this could be a standard class or a standard enumeration, we can not tell for sure without SDO Adapter
+    return NODE_TYPE_CLASS;
+  }
+};
+
+/*
+ * ===========================================
  * functions that ease the UI interaction with DS
  * ===========================================
  */
@@ -336,6 +646,10 @@ module.exports = {
   reorderDsV7,
   reorderDsNodeV7,
   generateInnerNodeIdV7,
+  dsPathInitV7,
+  dsPathAdditionV7,
+  dsPathGetNodeV7,
+  dsPathIdentifyNodeTypeV7,
   getDsNameV7,
   getDsDescriptionV7,
   getDsAuthorNameV7,

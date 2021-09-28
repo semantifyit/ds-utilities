@@ -98,6 +98,18 @@ A DS @id is mandatory for DS-V7.</p>
 See <a href="https://gitbook.semantify.it/domainspecifications/ds-v7/devnotes#3-generating-ids-for-inner-nodeshape">https://gitbook.semantify.it/domainspecifications/ds-v7/devnotes#3-generating-ids-for-inner-nodeshape</a>
 It is possible to pass the current DS, this way it is ensured that the generated fragment id has not been used yet in the given DS</p>
 </dd>
+<dt><a href="#dsPathInitV7">dsPathInitV7([nodeType], [nodeId])</a> ⇒ <code>string</code></dt>
+<dd><p>Initializes a DS Path string, based on the given inputs</p>
+</dd>
+<dt><a href="#dsPathAdditionV7">dsPathAdditionV7(dsPath, additionType, [inputForPath])</a> ⇒ <code>string</code></dt>
+<dd><p>Appends a new token to a given DS Path. The inputs and additions depend on the token type to be added.</p>
+</dd>
+<dt><a href="#dsPathGetNodeV7">dsPathGetNodeV7(ds, dsPath)</a> ⇒ <code>object</code></dt>
+<dd><p>Returns a node within the given DS based on the given ds-path.</p>
+</dd>
+<dt><a href="#dsPathIdentifyNodeTypeV7">dsPathIdentifyNodeTypeV7(dsNode, ds)</a> ⇒ <code>string</code></dt>
+<dd><p>Returns the type/role of the given DS Node within the given DS</p>
+</dd>
 <dt><a href="#getDsNameV7">getDsNameV7(ds, language)</a> ⇒ <code>string</code></dt>
 <dd><p>Returns the name (schema:name) of the given DS.
 schema:name is optional in DS-V7.</p>
@@ -399,6 +411,59 @@ It is possible to pass the current DS, this way it is ensured that the generated
 | Param | Type | Description |
 | --- | --- | --- |
 | ds | <code>object</code> | the input DS (optional) |
+
+<a name="dsPathInitV7"></a>
+
+## dsPathInitV7([nodeType], [nodeId]) ⇒ <code>string</code>
+Initializes a DS Path string, based on the given inputs
+
+**Kind**: global function  
+**Returns**: <code>string</code> - - the generated DS Path  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [nodeType] | <code>string</code> | <code>&quot;RootNode&quot;</code> | the type of the initial token, "RootNode" being the standard. Other possibilities are: "InternalReferenceDefinition", "ExternalReferenceDefinition", "InternalExternalReferenceDefinition" |
+| [nodeId] | <code>string</code> |  | the id of the node which starts the DS path (e.g. "https://semantify.it/ds/_1hRVOT8Q"). Can be left blank in case of "RootNode". |
+
+<a name="dsPathAdditionV7"></a>
+
+## dsPathAdditionV7(dsPath, additionType, [inputForPath]) ⇒ <code>string</code>
+Appends a new token to a given DS Path. The inputs and additions depend on the token type to be added.
+
+**Kind**: global function  
+**Returns**: <code>string</code> - - the resulting DS Path  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| dsPath | <code>string</code> | the given DS Path to augment |
+| additionType | <code>string</code> | the kind of addition to be added |
+| [inputForPath] | <code>string</code> \| <code>Array.&lt;string&gt;</code> | input that depends on the given additionType, which is used for the dsPath addition |
+
+<a name="dsPathGetNodeV7"></a>
+
+## dsPathGetNodeV7(ds, dsPath) ⇒ <code>object</code>
+Returns a node within the given DS based on the given ds-path.
+
+**Kind**: global function  
+**Returns**: <code>object</code> - - The node at the given ds-path  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ds | <code>object</code> | The input DS |
+| dsPath | <code>string</code> | The input ds-path |
+
+<a name="dsPathIdentifyNodeTypeV7"></a>
+
+## dsPathIdentifyNodeTypeV7(dsNode, ds) ⇒ <code>string</code>
+Returns the type/role of the given DS Node within the given DS
+
+**Kind**: global function  
+**Returns**: <code>string</code> - the type of the given node  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| dsNode | <code>object</code> | the input DS Node |
+| ds | <code>object</code> | the input DS |
 
 <a name="getDsNameV7"></a>
 

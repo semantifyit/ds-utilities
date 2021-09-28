@@ -20,6 +20,18 @@ export function getDsStandardContextV7(): object;
  */
 export function getDsIdV7(ds: object): string;
 /**
+ * Reorders all nodes of the given DS according to the DS specification for DS-V7
+ *
+ * @param ds  {object} - the input DS
+ */
+export function reorderDsV7(ds: object): void;
+/**
+ * Reorders the given DS node according to the DS specification for DS-V7. The corresponding node type is detected automatically.
+ *
+ * @param dsNode
+ */
+export function reorderDsNodeV7(dsNode: any): void;
+/**
  * Creates a new fragment id according to the DS-V7 specification.
  * See https://gitbook.semantify.it/domainspecifications/ds-v7/devnotes#3-generating-ids-for-inner-nodeshape
  * It is possible to pass the current DS, this way it is ensured that the generated fragment id has not been used yet in the given DS
@@ -28,6 +40,39 @@ export function getDsIdV7(ds: object): string;
  * @return {string} returns a new the fragment id
  */
 export function generateInnerNodeIdV7(ds?: object): string;
+/**
+ * Initializes a DS Path string, based on the given inputs
+ *
+ * @param [nodeType=RootNode] {string} - the type of the initial token, "RootNode" being the standard. Other possibilities are: "InternalReferenceDefinition", "ExternalReferenceDefinition", "InternalExternalReferenceDefinition"
+ * @param [nodeId] {string} - the id of the node which starts the DS path (e.g. "https://semantify.it/ds/_1hRVOT8Q"). Can be left blank in case of "RootNode".
+ * @return {string} - the generated DS Path
+ */
+export function dsPathInitV7(nodeType?: string, nodeId?: string): string;
+/**
+ * Appends a new token to a given DS Path. The inputs and additions depend on the token type to be added.
+ *
+ * @param dsPath {string} - the given DS Path to augment
+ * @param additionType {string} - the kind of addition to be added
+ * @param [inputForPath] {string|string[]} - input that depends on the given additionType, which is used for the dsPath addition
+ * @return {string} - the resulting DS Path
+ */
+export function dsPathAdditionV7(dsPath: string, additionType: string, inputForPath?: string | string[]): string;
+/**
+ * Returns a node within the given DS based on the given ds-path.
+ *
+ * @param ds {object} - The input DS
+ * @param dsPath {string} - The input ds-path
+ * @return {object} - The node at the given ds-path
+ */
+export function dsPathGetNodeV7(ds: object, dsPath: string): object;
+/**
+ * Returns the type/role of the given DS Node within the given DS
+ *
+ * @param dsNode {object?} - the input DS Node
+ * @param ds {object} - the input DS
+ * @return {string} the type of the given node
+ */
+export function dsPathIdentifyNodeTypeV7(dsNode: object | null, ds: object): string;
 /**
  * Returns the name (schema:name) of the given DS.
  * schema:name is optional in DS-V7.
