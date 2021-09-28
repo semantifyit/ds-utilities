@@ -248,9 +248,9 @@ const dsPathInitV7 = (nodeType = NODE_TYPE_ROOT, nodeId = undefined) => {
     case NODE_TYPE_DEF_INTERNAL:
       return "#" + nodeId.split("#")[1]; // nodeId = @id of the internal node, e.g. "https://semantify.it/ds/_1hRVOT8Q#sXZwe"
     case NODE_TYPE_DEF_EXTERNAL:
-      return nodeId.split("/")[(nodeId.match(/\//g) || []).length]; // nodeId = @id of the external node, e.g. "https://semantify.it/ds/_1hRVOT8Q"
+      return nodeId.split("/").pop(); // nodeId = @id of the external node, e.g. "https://semantify.it/ds/_1hRVOT8Q"
     case NODE_TYPE_DEF_INTERNAL_EXTERNAL:
-      return nodeId.split("/")[(nodeId.match(/\//g) || []).length]; // nodeId = @id of the internal node from an external reference, e.g. "https://semantify.it/ds/_1hRVOT8Q#sXZwe"
+      return nodeId.split("/").pop(); // nodeId = @id of the internal node from an external reference, e.g. "https://semantify.it/ds/_1hRVOT8Q#sXZwe"
     default:
       throw new Error("Unknown node type to initialize a DS Path: " + nodeType);
   }
@@ -290,19 +290,11 @@ const dsPathAdditionV7 = (dsPath, additionType, inputForPath = undefined) => {
   }
   // Reference - External reference
   if (additionType === NODE_TYPE_REF_EXTERNAL) {
-    return (
-      dsPath +
-      "/@" +
-      inputForPath.split("/")[(inputForPath.match(/\//g) || []).length]
-    ); // inputForPath = @id of the external node, e.g. "https://semantify.it/ds/_1hRVOT8Q"
+    return dsPath + "/@" + inputForPath.split("/").pop(); // inputForPath = @id of the external node, e.g. "https://semantify.it/ds/_1hRVOT8Q"
   }
   // Reference - Internal node of an External reference
   if (additionType === NODE_TYPE_REF_INTERNAL_EXTERNAL) {
-    return (
-      dsPath +
-      "/@" +
-      inputForPath.split("/")[(inputForPath.match(/\//g) || []).length]
-    ); // inputForPath = @id of the internal node from an external reference, e.g. "https://semantify.it/ds/_1hRVOT8Q#sXZwe"
+    return dsPath + "/@" + inputForPath.split("/").pop(); // inputForPath = @id of the internal node from an external reference, e.g. "https://semantify.it/ds/_1hRVOT8Q#sXZwe"
   }
 };
 
