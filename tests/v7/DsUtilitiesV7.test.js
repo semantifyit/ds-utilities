@@ -121,6 +121,10 @@ describe("DsUtilitiesV7", () => {
     expect(copyContext[Object.keys(copyContext)[3]]).toBe(
       "https://schema.org/"
     );
+    expect(copyContext[Object.keys(copyContext)[6]]).toStrictEqual({
+      "@container": "@list",
+      "@type": "@id",
+    });
     // root node
     const copyRootNode = jhcpy(dsu.getDsRootNode(testData.dsDs0Unordered));
     dsu.reorderDsNode(copyRootNode);

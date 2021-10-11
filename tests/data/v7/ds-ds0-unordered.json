@@ -320,6 +320,10 @@
     "sh:lessThan": {
       "@type": "@id"
     },
+    "ds:propertyDisplayOrder": {
+      "@container": "@list",
+      "@type": "@id"
+    },
     "sh:lessThanOrEquals": {
       "@type": "@id"
     },

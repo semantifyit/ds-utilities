@@ -68,6 +68,10 @@ export const standardContext: {
     schema: string;
     sh: string;
     xsd: string;
+    "ds:propertyDisplayOrder": {
+        "@container": string;
+        "@type": string;
+    };
     "ds:subDSOf": {
         "@type": string;
     };

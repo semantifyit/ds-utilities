@@ -689,18 +689,6 @@ const nodeTermsContext = () => {
   return result;
 };
 
-//   {
-//     term: "@context",
-//     required: true,
-//     valueType: "object",
-//   },
-//   {
-//     term: "@graph",
-//     required: true,
-//     valueType: "array",
-//   },
-// ];
-
 // These are the terms used by a DS Root node for DS-V7
 // Listed in the recommended order as they should be listed in their lexical representation
 const nodeTermsRootNode = [
@@ -779,6 +767,11 @@ const nodeTermsRootNode = [
     term: "sh:closed",
     required: false,
     valueType: "boolean",
+  },
+  {
+    term: "ds:propertyDisplayOrder",
+    required: false,
+    valueType: "array",
   },
   {
     term: "sh:property",
@@ -871,6 +864,11 @@ const nodeTermsClassNode = [
     term: "sh:closed",
     required: false,
     valueType: "boolean",
+  },
+  {
+    term: "ds:propertyDisplayOrder",
+    required: false,
+    valueType: "array",
   },
   {
     term: "sh:property",
@@ -1012,6 +1010,10 @@ const standardContext = {
   schema: "https://schema.org/",
   sh: "http://www.w3.org/ns/shacl#",
   xsd: "http://www.w3.org/2001/XMLSchema#",
+  "ds:propertyDisplayOrder": {
+    "@container": "@list",
+    "@type": "@id",
+  },
   "ds:subDSOf": {
     "@type": "@id",
   },
