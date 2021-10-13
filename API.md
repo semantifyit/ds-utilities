@@ -40,10 +40,10 @@ If the IRI belongs to schema.org, then the IRI is returned without the vocabular
 <a href="https://schema.org/version/3.4/">https://schema.org/version/3.4/</a></p>
 </dd>
 <dt><a href="#getDsRootNodeV5">getDsRootNodeV5(ds)</a> ⇒ <code>object</code></dt>
-<dd><p>Returns the root node of the given DS.</p>
+<dd><p>Returns the root node of the given DS. (reference)</p>
 </dd>
 <dt><a href="#getDsStandardContextV5">getDsStandardContextV5()</a> ⇒ <code>object</code></dt>
-<dd><p>Returns the standard @context for DS-V5</p>
+<dd><p>Returns the standard @context for DS-V5 (clone - no reference).</p>
 </dd>
 <dt><a href="#getDsIdV5">getDsIdV5(ds)</a> ⇒ <code>string</code></dt>
 <dd><p>Returns the @id of the given DS (for DS-V5 this @id is found in the outermost object).
@@ -70,18 +70,18 @@ schema:schemaVersion is mandatory in DS-V5.</p>
 schema:version is optional in DS-V5.</p>
 </dd>
 <dt><a href="#getDsExternalVocabulariesV5">getDsExternalVocabulariesV5(ds)</a> ⇒ <code>Array.&lt;string&gt;</code></dt>
-<dd><p>Returns the used external vocabularies (ds:usedVocabularies) of the given DS.
+<dd><p>Returns the used external vocabularies (ds:usedVocabularies) of the given DS (clone - no reference).
 ds:usedVocabularies is optional in DS-V5.</p>
 </dd>
 <dt><a href="#getDsTargetClassesV5">getDsTargetClassesV5(ds)</a> ⇒ <code>Array.&lt;string&gt;</code></dt>
-<dd><p>Returns the target classes (sh:targetClass) of the given DS.
+<dd><p>Returns the target classes (sh:targetClass) of the given DS (clone - no reference).
 sh:targetClass is optional in DS-V5.</p>
 </dd>
 <dt><a href="#getDsRootNodeV7">getDsRootNodeV7(ds)</a> ⇒ <code>object</code></dt>
-<dd><p>Returns the root node of the given DS</p>
+<dd><p>Returns the root node of the given DS (reference)</p>
 </dd>
 <dt><a href="#getDsStandardContextV7">getDsStandardContextV7()</a> ⇒ <code>object</code></dt>
-<dd><p>Returns the standard @context for DS-V7</p>
+<dd><p>Returns the standard @context for DS-V7 (clone - no reference).</p>
 </dd>
 <dt><a href="#getDsIdV7">getDsIdV7(ds)</a> ⇒ <code>string</code></dt>
 <dd><p>Returns the @id of the given DS (for DS-V7 this @id is found in the root node).
@@ -105,7 +105,7 @@ It is possible to pass the current DS, this way it is ensured that the generated
 <dd><p>Appends a new token to a given DS Path. The inputs and additions depend on the token type to be added.</p>
 </dd>
 <dt><a href="#dsPathGetNodeV7">dsPathGetNodeV7(ds, dsPath)</a> ⇒ <code>object</code></dt>
-<dd><p>Returns a node within the given DS based on the given ds-path.</p>
+<dd><p>Returns a node within the given DS based on the given ds-path. (reference)</p>
 </dd>
 <dt><a href="#dsPathIdentifyNodeTypeV7">dsPathIdentifyNodeTypeV7(dsNode, ds)</a> ⇒ <code>string</code></dt>
 <dd><p>Returns the type/role of the given DS Node within the given DS</p>
@@ -131,11 +131,11 @@ schema:schemaVersion is mandatory in DS-V7.</p>
 schema:version is optional in DS-V7.</p>
 </dd>
 <dt><a href="#getDsExternalVocabulariesV7">getDsExternalVocabulariesV7(ds)</a> ⇒ <code>Array.&lt;string&gt;</code></dt>
-<dd><p>Returns the used external vocabularies (ds:usedVocabulary) of the given DS.
+<dd><p>Returns the used external vocabularies (ds:usedVocabulary) of the given DS (clone - no reference).
 ds:usedVocabulary is optional in DS-V7.</p>
 </dd>
 <dt><a href="#getDsTargetClassesV7">getDsTargetClassesV7(ds)</a> ⇒ <code>Array.&lt;string&gt;</code></dt>
-<dd><p>Returns the target classes (sh:targetClass) of the given DS.
+<dd><p>Returns the target classes (sh:targetClass) of the given DS (clone - no reference).
 sh:targetClass is optional in DS-V7.</p>
 </dd>
 </dl>
@@ -224,10 +224,10 @@ https://schema.org/version/3.4/
 <a name="getDsRootNodeV5"></a>
 
 ## getDsRootNodeV5(ds) ⇒ <code>object</code>
-Returns the root node of the given DS.
+Returns the root node of the given DS. (reference)
 
 **Kind**: global function  
-**Returns**: <code>object</code> - - The detected root node of the DS  
+**Returns**: <code>object</code> - - The detected root node of the DS (reference)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -236,7 +236,7 @@ Returns the root node of the given DS.
 <a name="getDsStandardContextV5"></a>
 
 ## getDsStandardContextV5() ⇒ <code>object</code>
-Returns the standard @context for DS-V5
+Returns the standard @context for DS-V5 (clone - no reference).
 
 **Kind**: global function  
 **Returns**: <code>object</code> - - the standard @context for DS-V5  
@@ -321,7 +321,7 @@ schema:version is optional in DS-V5.
 <a name="getDsExternalVocabulariesV5"></a>
 
 ## getDsExternalVocabulariesV5(ds) ⇒ <code>Array.&lt;string&gt;</code>
-Returns the used external vocabularies (ds:usedVocabularies) of the given DS.
+Returns the used external vocabularies (ds:usedVocabularies) of the given DS (clone - no reference).
 ds:usedVocabularies is optional in DS-V5.
 
 **Kind**: global function  
@@ -334,7 +334,7 @@ ds:usedVocabularies is optional in DS-V5.
 <a name="getDsTargetClassesV5"></a>
 
 ## getDsTargetClassesV5(ds) ⇒ <code>Array.&lt;string&gt;</code>
-Returns the target classes (sh:targetClass) of the given DS.
+Returns the target classes (sh:targetClass) of the given DS (clone - no reference).
 sh:targetClass is optional in DS-V5.
 
 **Kind**: global function  
@@ -347,10 +347,10 @@ sh:targetClass is optional in DS-V5.
 <a name="getDsRootNodeV7"></a>
 
 ## getDsRootNodeV7(ds) ⇒ <code>object</code>
-Returns the root node of the given DS
+Returns the root node of the given DS (reference)
 
 **Kind**: global function  
-**Returns**: <code>object</code> - The detected root node of the DS  
+**Returns**: <code>object</code> - The detected root node of the DS (reference)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -359,7 +359,7 @@ Returns the root node of the given DS
 <a name="getDsStandardContextV7"></a>
 
 ## getDsStandardContextV7() ⇒ <code>object</code>
-Returns the standard @context for DS-V7
+Returns the standard @context for DS-V7 (clone - no reference).
 
 **Kind**: global function  
 **Returns**: <code>object</code> - the standard @context for DS-V7  
@@ -442,10 +442,10 @@ Appends a new token to a given DS Path. The inputs and additions depend on the t
 <a name="dsPathGetNodeV7"></a>
 
 ## dsPathGetNodeV7(ds, dsPath) ⇒ <code>object</code>
-Returns a node within the given DS based on the given ds-path.
+Returns a node within the given DS based on the given ds-path. (reference)
 
 **Kind**: global function  
-**Returns**: <code>object</code> - - The node at the given ds-path  
+**Returns**: <code>object</code> - - The node at the given ds-path (reference)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -535,7 +535,7 @@ schema:version is optional in DS-V7.
 <a name="getDsExternalVocabulariesV7"></a>
 
 ## getDsExternalVocabulariesV7(ds) ⇒ <code>Array.&lt;string&gt;</code>
-Returns the used external vocabularies (ds:usedVocabulary) of the given DS.
+Returns the used external vocabularies (ds:usedVocabulary) of the given DS (clone - no reference).
 ds:usedVocabulary is optional in DS-V7.
 
 **Kind**: global function  
@@ -548,7 +548,7 @@ ds:usedVocabulary is optional in DS-V7.
 <a name="getDsTargetClassesV7"></a>
 
 ## getDsTargetClassesV7(ds) ⇒ <code>Array.&lt;string&gt;</code>
-Returns the target classes (sh:targetClass) of the given DS.
+Returns the target classes (sh:targetClass) of the given DS (clone - no reference).
 sh:targetClass is optional in DS-V7.
 
 **Kind**: global function  

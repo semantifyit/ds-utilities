@@ -1,6 +1,6 @@
 const DsUtilitiesV7 = require("./../../src/versions/DsUtilitiesV7.js");
 const data = require("./../../src/versions/data/dataV7.js");
-const { jhcpy, isObject } = require("../../src/helperFunctions.js");
+const { cloneJson, isObject } = require("../../src/helperFunctions.js");
 const testData = {};
 testData.dsDs0 = require("../data/v7/ds-ds0.json");
 testData.dsDs0ExternalVocab = require("../data/v7/ds-ds0-external-vocab.json");
@@ -54,7 +54,7 @@ describe("DsUtilitiesV7", () => {
   });
   test("reorderDs()", () => {
     const dsu = new DsUtilitiesV7();
-    const dsCopy = jhcpy(testData.dsDs0Unordered);
+    const dsCopy = cloneJson(testData.dsDs0Unordered);
     dsu.reorderDs(dsCopy);
     // illegal input
     expect(() => {
@@ -104,7 +104,7 @@ describe("DsUtilitiesV7", () => {
   });
   test("reorderDsNode()", () => {
     const dsu = new DsUtilitiesV7();
-    const copyDsObject = jhcpy(testData.dsDs0Unordered);
+    const copyDsObject = cloneJson(testData.dsDs0Unordered);
     // illegal input
     expect(() => {
       dsu.reorderDs([copyDsObject]);
@@ -114,7 +114,7 @@ describe("DsUtilitiesV7", () => {
     expect(Object.keys(copyDsObject)[0]).toBe("@context");
     expect(Object.keys(copyDsObject)[1]).toBe("@graph");
     // context
-    const copyContext = jhcpy(testData.dsDs0Unordered)["@context"];
+    const copyContext = cloneJson(testData.dsDs0Unordered)["@context"];
     dsu.reorderDsNode(copyContext);
     expect(Object.keys(copyContext)[0]).toBe("ds");
     expect(Object.keys(copyContext)[1]).toBe("rdf");
@@ -126,12 +126,12 @@ describe("DsUtilitiesV7", () => {
       "@type": "@id",
     });
     // root node
-    const copyRootNode = jhcpy(dsu.getDsRootNode(testData.dsDs0Unordered));
+    const copyRootNode = cloneJson(dsu.getDsRootNode(testData.dsDs0Unordered));
     dsu.reorderDsNode(copyRootNode);
     expect(Object.keys(copyRootNode)[0]).toBe("@id");
     expect(Object.keys(copyRootNode)[1]).toBe("@type");
     // property node
-    const copyPropertyNode = jhcpy(
+    const copyPropertyNode = cloneJson(
       dsu.getDsRootNode(testData.dsDs0Unordered)["sh:property"][0]
     );
     dsu.reorderDsNode(copyPropertyNode);

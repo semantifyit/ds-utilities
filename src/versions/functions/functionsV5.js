@@ -8,14 +8,14 @@
  * ===========================================
  */
 
-const helper = require("./../../helperFunctions.js");
+const { cloneJson } = require("./../../helperFunctions.js");
 const data = require("./../data/dataV5.js");
 const { extractSdoVersionNumber } = require("./functionsBase.js");
 /**
- * Returns the root node of the given DS.
+ * Returns the root node of the given DS. (reference)
  *
  * @param ds {object} - The input DS
- * @return {object} - The detected root node of the DS
+ * @return {object} - The detected root node of the DS (reference)
  */
 const getDsRootNodeV5 = (ds) => {
   if (!ds["@graph"]) {
@@ -38,12 +38,12 @@ const getDsRootNodeV5 = (ds) => {
 };
 
 /**
- * Returns the standard @context for DS-V5
+ * Returns the standard @context for DS-V5 (clone - no reference).
  *
  * @return {object} - the standard @context for DS-V5
  */
 const getDsStandardContextV5 = () => {
-  return helper.jhcpy(data.standardContext);
+  return cloneJson(data.standardContext);
 };
 
 /**
@@ -140,7 +140,7 @@ const getDsVersionV5 = (ds) => {
 };
 
 /**
- * Returns the used external vocabularies (ds:usedVocabularies) of the given DS.
+ * Returns the used external vocabularies (ds:usedVocabularies) of the given DS (clone - no reference).
  * ds:usedVocabularies is optional in DS-V5.
  *
  * @param ds {object} - the input DS
@@ -149,13 +149,13 @@ const getDsVersionV5 = (ds) => {
 const getDsExternalVocabulariesV5 = (ds) => {
   const rootNode = getDsRootNodeV5(ds);
   if (rootNode["ds:usedVocabularies"]) {
-    return rootNode["ds:usedVocabularies"];
+    return cloneJson(rootNode["ds:usedVocabularies"]);
   }
   return []; // instead of undefined, send an empty array for convenience
 };
 
 /**
- * Returns the target classes (sh:targetClass) of the given DS.
+ * Returns the target classes (sh:targetClass) of the given DS (clone - no reference).
  * sh:targetClass is optional in DS-V5.
  *
  * @param ds {object} - the input DS
@@ -170,9 +170,9 @@ const getDsTargetClassesV5 = (ds) => {
   }
   // return targetClass always as array for convenience
   if (!Array.isArray(rootNode["sh:targetClass"])) {
-    return [rootNode["sh:targetClass"]];
+    return cloneJson([rootNode["sh:targetClass"]]);
   }
-  return rootNode["sh:targetClass"];
+  return cloneJson(rootNode["sh:targetClass"]);
 };
 
 module.exports = {

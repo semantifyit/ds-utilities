@@ -1,10 +1,10 @@
 /**
- * Returns a Hard Copy (copy by Value) of the given JSON input
+ * Creates a clone of the given JSON input (without reference to the original input)
  *
- * @param jsonInput {any} - the input
- * @return {any} - the hard copy of the input
+ * @param input {any} - the input
+ * @return {any} - the clone of the input (no reference)
  */
-export function jhcpy(jsonInput: any): any;
+export function cloneJson(input: any): any;
 export function getLanguageString(valuesArray: any, language?: any): any;
 export function reorderNodeBasedOnNodeTermArray(dsNode: any, nodeTermArray: any): void;
 export function isObject(val: any): boolean;

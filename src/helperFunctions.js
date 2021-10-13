@@ -1,11 +1,14 @@
 /**
- * Returns a Hard Copy (copy by Value) of the given JSON input
+ * Creates a clone of the given JSON input (without reference to the original input)
  *
- * @param jsonInput {any} - the input
- * @return {any} - the hard copy of the input
+ * @param input {any} - the input
+ * @return {any} - the clone of the input (no reference)
  */
-const jhcpy = (jsonInput) => {
-  return JSON.parse(JSON.stringify(jsonInput));
+const cloneJson = (input) => {
+  if (input === undefined) {
+    return undefined;
+  }
+  return JSON.parse(JSON.stringify(input));
 };
 
 const getLanguageString = (valuesArray, language = undefined) => {
@@ -30,7 +33,7 @@ const getLanguageString = (valuesArray, language = undefined) => {
 
 const reorderNodeBasedOnNodeTermArray = (dsNode, nodeTermArray) => {
   // always use first the terms used in nodeTermArray, then add any terms that are not listed there
-  const dsNodeCopy = jhcpy(dsNode);
+  const dsNodeCopy = cloneJson(dsNode);
   // delete all used terms
   for (const p of Object.keys(dsNode)) {
     delete dsNode[p];
@@ -57,7 +60,7 @@ const isObject = (val) => {
 };
 
 module.exports = {
-  jhcpy,
+  cloneJson,
   getLanguageString,
   reorderNodeBasedOnNodeTermArray,
   isObject,

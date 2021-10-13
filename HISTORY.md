@@ -1,5 +1,11 @@
 # Changelog
 
+1.2.0 / 2021-10-13
+==================
+
+* Improved comments on functions to clarify if returned values are references or clones.
+* Changed `getDsTargetClasses()` and `getDsExternalVocabularies()` to return clones instead of references of the original DS.
+
 1.1.0 / 2021-10-11
 ==================
 

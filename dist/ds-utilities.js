@@ -302,13 +302,16 @@ process.umask = function() { return 0; };
 
 },{}],4:[function(_dereq_,module,exports){
 /**
- * Returns a Hard Copy (copy by Value) of the given JSON input
+ * Creates a clone of the given JSON input (without reference to the original input)
  *
- * @param jsonInput {any} - the input
- * @return {any} - the hard copy of the input
+ * @param input {any} - the input
+ * @return {any} - the clone of the input (no reference)
  */
-const jhcpy = (jsonInput) => {
-  return JSON.parse(JSON.stringify(jsonInput));
+const cloneJson = (input) => {
+  if (input === undefined) {
+    return undefined;
+  }
+  return JSON.parse(JSON.stringify(input));
 };
 
 const getLanguageString = (valuesArray, language = undefined) => {
@@ -333,7 +336,7 @@ const getLanguageString = (valuesArray, language = undefined) => {
 
 const reorderNodeBasedOnNodeTermArray = (dsNode, nodeTermArray) => {
   // always use first the terms used in nodeTermArray, then add any terms that are not listed there
-  const dsNodeCopy = jhcpy(dsNode);
+  const dsNodeCopy = cloneJson(dsNode);
   // delete all used terms
   for (const p of Object.keys(dsNode)) {
     delete dsNode[p];
@@ -360,7 +363,7 @@ const isObject = (val) => {
 };
 
 module.exports = {
-  jhcpy,
+  cloneJson,
   getLanguageString,
   reorderNodeBasedOnNodeTermArray,
   isObject,
@@ -1203,14 +1206,14 @@ module.exports = {
  * ===========================================
  */
 
-const helper = _dereq_("./../../helperFunctions.js");
+const { cloneJson } = _dereq_("./../../helperFunctions.js");
 const data = _dereq_("./../data/dataV5.js");
 const { extractSdoVersionNumber } = _dereq_("./functionsBase.js");
 /**
- * Returns the root node of the given DS.
+ * Returns the root node of the given DS. (reference)
  *
  * @param ds {object} - The input DS
- * @return {object} - The detected root node of the DS
+ * @return {object} - The detected root node of the DS (reference)
  */
 const getDsRootNodeV5 = (ds) => {
   if (!ds["@graph"]) {
@@ -1233,12 +1236,12 @@ const getDsRootNodeV5 = (ds) => {
 };
 
 /**
- * Returns the standard @context for DS-V5
+ * Returns the standard @context for DS-V5 (clone - no reference).
  *
  * @return {object} - the standard @context for DS-V5
  */
 const getDsStandardContextV5 = () => {
-  return helper.jhcpy(data.standardContext);
+  return cloneJson(data.standardContext);
 };
 
 /**
@@ -1335,7 +1338,7 @@ const getDsVersionV5 = (ds) => {
 };
 
 /**
- * Returns the used external vocabularies (ds:usedVocabularies) of the given DS.
+ * Returns the used external vocabularies (ds:usedVocabularies) of the given DS (clone - no reference).
  * ds:usedVocabularies is optional in DS-V5.
  *
  * @param ds {object} - the input DS
@@ -1344,13 +1347,13 @@ const getDsVersionV5 = (ds) => {
 const getDsExternalVocabulariesV5 = (ds) => {
   const rootNode = getDsRootNodeV5(ds);
   if (rootNode["ds:usedVocabularies"]) {
-    return rootNode["ds:usedVocabularies"];
+    return cloneJson(rootNode["ds:usedVocabularies"]);
   }
   return []; // instead of undefined, send an empty array for convenience
 };
 
 /**
- * Returns the target classes (sh:targetClass) of the given DS.
+ * Returns the target classes (sh:targetClass) of the given DS (clone - no reference).
  * sh:targetClass is optional in DS-V5.
  *
  * @param ds {object} - the input DS
@@ -1365,9 +1368,9 @@ const getDsTargetClassesV5 = (ds) => {
   }
   // return targetClass always as array for convenience
   if (!Array.isArray(rootNode["sh:targetClass"])) {
-    return [rootNode["sh:targetClass"]];
+    return cloneJson([rootNode["sh:targetClass"]]);
   }
-  return rootNode["sh:targetClass"];
+  return cloneJson(rootNode["sh:targetClass"]);
 };
 
 module.exports = {
@@ -1388,10 +1391,14 @@ module.exports = {
  * @file This file contains the functions used by DsUtilitiesV7
  */
 
-const helper = _dereq_("./../../helperFunctions.js");
 const data = _dereq_("./../data/dataV7.js");
 const { customAlphabet } = _dereq_("nanoid");
-const { isObject } = _dereq_("../../helperFunctions.js");
+const {
+  isObject,
+  cloneJson,
+  reorderNodeBasedOnNodeTermArray,
+  getLanguageString,
+} = _dereq_("../../helperFunctions.js");
 
 /*
  * ===========================================
@@ -1400,10 +1407,10 @@ const { isObject } = _dereq_("../../helperFunctions.js");
  */
 
 /**
- * Returns the root node of the given DS
+ * Returns the root node of the given DS (reference)
  *
  * @param ds {object} - The input DS
- * @return {object} The detected root node of the DS
+ * @return {object} The detected root node of the DS (reference)
  */
 const getDsRootNodeV7 = (ds) => {
   if (!ds["@graph"]) {
@@ -1423,19 +1430,19 @@ const getDsRootNodeV7 = (ds) => {
 };
 
 /**
- * Returns the standard @context for DS-V7
+ * Returns the standard @context for DS-V7 (clone - no reference).
  *
  * @return {object} the standard @context for DS-V7
  */
 const getDsStandardContextV7 = () => {
-  return helper.jhcpy(data.standardContext);
+  return cloneJson(data.standardContext);
 };
 
 /**
  * Returns the @id of the given DS (for DS-V7 this @id is found in the root node).
  * A DS @id is mandatory for DS-V7.
  *
- * @param ds  {object} - the input DS
+ * @param ds {object} - the input DS
  * @return {string} the @id of the given DS
  */
 const getDsIdV7 = (ds) => {
@@ -1451,7 +1458,7 @@ const getDsIdV7 = (ds) => {
 /**
  * Reorders all nodes of the given DS according to the DS specification for DS-V7
  *
- * @param ds  {object} - the input DS
+ * @param ds {object} - the input DS
  */
 const reorderDsV7 = (ds) => {
   if (!isObject(ds)) {
@@ -1460,7 +1467,7 @@ const reorderDsV7 = (ds) => {
   // reorder the meta values (language-tagged strings) in a given array
   const reorderMetaValues = (valuesArray) => {
     for (const valObj of valuesArray) {
-      helper.reorderNodeBasedOnNodeTermArray(
+      reorderNodeBasedOnNodeTermArray(
         valObj,
         data.nodeTermsLanguageTaggedValue
       );
@@ -1493,12 +1500,9 @@ const reorderDsV7 = (ds) => {
     }
   };
   // reorder DS object
-  helper.reorderNodeBasedOnNodeTermArray(ds, data.nodeTermsDsObject);
+  reorderNodeBasedOnNodeTermArray(ds, data.nodeTermsDsObject);
   // reorder context
-  helper.reorderNodeBasedOnNodeTermArray(
-    ds["@context"],
-    data.nodeTermsContext()
-  );
+  reorderNodeBasedOnNodeTermArray(ds["@context"], data.nodeTermsContext());
   // reorder graph nodes (root node + internal references)
   // root node should be the first in the @graph array
   const indexOfRootNode = ds["@graph"].findIndex(
@@ -1531,48 +1535,39 @@ const reorderDsNodeV7 = (dsNode) => {
     switch (dsNode["@type"]) {
       // root node
       case "ds:DomainSpecification":
-        helper.reorderNodeBasedOnNodeTermArray(dsNode, data.nodeTermsRootNode);
+        reorderNodeBasedOnNodeTermArray(dsNode, data.nodeTermsRootNode);
         break;
       // property node
       case "sh:PropertyShape":
-        helper.reorderNodeBasedOnNodeTermArray(
-          dsNode,
-          data.nodeTermsPropertyNode
-        );
+        reorderNodeBasedOnNodeTermArray(dsNode, data.nodeTermsPropertyNode);
         break;
       // class node / enumeration node
       case "sh:NodeShape":
         if (dsNode["sh:in"]) {
-          helper.reorderNodeBasedOnNodeTermArray(
+          reorderNodeBasedOnNodeTermArray(
             dsNode,
             data.nodeTermsEnumerationNode
           );
         } else {
           // class node (restricted, standard class, standard enumeration)
-          helper.reorderNodeBasedOnNodeTermArray(
-            dsNode,
-            data.nodeTermsClassNode
-          );
+          reorderNodeBasedOnNodeTermArray(dsNode, data.nodeTermsClassNode);
         }
         break;
     }
   } else if (dsNode["@context"]) {
     // ds object
-    helper.reorderNodeBasedOnNodeTermArray(dsNode, data.nodeTermsDsObject);
+    reorderNodeBasedOnNodeTermArray(dsNode, data.nodeTermsDsObject);
   } else if (dsNode.ds && dsNode.schema && dsNode.sh) {
     // context
-    helper.reorderNodeBasedOnNodeTermArray(dsNode, data.nodeTermsContext());
+    reorderNodeBasedOnNodeTermArray(dsNode, data.nodeTermsContext());
   } else if (dsNode["sh:datatype"]) {
     // datatype node
-    helper.reorderNodeBasedOnNodeTermArray(dsNode, data.nodeTermsDataTypeNode);
+    reorderNodeBasedOnNodeTermArray(dsNode, data.nodeTermsDataTypeNode);
   } else if (dsNode["sh:node"]) {
     // wrapper for class node / enumeration node - typically no term would be added here
   } else if (dsNode["@value"]) {
     // a language tagged-value
-    helper.reorderNodeBasedOnNodeTermArray(
-      dsNode,
-      data.nodeTermsLanguageTaggedValue
-    );
+    reorderNodeBasedOnNodeTermArray(dsNode, data.nodeTermsLanguageTaggedValue);
   }
 };
 
@@ -1685,11 +1680,11 @@ const dsPathAdditionV7 = (dsPath, additionType, inputForPath = undefined) => {
 };
 
 /**
- * Returns a node within the given DS based on the given ds-path.
+ * Returns a node within the given DS based on the given ds-path. (reference)
  *
  * @param ds {object} - The input DS
  * @param dsPath {string} - The input ds-path
- * @return {object} - The node at the given ds-path
+ * @return {object} - The node at the given ds-path (reference)
  */
 const dsPathGetNodeV7 = (ds, dsPath) => {
   // helper function to check if a given class combination array matches another class combination array
@@ -1923,7 +1918,7 @@ const dsPathIdentifyNodeTypeV7 = (dsNode, ds) => {
 const getDsNameV7 = (ds, language = undefined) => {
   const rootNode = getDsRootNodeV7(ds);
   if (rootNode["schema:name"]) {
-    return helper.getLanguageString(rootNode["schema:name"], language);
+    return getLanguageString(rootNode["schema:name"], language);
   }
   return undefined;
 };
@@ -1939,7 +1934,7 @@ const getDsNameV7 = (ds, language = undefined) => {
 const getDsDescriptionV7 = (ds, language = undefined) => {
   const rootNode = getDsRootNodeV7(ds);
   if (rootNode["schema:description"]) {
-    return helper.getLanguageString(rootNode["schema:description"], language);
+    return getLanguageString(rootNode["schema:description"], language);
   }
   return undefined;
 };
@@ -1992,7 +1987,7 @@ const getDsVersionV7 = (ds) => {
 };
 
 /**
- * Returns the used external vocabularies (ds:usedVocabulary) of the given DS.
+ * Returns the used external vocabularies (ds:usedVocabulary) of the given DS (clone - no reference).
  * ds:usedVocabulary is optional in DS-V7.
  *
  * @param ds {object} - the input DS
@@ -2001,13 +1996,13 @@ const getDsVersionV7 = (ds) => {
 const getDsExternalVocabulariesV7 = (ds) => {
   const rootNode = getDsRootNodeV7(ds);
   if (rootNode["ds:usedVocabulary"]) {
-    return rootNode["ds:usedVocabulary"];
+    return cloneJson(rootNode["ds:usedVocabulary"]);
   }
   return []; // instead of undefined, send an empty array for convenience
 };
 
 /**
- * Returns the target classes (sh:targetClass) of the given DS.
+ * Returns the target classes (sh:targetClass) of the given DS (clone - no reference).
  * sh:targetClass is optional in DS-V7.
  *
  * @param ds {object} - the input DS
@@ -2016,7 +2011,7 @@ const getDsExternalVocabulariesV7 = (ds) => {
 const getDsTargetClassesV7 = (ds) => {
   const rootNode = getDsRootNodeV7(ds);
   if (rootNode["sh:targetClass"]) {
-    return rootNode["sh:targetClass"];
+    return cloneJson(rootNode["sh:targetClass"]);
   }
   return []; // instead of undefined, send an empty array for convenience
 };
@@ -2041,5 +2036,5 @@ module.exports = {
   getDsTargetClassesV7,
 };
 
-},{"../../helperFunctions.js":4,"./../../helperFunctions.js":4,"./../data/dataV7.js":10,"nanoid":1}]},{},[5])(5)
+},{"../../helperFunctions.js":4,"./../data/dataV7.js":10,"nanoid":1}]},{},[5])(5)
 });
