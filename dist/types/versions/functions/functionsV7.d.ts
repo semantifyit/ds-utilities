@@ -1,12 +1,12 @@
 /**
- * Returns the root node of the given DS
+ * Returns the root node of the given DS (reference)
  *
  * @param ds {object} - The input DS
- * @return {object} The detected root node of the DS
+ * @return {object} The detected root node of the DS (reference)
  */
 export function getDsRootNodeV7(ds: object): object;
 /**
- * Returns the standard @context for DS-V7
+ * Returns the standard @context for DS-V7 (clone - no reference).
  *
  * @return {object} the standard @context for DS-V7
  */
@@ -15,14 +15,14 @@ export function getDsStandardContextV7(): object;
  * Returns the @id of the given DS (for DS-V7 this @id is found in the root node).
  * A DS @id is mandatory for DS-V7.
  *
- * @param ds  {object} - the input DS
+ * @param ds {object} - the input DS
  * @return {string} the @id of the given DS
  */
 export function getDsIdV7(ds: object): string;
 /**
  * Reorders all nodes of the given DS according to the DS specification for DS-V7
  *
- * @param ds  {object} - the input DS
+ * @param ds {object} - the input DS
  */
 export function reorderDsV7(ds: object): void;
 /**
@@ -58,11 +58,11 @@ export function dsPathInitV7(nodeType?: string, nodeId?: string): string;
  */
 export function dsPathAdditionV7(dsPath: string, additionType: string, inputForPath?: string | string[]): string;
 /**
- * Returns a node within the given DS based on the given ds-path.
+ * Returns a node within the given DS based on the given ds-path. (reference)
  *
  * @param ds {object} - The input DS
  * @param dsPath {string} - The input ds-path
- * @return {object} - The node at the given ds-path
+ * @return {object} - The node at the given ds-path (reference)
  */
 export function dsPathGetNodeV7(ds: object, dsPath: string): object;
 /**
@@ -116,7 +116,7 @@ export function getDsSchemaVersionV7(ds: object): string;
  */
 export function getDsVersionV7(ds: object): string | null;
 /**
- * Returns the used external vocabularies (ds:usedVocabulary) of the given DS.
+ * Returns the used external vocabularies (ds:usedVocabulary) of the given DS (clone - no reference).
  * ds:usedVocabulary is optional in DS-V7.
  *
  * @param ds {object} - the input DS
@@ -124,7 +124,7 @@ export function getDsVersionV7(ds: object): string | null;
  */
 export function getDsExternalVocabulariesV7(ds: object): string[];
 /**
- * Returns the target classes (sh:targetClass) of the given DS.
+ * Returns the target classes (sh:targetClass) of the given DS (clone - no reference).
  * sh:targetClass is optional in DS-V7.
  *
  * @param ds {object} - the input DS

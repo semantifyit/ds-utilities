@@ -1,12 +1,12 @@
 /**
- * Returns the root node of the given DS.
+ * Returns the root node of the given DS. (reference)
  *
  * @param ds {object} - The input DS
- * @return {object} - The detected root node of the DS
+ * @return {object} - The detected root node of the DS (reference)
  */
 export function getDsRootNodeV5(ds: object): object;
 /**
- * Returns the standard @context for DS-V5
+ * Returns the standard @context for DS-V5 (clone - no reference).
  *
  * @return {object} - the standard @context for DS-V5
  */
@@ -60,7 +60,7 @@ export function getDsSchemaVersionV5(ds: object): string;
  */
 export function getDsVersionV5(ds: object): string | null;
 /**
- * Returns the used external vocabularies (ds:usedVocabularies) of the given DS.
+ * Returns the used external vocabularies (ds:usedVocabularies) of the given DS (clone - no reference).
  * ds:usedVocabularies is optional in DS-V5.
  *
  * @param ds {object} - the input DS
@@ -68,7 +68,7 @@ export function getDsVersionV5(ds: object): string | null;
  */
 export function getDsExternalVocabulariesV5(ds: object): string[];
 /**
- * Returns the target classes (sh:targetClass) of the given DS.
+ * Returns the target classes (sh:targetClass) of the given DS (clone - no reference).
  * sh:targetClass is optional in DS-V5.
  *
  * @param ds {object} - the input DS
