@@ -29,10 +29,10 @@ const nodeTermsContext = () => {
     };
     if (typeof standardContext[t] === "string") {
       entry.valueType = "string";
-      entry.value = standardContext[t];
     } else {
       entry.valueType = "object";
     }
+    entry.value = standardContext[t];
     result.push(entry);
   }
   return result;
@@ -259,6 +259,19 @@ const nodeTermsDataTypeNode = [
     term: "sh:datatype",
     required: true,
     valueType: "string",
+    valueIn: [
+      "xsd:string",
+      "rdf:langString",
+      "rdf:HTML",
+      "xsd:boolean",
+      "xsd:date",
+      "xsd:dateTime",
+      "xsd:time",
+      "xsd:double",
+      "xsd:integer",
+      "xsd:float",
+      "xsd:anyURI",
+    ],
   },
   {
     term: "sh:defaultValue",

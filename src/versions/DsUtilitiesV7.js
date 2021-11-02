@@ -1,5 +1,6 @@
 const DsUtilitiesBase = require("./DsUtilitiesBase.js");
 const fV7 = require("./functions/functionsV7.js");
+const verifyDsV7 = require("../verification/versions/verificationV7.js");
 
 /**
  * A DsUtilities instance that offers an API for DS-V7
@@ -29,6 +30,8 @@ class DsUtilitiesV7 extends DsUtilitiesBase {
     this.getDsVersion = fV7.getDsVersionV7;
     this.getDsExternalVocabularies = fV7.getDsExternalVocabulariesV7;
     this.getDsTargetClasses = fV7.getDsTargetClassesV7;
+    // functions for the meta verification
+    this.verifyDs = verifyDsV7;
   }
 }
 

@@ -451,4 +451,11 @@ describe("DsUtilitiesV7", () => {
       dsu.getDsTargetClasses(testData.dsDs0NoRoot);
     }).toThrow("The given DS has no identifiable root node in DS-V7 format.");
   });
+
+  test("verifyDs()", () => {
+    const dsu = new DsUtilitiesV7();
+    const output = dsu.verifyDs(testData.dsDs0);
+    expect(output.result).toBe("Valid");
+    expect(output.errors.length).toBe(0);
+  });
 });

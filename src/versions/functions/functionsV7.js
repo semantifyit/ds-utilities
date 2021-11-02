@@ -226,6 +226,21 @@ const NODE_TYPE_DEF_EXTERNAL = "ExternalReferenceDefinition";
 const NODE_TYPE_DEF_INTERNAL_EXTERNAL = "InternalExternalReferenceDefinition";
 // "@context" is a special dsPath that points to the @context object of the DS
 
+const nodeTypesV7 = {
+  NODE_TYPE_ROOT,
+  NODE_TYPE_PROPERTY,
+  NODE_TYPE_CLASS,
+  NODE_TYPE_ENUMERATION,
+  NODE_TYPE_DATATYPE,
+  NODE_TYPE_REF_ROOT,
+  NODE_TYPE_REF_INTERNAL,
+  NODE_TYPE_REF_EXTERNAL,
+  NODE_TYPE_REF_INTERNAL_EXTERNAL,
+  NODE_TYPE_DEF_INTERNAL,
+  NODE_TYPE_DEF_EXTERNAL,
+  NODE_TYPE_DEF_INTERNAL_EXTERNAL,
+};
+
 /**
  * Initializes a DS Path string, based on the given inputs
  *
@@ -645,4 +660,5 @@ module.exports = {
   getDsVersionV7,
   getDsExternalVocabulariesV7,
   getDsTargetClassesV7,
+  nodeTypesV7,
 };
