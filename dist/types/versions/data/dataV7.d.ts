@@ -51,11 +51,17 @@ export const nodeTermsEnumerationNode: ({
     valueType: string;
     value: string;
 })[];
-export const nodeTermsDataTypeNode: {
+export const nodeTermsDataTypeNode: ({
     term: string;
     required: boolean;
     valueType: string;
-}[];
+    valueIn: string[];
+} | {
+    term: string;
+    required: boolean;
+    valueType: string;
+    valueIn?: undefined;
+})[];
 export const nodeTermsLanguageTaggedValue: {
     term: string;
     required: boolean;

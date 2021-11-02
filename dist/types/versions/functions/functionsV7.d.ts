@@ -131,3 +131,30 @@ export function getDsExternalVocabulariesV7(ds: object): string[];
  * @return {string[]} array with the target classes (empty if none)
  */
 export function getDsTargetClassesV7(ds: object): string[];
+export namespace nodeTypesV7 {
+    export { NODE_TYPE_ROOT };
+    export { NODE_TYPE_PROPERTY };
+    export { NODE_TYPE_CLASS };
+    export { NODE_TYPE_ENUMERATION };
+    export { NODE_TYPE_DATATYPE };
+    export { NODE_TYPE_REF_ROOT };
+    export { NODE_TYPE_REF_INTERNAL };
+    export { NODE_TYPE_REF_EXTERNAL };
+    export { NODE_TYPE_REF_INTERNAL_EXTERNAL };
+    export { NODE_TYPE_DEF_INTERNAL };
+    export { NODE_TYPE_DEF_EXTERNAL };
+    export { NODE_TYPE_DEF_INTERNAL_EXTERNAL };
+}
+declare const NODE_TYPE_ROOT: "RootNode";
+declare const NODE_TYPE_PROPERTY: "Property";
+declare const NODE_TYPE_CLASS: "Class";
+declare const NODE_TYPE_ENUMERATION: "Enumeration";
+declare const NODE_TYPE_DATATYPE: "DataType";
+declare const NODE_TYPE_REF_ROOT: "RootReference";
+declare const NODE_TYPE_REF_INTERNAL: "InternalReference";
+declare const NODE_TYPE_REF_EXTERNAL: "ExternalReference";
+declare const NODE_TYPE_REF_INTERNAL_EXTERNAL: "InternalExternalReference";
+declare const NODE_TYPE_DEF_INTERNAL: "InternalReferenceDefinition";
+declare const NODE_TYPE_DEF_EXTERNAL: "ExternalReferenceDefinition";
+declare const NODE_TYPE_DEF_INTERNAL_EXTERNAL: "InternalExternalReferenceDefinition";
+export {};

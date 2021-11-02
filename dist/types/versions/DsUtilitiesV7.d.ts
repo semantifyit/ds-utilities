@@ -21,5 +21,6 @@ declare class DsUtilitiesV7 extends DsUtilitiesBase {
     getDsVersion: (ds: any) => string;
     getDsExternalVocabularies: (ds: any) => string[];
     getDsTargetClasses: (ds: any) => string[];
+    verifyDs: (ds: any, config?: any) => any;
 }
 import DsUtilitiesBase = require("./DsUtilitiesBase.js");
