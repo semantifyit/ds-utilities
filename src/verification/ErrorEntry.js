@@ -1,8 +1,8 @@
 class ErrorEntry {
-  constructor(severity, path, name) {
-    this.severity = severity;
+  constructor(severity, path, description) {
+    this.severity = severity; // Warning, Error, Critical
     this.path = path;
-    this.name = name;
+    this.description = description;
   }
 }
 

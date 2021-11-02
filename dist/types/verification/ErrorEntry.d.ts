@@ -1,7 +1,7 @@
 export = ErrorEntry;
 declare class ErrorEntry {
-    constructor(severity: any, path: any, name: any);
+    constructor(severity: any, path: any, description: any);
     severity: any;
     path: any;
-    name: any;
+    description: any;
 }

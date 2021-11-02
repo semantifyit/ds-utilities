@@ -416,10 +416,10 @@ module.exports = {
 
 },{"./versions/DsUtilitiesBase.js":9,"./versions/DsUtilitiesV5.js":10,"./versions/DsUtilitiesV7.js":11}],6:[function(_dereq_,module,exports){
 class ErrorEntry {
-  constructor(severity, path, name) {
-    this.severity = severity;
+  constructor(severity, path, description) {
+    this.severity = severity; // Warning, Error, Critical
     this.path = path;
-    this.name = name;
+    this.description = description;
   }
 }
 
