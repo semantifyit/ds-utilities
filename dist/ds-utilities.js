@@ -802,6 +802,17 @@ const checkCompliance = (
           )
         );
         continue;
+      } else if (
+        valType === "array" &&
+        inputObject[termObj.term].length === 0
+      ) {
+        verificationReport.addErrorEntry(
+          new ErrorEntry(
+            "Error",
+            path,
+            "Term '" + termObj.term + "' has an empty array as value."
+          )
+        );
       }
       // value
       if (

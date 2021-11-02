@@ -19,6 +19,7 @@ testData.dsPropertyNodeWrong = require("../data/v7/verification/ds-propertynode-
 testData.dsClassNodeWrong = require("../data/v7/verification/ds-classnode-wrong.json");
 testData.dsDataTypeNodeWrong = require("../data/v7/verification/ds-datatypenode-wrong.json");
 testData.dsEnumerationNodeWrong = require("../data/v7/verification/ds-enumerationnode-wrong.json");
+testData.dsEmptyArrays = require("../data/v7/verification/ds-empty-arrays.json");
 
 // this is the meta verification configuration for semantify (how semantify wants the DS syntax to be, in contrast to the syntax given by the specification)
 const semantifyConfig = {
@@ -180,5 +181,13 @@ describe("DsUtilitiesV7", () => {
     const report = dsu.verifyDs(testData.dsEnumerationNodeWrong);
     expect(report.result).toBe("Invalid");
     expect(report.errors.length).toBe(4);
+  });
+
+  test("verifyDs() - empty array", () => {
+    // has 10 errors
+    const dsu = new DsUtilitiesV7();
+    const report = dsu.verifyDs(testData.dsEmptyArrays);
+    expect(report.result).toBe("Invalid");
+    expect(report.errors.length).toBe(10);
   });
 });
