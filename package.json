@@ -12,7 +12,7 @@
     "test": "jest",
     "badges": "jest-coverage-badges",
     "test:badges": "npm run-script test && npm run-script badges",
-    "getJsDocMD": "jsdoc2md src/index.js src/versions/*.js src/versions/functions/*.js > API.md",
+    "getJsDocMD": "jsdoc2md src/index.js src/versions/*.js src/versions/functions/*.js src/verification/**/*.js > API.md",
     "eslint-check": "eslint \"{**/*,*}.js\"",
     "eslint-repair": "eslint --fix \"{**/*,*}.js\"",
     "prettier-check": "prettier --check \"{**/*,*}.js\"",

@@ -1,5 +1,10 @@
 # Changelog
 
+1.3.0 / 2021-11-03
+==================
+
+* Introduction of the `verifyDs()` function to DS-v7.
+
 1.2.0 / 2021-10-13
 ==================
 

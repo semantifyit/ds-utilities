@@ -138,6 +138,9 @@ ds:usedVocabulary is optional in DS-V7.</p>
 <dd><p>Returns the target classes (sh:targetClass) of the given DS (clone - no reference).
 sh:targetClass is optional in DS-V7.</p>
 </dd>
+<dt><a href="#verifyDsV7">verifyDsV7(ds, config)</a> ⇒ <code>object</code></dt>
+<dd><p>Returns a meta verification report</p>
+</dd>
 </dl>
 
 <a name="DsUtilitiesV5"></a>
@@ -557,4 +560,17 @@ sh:targetClass is optional in DS-V7.
 | Param | Type | Description |
 | --- | --- | --- |
 | ds | <code>object</code> | the input DS |
+
+<a name="verifyDsV7"></a>
+
+## verifyDsV7(ds, config) ⇒ <code>object</code>
+Returns a meta verification report
+
+**Kind**: global function  
+**Returns**: <code>object</code> - verification report  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ds | <code>object</code> | the input DS |
+| config | <code>object</code> | optional config object with options for the meta verification |
 
