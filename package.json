@@ -25,6 +25,11 @@
     "utilities"
   ],
   "author": "Omar J. A. Holzknecht",
+  "homepage": "https://github.com/semantifyit/ds-utilities",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/semantifyit/ds-utilities"
+  },
   "license": "Apache-2.0",
   "dependencies": {
     "nanoid": "^3.1.25"
