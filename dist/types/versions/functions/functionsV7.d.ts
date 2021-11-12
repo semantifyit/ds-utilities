@@ -145,6 +145,18 @@ export namespace nodeTypesV7 {
     export { NODE_TYPE_DEF_EXTERNAL };
     export { NODE_TYPE_DEF_INTERNAL_EXTERNAL };
 }
+/**
+ * Returns true if the given classes are a valid match for the given targetClasses following the DS-V7 semantics
+ * This matching is important for the Class-SubClass relationship (e.g. subDS, or range subclass)
+ * https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/verificationreport/ds-verification#semantics-for-class-matching
+ * This function needs the SDO-Adapter library to work - https://www.npmjs.com/package/schema-org-adapter
+ *
+ * @param targetClasses {string[]} - The target classes (DS)
+ * @param classesToCheck {string[]} - The classes to be checked (Data)
+ * @param sdoAdapter {SDOAdapter} - A SDO-Adapter instance (already initialized with the wished vocabularies)
+ * @return {boolean} - True if the given classes to check are valid for the given target classes
+ */
+export function checkClassMatchV7(targetClasses: string[], classesToCheck: string[], sdoAdapter: any): boolean;
 declare const NODE_TYPE_ROOT: "RootNode";
 declare const NODE_TYPE_PROPERTY: "Property";
 declare const NODE_TYPE_CLASS: "Class";

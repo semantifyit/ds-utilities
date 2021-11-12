@@ -22,5 +22,6 @@ declare class DsUtilitiesV7 extends DsUtilitiesBase {
     getDsExternalVocabularies: (ds: any) => string[];
     getDsTargetClasses: (ds: any) => string[];
     verifyDs: (ds: any, config?: any) => any;
+    checkClassMatch: (targetClasses: string[], classesToCheck: string[], sdoAdapter: any) => boolean;
 }
 import DsUtilitiesBase = require("./DsUtilitiesBase.js");
