@@ -1,3 +1,4 @@
+const SDOAdapter = require("schema-org-adapter");
 const DsUtilitiesV7 = require("./../../src/versions/DsUtilitiesV7.js");
 const data = require("./../../src/versions/data/dataV7.js");
 const { cloneJson, isObject } = require("../../src/helperFunctions.js");
@@ -457,5 +458,104 @@ describe("DsUtilitiesV7", () => {
     const output = dsu.verifyDs(testData.dsDs0);
     expect(output.result).toBe("Valid");
     expect(output.errors.length).toBe(0);
+  });
+
+  test("checkClassMatch()", async () => {
+    const mySdoAdapter = new SDOAdapter();
+    const mySDOUrl = await mySdoAdapter.constructSDOVocabularyURL("latest");
+    await mySdoAdapter.addVocabularies([mySDOUrl]);
+    const dsu = new DsUtilitiesV7();
+    expect(
+      dsu.checkClassMatch(
+        ["schema:LodgingBusiness"],
+        ["schema:Hotel"],
+        mySdoAdapter
+      )
+    ).toBe(true);
+    expect(
+      dsu.checkClassMatch(
+        ["schema:LodgingBusiness"],
+        ["schema:LodgingBusiness"],
+        mySdoAdapter
+      )
+    ).toBe(true);
+    expect(
+      dsu.checkClassMatch(
+        ["schema:Hotel"],
+        ["schema:LodgingBusiness"],
+        mySdoAdapter
+      )
+    ).toBe(false);
+    expect(
+      dsu.checkClassMatch(
+        ["schema:Organization", "schema:Place"],
+        ["schema:CreativeWork"],
+        mySdoAdapter
+      )
+    ).toBe(false);
+    // examples from https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/verificationreport/ds-verification#semantics-for-class-matching
+    expect(
+      dsu.checkClassMatch(
+        ["schema:Organization", "schema:Place"],
+        ["schema:Restaurant"],
+        mySdoAdapter
+      )
+    ).toBe(true);
+    expect(
+      dsu.checkClassMatch(
+        ["schema:LodgingBusiness"],
+        ["schema:LodgingBusiness", "schema:Product"],
+        mySdoAdapter
+      )
+    ).toBe(true);
+    expect(
+      dsu.checkClassMatch(
+        ["schema:LodgingBusiness"],
+        ["schema:Motel"],
+        mySdoAdapter
+      )
+    ).toBe(true);
+    expect(
+      dsu.checkClassMatch(
+        ["schema:LodgingBusiness"],
+        ["schema:CreativeWork"],
+        mySdoAdapter
+      )
+    ).toBe(false);
+    expect(
+      dsu.checkClassMatch(
+        ["schema:LodgingBusiness", "schema:Product"],
+        ["schema:LodgingBusiness", "schema:Product"],
+        mySdoAdapter
+      )
+    ).toBe(true);
+    expect(
+      dsu.checkClassMatch(
+        ["schema:LodgingBusiness", "schema:Product"],
+        ["schema:LodgingBusiness", "schema:Product", "schema:CreativeWork"],
+        mySdoAdapter
+      )
+    ).toBe(true);
+    expect(
+      dsu.checkClassMatch(
+        ["schema:LodgingBusiness", "schema:Product"],
+        ["schema:Hotel", "schema:Product"],
+        mySdoAdapter
+      )
+    ).toBe(true);
+    expect(
+      dsu.checkClassMatch(
+        ["schema:LodgingBusiness", "schema:Product"],
+        ["schema:LodgingBusiness"],
+        mySdoAdapter
+      )
+    ).toBe(false);
+    expect(
+      dsu.checkClassMatch(
+        ["schema:LodgingBusiness", "schema:Product"],
+        ["schema:CreativeWork"],
+        mySdoAdapter
+      )
+    ).toBe(false);
   });
 });

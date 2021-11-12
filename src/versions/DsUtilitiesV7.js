@@ -32,6 +32,8 @@ class DsUtilitiesV7 extends DsUtilitiesBase {
     this.getDsTargetClasses = fV7.getDsTargetClassesV7;
     // functions for the meta verification
     this.verifyDs = verifyDsV7;
+    // other algorithms
+    this.checkClassMatch = fV7.checkClassMatchV7;
   }
 }
 

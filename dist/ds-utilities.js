@@ -1029,6 +1029,8 @@ class DsUtilitiesV7 extends DsUtilitiesBase {
     this.getDsTargetClasses = fV7.getDsTargetClassesV7;
     // functions for the meta verification
     this.verifyDs = verifyDsV7;
+    // other algorithms
+    this.checkClassMatch = fV7.checkClassMatchV7;
   }
 }
 
@@ -2568,6 +2570,31 @@ const getDsTargetClassesV7 = (ds) => {
   return []; // instead of undefined, send an empty array for convenience
 };
 
+//
+/**
+ * Returns true if the given classes are a valid match for the given targetClasses following the DS-V7 semantics
+ * This matching is important for the Class-SubClass relationship (e.g. subDS, or range subclass)
+ * https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/verificationreport/ds-verification#semantics-for-class-matching
+ * This function needs the SDO-Adapter library to work - https://www.npmjs.com/package/schema-org-adapter
+ *
+ * @param targetClasses {string[]} - The target classes (DS)
+ * @param classesToCheck {string[]} - The classes to be checked (Data)
+ * @param sdoAdapter {SDOAdapter} - A SDO-Adapter instance (already initialized with the wished vocabularies)
+ * @return {boolean} - True if the given classes to check are valid for the given target classes
+ */
+const checkClassMatchV7 = (targetClasses, classesToCheck, sdoAdapter) => {
+  // get a set of all superclasses (including themselves) from the classesToCheck
+  const superClassSet = Array.from(
+    new Set(
+      classesToCheck.flatMap((c) => [
+        c,
+        ...sdoAdapter.getClass(c).getSuperClasses(),
+      ])
+    )
+  );
+  return targetClasses.every((tc) => superClassSet.includes(tc));
+};
+
 module.exports = {
   getDsRootNodeV7,
   getDsStandardContextV7,
@@ -2587,6 +2614,7 @@ module.exports = {
   getDsExternalVocabulariesV7,
   getDsTargetClassesV7,
   nodeTypesV7,
+  checkClassMatchV7,
 };
 
 },{"../../helperFunctions.js":4,"./../data/dataV7.js":13,"nanoid":1}]},{},[5])(5)

@@ -138,6 +138,12 @@ ds:usedVocabulary is optional in DS-V7.</p>
 <dd><p>Returns the target classes (sh:targetClass) of the given DS (clone - no reference).
 sh:targetClass is optional in DS-V7.</p>
 </dd>
+<dt><a href="#checkClassMatchV7">checkClassMatchV7(targetClasses, classesToCheck, sdoAdapter)</a> ⇒ <code>boolean</code></dt>
+<dd><p>Returns true if the given classes are a valid match for the given targetClasses following the DS-V7 semantics
+This matching is important for the Class-SubClass relationship (e.g. subDS, or range subclass)
+<a href="https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/verificationreport/ds-verification#semantics-for-class-matching">https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/verificationreport/ds-verification#semantics-for-class-matching</a>
+This function needs the SDO-Adapter library to work - <a href="https://www.npmjs.com/package/schema-org-adapter">https://www.npmjs.com/package/schema-org-adapter</a></p>
+</dd>
 <dt><a href="#verifyDsV7">verifyDsV7(ds, config)</a> ⇒ <code>object</code></dt>
 <dd><p>Returns a meta verification report</p>
 </dd>
@@ -560,6 +566,23 @@ sh:targetClass is optional in DS-V7.
 | Param | Type | Description |
 | --- | --- | --- |
 | ds | <code>object</code> | the input DS |
+
+<a name="checkClassMatchV7"></a>
+
+## checkClassMatchV7(targetClasses, classesToCheck, sdoAdapter) ⇒ <code>boolean</code>
+Returns true if the given classes are a valid match for the given targetClasses following the DS-V7 semantics
+This matching is important for the Class-SubClass relationship (e.g. subDS, or range subclass)
+https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/verificationreport/ds-verification#semantics-for-class-matching
+This function needs the SDO-Adapter library to work - https://www.npmjs.com/package/schema-org-adapter
+
+**Kind**: global function  
+**Returns**: <code>boolean</code> - - True if the given classes to check are valid for the given target classes  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| targetClasses | <code>Array.&lt;string&gt;</code> | The target classes (DS) |
+| classesToCheck | <code>Array.&lt;string&gt;</code> | The classes to be checked (Data) |
+| sdoAdapter | <code>SDOAdapter</code> | A SDO-Adapter instance (already initialized with the wished vocabularies) |
 
 <a name="verifyDsV7"></a>
 

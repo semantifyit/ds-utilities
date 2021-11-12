@@ -1,5 +1,10 @@
 # Changelog
 
+1.4.0 / 2021-11-12
+==================
+
+* Introduction of the `checkClassMatch()` function to DS-v7.
+
 1.3.0 / 2021-11-03
 ==================
 
