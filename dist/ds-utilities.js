@@ -2584,14 +2584,11 @@ const getDsTargetClassesV7 = (ds) => {
  */
 const checkClassMatchV7 = (targetClasses, classesToCheck, sdoAdapter) => {
   // get a set of all superclasses (including themselves) from the classesToCheck
-  const superClassSet = Array.from(
-    new Set(
-      classesToCheck.flatMap((c) => [
-        c,
-        ...sdoAdapter.getClass(c).getSuperClasses(),
-      ])
-    )
+  const superClassesArray = [];
+  classesToCheck.map((c) =>
+    superClassesArray.push(...[c, ...sdoAdapter.getClass(c).getSuperClasses()])
   );
+  const superClassSet = Array.from(new Set(superClassesArray));
   return targetClasses.every((tc) => superClassSet.includes(tc));
 };
 
