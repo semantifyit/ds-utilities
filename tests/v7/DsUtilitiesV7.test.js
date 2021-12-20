@@ -461,9 +461,9 @@ describe("DsUtilitiesV7", () => {
   });
 
   test("checkClassMatch()", async () => {
-    const mySdoAdapter = new SDOAdapter();
-    const mySDOUrl = await mySdoAdapter.constructSDOVocabularyURL("latest");
-    await mySdoAdapter.addVocabularies([mySDOUrl]);
+    const mySdoAdapter = await SDOAdapter.create({
+      schemaVersion: "latest",
+    });
     const dsu = new DsUtilitiesV7();
     expect(
       dsu.checkClassMatch(

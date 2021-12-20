@@ -1,5 +1,15 @@
 # Changelog
 
+1.4.2 / 2021-12-20
+==================
+
+* Upgraded used version of [schema-org-adapter](https://www.npmjs.com/package/schema-org-adapter). DS-utilities still works with the previous version though.
+
+1.4.1 / 2021-12-15
+==================
+
+* Refactoring of the checkClassMatch function to use only functions that are available in Node 10. (flatMap() is 11+)
+
 1.4.0 / 2021-11-12
 ==================
 

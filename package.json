@@ -1,6 +1,6 @@
 {
   "name": "ds-utilities",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "A helper library that provides functions to handle Domain Specifications.",
   "main": "src/index.js",
   "types": "dist/types/index.d.ts",
@@ -49,7 +49,7 @@
     "jsdoc": "^3.6.7",
     "jsdoc-to-markdown": "^7.0.1",
     "prettier": "^2.4.0",
-    "schema-org-adapter": "^4.3.0",
+    "schema-org-adapter": "^5.0.1",
     "uglifyify": "^5.0.2"
   },
   "jest": {
