@@ -9,7 +9,7 @@ const { isObject, cloneJson } = require("../../helperFunctions.js");
 const ErrorEntry = require("../../verification/ErrorEntry.js");
 const dataV7 = require("../../versions/data/dataV7.js");
 const fv7 = require("../../versions/functions/functionsV7.js");
-const nodeTypes = fv7.nodeTypesV7;
+const dsPathNodeTypes = dataV7.dsPathNodeTypesV7;
 /**
  * Returns a meta verification report
  *
@@ -57,7 +57,7 @@ const verifyDsV7 = (ds, config = {}) => {
       ds,
       rootNode,
       verificationReport,
-      fv7.dsPathInitV7(nodeTypes.NODE_TYPE_ROOT),
+      fv7.dsPathInitV7(dsPathNodeTypes.DS_PATH_NODE_TYPE_ROOT),
       config,
       true
     );
@@ -70,7 +70,10 @@ const verifyDsV7 = (ds, config = {}) => {
         ds,
         graphNode,
         verificationReport,
-        fv7.dsPathInitV7(nodeTypes.NODE_TYPE_DEF_INTERNAL, graphNode["@id"]),
+        fv7.dsPathInitV7(
+          dsPathNodeTypes.DS_PATH_NODE_TYPE_DEF_INTERNAL,
+          graphNode["@id"]
+        ),
         config,
         false
       );
@@ -119,7 +122,7 @@ const verifyClassNode = (
         verificationReport,
         fv7.dsPathAdditionV7(
           path,
-          nodeTypes.NODE_TYPE_PROPERTY,
+          dsPathNodeTypes.DS_PATH_NODE_TYPE_PROPERTY,
           pNode["sh:path"]
         ),
         config
@@ -218,7 +221,7 @@ const verifyPropertyNode = (
       }
       let newPath;
       switch (nodeType) {
-        case nodeTypes.NODE_TYPE_CLASS:
+        case dsPathNodeTypes.DS_PATH_NODE_TYPE_CLASS:
           try {
             newPath = fv7.dsPathAdditionV7(
               path,
@@ -238,7 +241,7 @@ const verifyPropertyNode = (
             false
           );
           break;
-        case nodeTypes.NODE_TYPE_ENUMERATION:
+        case dsPathNodeTypes.DS_PATH_NODE_TYPE_ENUMERATION:
           try {
             newPath = fv7.dsPathAdditionV7(
               path,
@@ -257,7 +260,7 @@ const verifyPropertyNode = (
             config
           );
           break;
-        case nodeTypes.NODE_TYPE_DATATYPE:
+        case dsPathNodeTypes.DS_PATH_NODE_TYPE_DATATYPE:
           try {
             newPath = fv7.dsPathAdditionV7(
               path,

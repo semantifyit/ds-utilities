@@ -362,11 +362,33 @@ const isObject = (val) => {
   return val instanceof Object && !(val instanceof Array);
 };
 
+// returns true if two given objects are deeply equal
+function deepEqual(object1, object2) {
+  const keys1 = Object.keys(object1);
+  const keys2 = Object.keys(object2);
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+  for (const key of keys1) {
+    const val1 = object1[key];
+    const val2 = object2[key];
+    const areObjects = isObject(val1) && isObject(val2);
+    if (
+      (areObjects && !deepEqual(val1, val2)) ||
+      (!areObjects && val1 !== val2)
+    ) {
+      return false;
+    }
+  }
+  return true;
+}
+
 module.exports = {
   cloneJson,
   getLanguageString,
   reorderNodeBasedOnNodeTermArray,
   isObject,
+  deepEqual,
 };
 
 },{}],5:[function(_dereq_,module,exports){
@@ -470,7 +492,7 @@ const { isObject, cloneJson } = _dereq_("../../helperFunctions.js");
 const ErrorEntry = _dereq_("../../verification/ErrorEntry.js");
 const dataV7 = _dereq_("../../versions/data/dataV7.js");
 const fv7 = _dereq_("../../versions/functions/functionsV7.js");
-const nodeTypes = fv7.nodeTypesV7;
+const dsPathNodeTypes = dataV7.dsPathNodeTypesV7;
 /**
  * Returns a meta verification report
  *
@@ -518,7 +540,7 @@ const verifyDsV7 = (ds, config = {}) => {
       ds,
       rootNode,
       verificationReport,
-      fv7.dsPathInitV7(nodeTypes.NODE_TYPE_ROOT),
+      fv7.dsPathInitV7(dsPathNodeTypes.DS_PATH_NODE_TYPE_ROOT),
       config,
       true
     );
@@ -531,7 +553,10 @@ const verifyDsV7 = (ds, config = {}) => {
         ds,
         graphNode,
         verificationReport,
-        fv7.dsPathInitV7(nodeTypes.NODE_TYPE_DEF_INTERNAL, graphNode["@id"]),
+        fv7.dsPathInitV7(
+          dsPathNodeTypes.DS_PATH_NODE_TYPE_DEF_INTERNAL,
+          graphNode["@id"]
+        ),
         config,
         false
       );
@@ -580,7 +605,7 @@ const verifyClassNode = (
         verificationReport,
         fv7.dsPathAdditionV7(
           path,
-          nodeTypes.NODE_TYPE_PROPERTY,
+          dsPathNodeTypes.DS_PATH_NODE_TYPE_PROPERTY,
           pNode["sh:path"]
         ),
         config
@@ -679,7 +704,7 @@ const verifyPropertyNode = (
       }
       let newPath;
       switch (nodeType) {
-        case nodeTypes.NODE_TYPE_CLASS:
+        case dsPathNodeTypes.DS_PATH_NODE_TYPE_CLASS:
           try {
             newPath = fv7.dsPathAdditionV7(
               path,
@@ -699,7 +724,7 @@ const verifyPropertyNode = (
             false
           );
           break;
-        case nodeTypes.NODE_TYPE_ENUMERATION:
+        case dsPathNodeTypes.DS_PATH_NODE_TYPE_ENUMERATION:
           try {
             newPath = fv7.dsPathAdditionV7(
               path,
@@ -718,7 +743,7 @@ const verifyPropertyNode = (
             config
           );
           break;
-        case nodeTypes.NODE_TYPE_DATATYPE:
+        case dsPathNodeTypes.DS_PATH_NODE_TYPE_DATATYPE:
           try {
             newPath = fv7.dsPathAdditionV7(
               path,
@@ -1014,11 +1039,16 @@ class DsUtilitiesV7 extends DsUtilitiesBase {
     this.reorderDs = fV7.reorderDsV7;
     this.reorderDsNode = fV7.reorderDsNodeV7;
     this.generateInnerNodeId = fV7.generateInnerNodeIdV7;
+    this.getDataTypeLabel = fV7.getDataTypeLabelV7;
+    this.getDsDataTypeForSchemaDataType = fV7.getDsDataTypeForSchemaDataTypeV7;
+    this.getSchemaDataTypeForDsDataType = fV7.getSchemaDataTypeForDsDataTypeV7;
+    this.identifyDsGrammarNodeType = fV7.identifyDsGrammarNodeTypeV7;
     // functions for the handling of DS Paths, e.g. "$.schema:address/schema:PostalAddress"
     this.dsPathInit = fV7.dsPathInitV7;
     this.dsPathAddition = fV7.dsPathAdditionV7;
     this.dsPathGetNode = fV7.dsPathGetNodeV7;
-    this.dsPathIdentifyNodeType = fV7.dsPathIdentifyNodeTypeV7;
+    this.dsPathIdentifyNodeType = fV7.dsPathIdentifyNodeTypeV7; // these are the node type for the ds path
+    this.tokenizeDsPath = fV7.tokenizeDsPathV7;
     // functions that ease the UI interaction with DS
     this.getDsName = fV7.getDsNameV7;
     this.getDsDescription = fV7.getDsDescriptionV7;
@@ -1603,6 +1633,92 @@ const standardContext = {
   },
 };
 
+const DS_GRAMMAR_NODE_TYPE_CONTEXT = "Context";
+const DS_GRAMMAR_NODE_TYPE_ROOT = "RootNode"; // root node
+const DS_GRAMMAR_NODE_TYPE_CLASS_S = "StandardClass"; // has no sh:property
+const DS_GRAMMAR_NODE_TYPE_CLASS_R = "RestrictedClass"; // has sh:property
+const DS_GRAMMAR_NODE_TYPE_ENUMERATION_S = "StandardEnumeration"; // has no sh:in
+const DS_GRAMMAR_NODE_TYPE_ENUMERATION_R = "RestrictedEnumeration"; // has sh:in
+const DS_GRAMMAR_NODE_TYPE_PROPERTY = "Property";
+const DS_GRAMMAR_NODE_TYPE_DATATYPE = "DataType";
+const DS_GRAMMAR_NODE_TYPE_ENUMERATIONMEMBER = "EnumerationMember";
+
+const dsGrammarNodeTypesV7 = {
+  DS_GRAMMAR_NODE_TYPE_CONTEXT,
+  DS_GRAMMAR_NODE_TYPE_ROOT,
+  DS_GRAMMAR_NODE_TYPE_CLASS_S,
+  DS_GRAMMAR_NODE_TYPE_CLASS_R,
+  DS_GRAMMAR_NODE_TYPE_ENUMERATION_S,
+  DS_GRAMMAR_NODE_TYPE_ENUMERATION_R,
+  DS_GRAMMAR_NODE_TYPE_PROPERTY,
+  DS_GRAMMAR_NODE_TYPE_DATATYPE,
+  DS_GRAMMAR_NODE_TYPE_ENUMERATIONMEMBER,
+};
+
+const DS_PATH_NODE_TYPE_CONTEXT = "Context"; // "@context" is a special dsPath that points to the @context object of the DS - possible start
+const DS_PATH_NODE_TYPE_ROOT = "RootNode"; // possible start
+const DS_PATH_NODE_TYPE_DEF_INTERNAL = "InternalReferenceDefinition"; // possible start
+const DS_PATH_NODE_TYPE_DEF_EXTERNAL = "ExternalReferenceDefinition"; // possible start
+const DS_PATH_NODE_TYPE_DEF_INTERNAL_EXTERNAL =
+  "InternalExternalReferenceDefinition"; // possible start
+
+const DS_PATH_NODE_TYPE_PROPERTY = "Property";
+const DS_PATH_NODE_TYPE_CLASS = "Class";
+const DS_PATH_NODE_TYPE_ENUMERATION = "Enumeration";
+// add ds path node type for enumeration member (which is in sh:in)? .schema:dayOfWeek/schema:DayOfWeek::schema:Friday ? such a node has no interesting information though, it is only a reference, e.g. { "@id": "schema:Friday" }
+const DS_PATH_NODE_TYPE_DATATYPE = "DataType";
+
+// these are references, although they point to a reference object, e.g. { "@id": "xyz" }, the path functions return the referenced entity instead of the reference object
+const DS_PATH_NODE_TYPE_REF_ROOT = "RootReference";
+const DS_PATH_NODE_TYPE_REF_INTERNAL = "InternalReference";
+const DS_PATH_NODE_TYPE_REF_EXTERNAL = "ExternalReference";
+const DS_PATH_NODE_TYPE_REF_INTERNAL_EXTERNAL = "InternalExternalReference";
+
+const dsPathNodeTypesV7 = {
+  DS_PATH_NODE_TYPE_CONTEXT,
+  DS_PATH_NODE_TYPE_ROOT,
+  DS_PATH_NODE_TYPE_PROPERTY,
+  DS_PATH_NODE_TYPE_CLASS,
+  DS_PATH_NODE_TYPE_ENUMERATION,
+  DS_PATH_NODE_TYPE_DATATYPE,
+  DS_PATH_NODE_TYPE_REF_ROOT,
+  DS_PATH_NODE_TYPE_REF_INTERNAL,
+  DS_PATH_NODE_TYPE_REF_EXTERNAL,
+  DS_PATH_NODE_TYPE_REF_INTERNAL_EXTERNAL,
+  DS_PATH_NODE_TYPE_DEF_INTERNAL,
+  DS_PATH_NODE_TYPE_DEF_EXTERNAL,
+  DS_PATH_NODE_TYPE_DEF_INTERNAL_EXTERNAL,
+};
+
+// https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/domainspecification/datatype#3.1.-datatype-mapping
+const dataTypeMappingToSchema = {
+  "xsd:string": "schema:Text",
+  "rdf:langString": "schema:Text",
+  "rdf:HTML": "schema:Text",
+  "xsd:boolean": "schema:Boolean",
+  "xsd:date": "schema:Date",
+  "xsd:dateTime": "schema:DateTime",
+  "xsd:time": "schema:Time",
+  "xsd:double": "schema:Number",
+  "xsd:integer": "schema:Integer",
+  "xsd:float": "schema:Float",
+  "xsd:anyURI": "schema:URL",
+};
+
+const dataTypeMappingToLabel = {
+  "xsd:string": "Text",
+  "rdf:langString": "Localized Text",
+  "rdf:HTML": "HTML Text",
+  "xsd:boolean": "Boolean",
+  "xsd:date": "Date",
+  "xsd:dateTime": "DateTime",
+  "xsd:time": "Time",
+  "xsd:double": "Number",
+  "xsd:integer": "Integer",
+  "xsd:float": "Float",
+  "xsd:anyURI": "URL",
+};
+
 module.exports = {
   nodeTermsDsObject,
   nodeTermsContext,
@@ -1613,6 +1729,10 @@ module.exports = {
   nodeTermsDataTypeNode,
   nodeTermsLanguageTaggedValue,
   standardContext,
+  dsGrammarNodeTypesV7,
+  dsPathNodeTypesV7,
+  dataTypeMappingToSchema,
+  dataTypeMappingToLabel,
 };
 
 },{}],14:[function(_dereq_,module,exports){
@@ -1931,13 +2051,21 @@ module.exports = {
  */
 
 const data = _dereq_("./../data/dataV7.js");
+const dsPathNodeTypes = data.dsPathNodeTypesV7;
 const { customAlphabet } = _dereq_("nanoid");
 const {
   isObject,
   cloneJson,
   reorderNodeBasedOnNodeTermArray,
   getLanguageString,
+  deepEqual,
 } = _dereq_("../../helperFunctions.js");
+const { prettyPrintCompactedIRI } = _dereq_("./functionsBase.js");
+const {
+  dataTypeMappingToLabel,
+  dataTypeMappingToSchema,
+  dsGrammarNodeTypesV7,
+} = _dereq_("../data/dataV7.js");
 
 /*
  * ===========================================
@@ -2134,40 +2262,134 @@ const generateInnerNodeIdV7 = (ds = undefined) => {
   return newId;
 };
 
+/**
+ * Returns a human-readable label for the given DS-DataType (e.g. "xsd:string" -> "Text")
+ *
+ * @param {string} dsDataType - a compacted IRI representing a DataType of DS-V7 (from XSD or RDF, e.g. "xsd:string" or "rdf:langString")
+ * @return {string} - a human-readable label for the given DataType
+ */
+const getDataTypeLabelV7 = (dsDataType) => {
+  const match = dataTypeMappingToLabel[dsDataType];
+  if (!match) {
+    throw new Error(
+      "Given input '" +
+        dsDataType +
+        "' is not a valid xsd/rdf datatype in DS-V7."
+    );
+  }
+  return match;
+};
+
+/**
+ * Returns the corresponding DS-V7 datatype (XSD/RDF) for a given schema.org datatype.
+ * ATTENTION: for schema:Text the value xsd:string is always returned (no rdf:langString or rdf:HTML)
+ *
+ * @param {string} schemaDataType - a compacted IRI representing a DataType of schema.org (e.g. schema:Text)
+ * @return {string} - the corresponding DS-V7 Datatype (from XSD or RDF)
+ */
+const getDsDataTypeForSchemaDataTypeV7 = (schemaDataType) => {
+  const match = Object.keys(dataTypeMappingToSchema).find((el) => {
+    return dataTypeMappingToSchema[el] === schemaDataType;
+  });
+  if (!match) {
+    throw new Error(
+      "Given input '" +
+        schemaDataType +
+        "' is not a valid schema.org datatype in DS-V7."
+    );
+  }
+  return match;
+};
+
+/**
+ * Returns the corresponding schema.org datatype for a given DS-V7 datatype (XSD/RDF)
+ *
+ * @param {string} dsDataType - a compacted IRI representing a DataType of DS-V7 (from XSD or RDF, e.g. "xsd:string" or "rdf:langString")
+ * @return {string} - the corresponding schema.org Datatype
+ */
+const getSchemaDataTypeForDsDataTypeV7 = (dsDataType) => {
+  const match = dataTypeMappingToSchema[dsDataType];
+  if (!match) {
+    throw new Error(
+      "Given input '" +
+        dsDataType +
+        "' is not a valid xsd/rdf datatype in DS-V7."
+    );
+  }
+  return match;
+};
+
+/**
+ * Returns the grammar-type of the given DS Node within the given populated DS. It is possible to pass an SDO-Adapter to tell a standard enumeration apart from a standard class. If no SDO-Adapter is given, a standard class is assumed. If a reference node is passed (not an enumeration member) then the grammar type of the referenced node is returned (e.g. internal reference may point to a Restricted Class node -> "RestrictedClass").
+ *
+ * @param dsNode {object?} - the input DS Node
+ * @param ds {object} - the input DS (populated)
+ * @param sdoAdapter {SDOAdapter?} - A SDO-Adapter instance (already initialized with the wished vocabularies) -
+ * @return {string} the type of the given node
+ */
+const identifyDsGrammarNodeTypeV7 = (dsNode, ds, sdoAdapter = undefined) => {
+  const rootNode = getDsRootNodeV7(ds);
+  // check if it is @context
+  const contextNode = dsPathGetNodeV7(ds, "@context");
+  if (deepEqual(dsNode, contextNode)) {
+    return dsGrammarNodeTypesV7.DS_GRAMMAR_NODE_TYPE_CONTEXT;
+  }
+  // check if it is the DS root node (is also a restricted class, but we have an own identifier for the root node)
+  if (deepEqual(dsNode, rootNode)) {
+    return dsGrammarNodeTypesV7.DS_GRAMMAR_NODE_TYPE_ROOT;
+  }
+  // property
+  if (dsNode["@type"] === "sh:PropertyShape") {
+    return dsGrammarNodeTypesV7.DS_GRAMMAR_NODE_TYPE_PROPERTY;
+  }
+  // datatype
+  if (dsNode["sh:datatype"]) {
+    return dsGrammarNodeTypesV7.DS_GRAMMAR_NODE_TYPE_DATATYPE;
+  }
+  // class or enumeration
+  if (dsNode["@type"] === "sh:NodeShape") {
+    // restricted class
+    if (dsNode["sh:property"]) {
+      return dsGrammarNodeTypesV7.DS_GRAMMAR_NODE_TYPE_CLASS_R;
+    }
+    // restricted enumeration
+    if (dsNode["sh:in"]) {
+      return dsGrammarNodeTypesV7.DS_GRAMMAR_NODE_TYPE_ENUMERATION_R;
+    }
+    if (dsNode["sh:class"].length === 1 && sdoAdapter) {
+      try {
+        sdoAdapter.getEnumeration(dsNode["sh:class"][0]);
+        return dsGrammarNodeTypesV7.DS_GRAMMAR_NODE_TYPE_ENUMERATION_S;
+      } catch (e) {
+        // not an enumeration
+        return dsGrammarNodeTypesV7.DS_GRAMMAR_NODE_TYPE_CLASS_S;
+      }
+    } else {
+      // if no sdo adapter is given, then a standard class is expected
+      return dsGrammarNodeTypesV7.DS_GRAMMAR_NODE_TYPE_CLASS_S;
+    }
+  }
+  // reference or enumeration member
+  if (dsNode["@id"] && Object.keys(dsNode).length === 1) {
+    // node reference
+    const match = ds["@graph"].find((el) => {
+      return dsNode["@id"] === el["@id"];
+    });
+    if (match) {
+      // let this function check the referenced object
+      return identifyDsGrammarNodeTypeV7(match, ds, sdoAdapter);
+    }
+    // else: assume it is an enumeration member
+    return dsGrammarNodeTypesV7.DS_GRAMMAR_NODE_TYPE_ENUMERATIONMEMBER;
+  }
+  throw new Error("Could not find a match for the given DS Node.");
+};
+
 /*
  * ===========================================
  * functions for the handling of DS Paths
  * ===========================================
  */
-
-const NODE_TYPE_ROOT = "RootNode";
-const NODE_TYPE_PROPERTY = "Property";
-const NODE_TYPE_CLASS = "Class";
-const NODE_TYPE_ENUMERATION = "Enumeration";
-const NODE_TYPE_DATATYPE = "DataType";
-const NODE_TYPE_REF_ROOT = "RootReference";
-const NODE_TYPE_REF_INTERNAL = "InternalReference";
-const NODE_TYPE_REF_EXTERNAL = "ExternalReference";
-const NODE_TYPE_REF_INTERNAL_EXTERNAL = "InternalExternalReference";
-const NODE_TYPE_DEF_INTERNAL = "InternalReferenceDefinition";
-const NODE_TYPE_DEF_EXTERNAL = "ExternalReferenceDefinition";
-const NODE_TYPE_DEF_INTERNAL_EXTERNAL = "InternalExternalReferenceDefinition";
-// "@context" is a special dsPath that points to the @context object of the DS
-
-const nodeTypesV7 = {
-  NODE_TYPE_ROOT,
-  NODE_TYPE_PROPERTY,
-  NODE_TYPE_CLASS,
-  NODE_TYPE_ENUMERATION,
-  NODE_TYPE_DATATYPE,
-  NODE_TYPE_REF_ROOT,
-  NODE_TYPE_REF_INTERNAL,
-  NODE_TYPE_REF_EXTERNAL,
-  NODE_TYPE_REF_INTERNAL_EXTERNAL,
-  NODE_TYPE_DEF_INTERNAL,
-  NODE_TYPE_DEF_EXTERNAL,
-  NODE_TYPE_DEF_INTERNAL_EXTERNAL,
-};
 
 /**
  * Initializes a DS Path string, based on the given inputs
@@ -2176,16 +2398,21 @@ const nodeTypesV7 = {
  * @param [nodeId] {string} - the id of the node which starts the DS path (e.g. "https://semantify.it/ds/_1hRVOT8Q"). Can be left blank in case of "RootNode".
  * @return {string} - the generated DS Path
  */
-const dsPathInitV7 = (nodeType = NODE_TYPE_ROOT, nodeId = undefined) => {
+const dsPathInitV7 = (
+  nodeType = dsPathNodeTypes.DS_PATH_NODE_TYPE_ROOT,
+  nodeId = undefined
+) => {
   switch (nodeType) {
-    case NODE_TYPE_ROOT:
+    case dsPathNodeTypes.DS_PATH_NODE_TYPE_ROOT:
       return "$";
-    case NODE_TYPE_DEF_INTERNAL:
+    case dsPathNodeTypes.DS_PATH_NODE_TYPE_DEF_INTERNAL:
       return "#" + nodeId.split("#")[1]; // nodeId = @id of the internal node, e.g. "https://semantify.it/ds/_1hRVOT8Q#sXZwe"
-    case NODE_TYPE_DEF_EXTERNAL:
+    case dsPathNodeTypes.DS_PATH_NODE_TYPE_DEF_EXTERNAL:
       return nodeId.split("/").pop(); // nodeId = @id of the external node, e.g. "https://semantify.it/ds/_1hRVOT8Q"
-    case NODE_TYPE_DEF_INTERNAL_EXTERNAL:
+    case dsPathNodeTypes.DS_PATH_NODE_TYPE_DEF_INTERNAL_EXTERNAL:
       return nodeId.split("/").pop(); // nodeId = @id of the internal node from an external reference, e.g. "https://semantify.it/ds/_1hRVOT8Q#sXZwe"
+    case dsPathNodeTypes.DS_PATH_NODE_TYPE_CONTEXT:
+      return "@context";
     default:
       throw new Error("Unknown node type to initialize a DS Path: " + nodeType);
   }
@@ -2201,34 +2428,36 @@ const dsPathInitV7 = (nodeType = NODE_TYPE_ROOT, nodeId = undefined) => {
  */
 const dsPathAdditionV7 = (dsPath, additionType, inputForPath = undefined) => {
   // Property
-  if (additionType === NODE_TYPE_PROPERTY) {
+  if (additionType === dsPathNodeTypes.DS_PATH_NODE_TYPE_PROPERTY) {
     return dsPath + "." + inputForPath; // inputForPath = IRI of Property, e.g. schema:url
   }
   // DataType
-  if (additionType === NODE_TYPE_DATATYPE) {
+  if (additionType === dsPathNodeTypes.DS_PATH_NODE_TYPE_DATATYPE) {
     return dsPath + "/" + inputForPath; // inputForPath = IRI of DataType, e.g. xsd:string
   }
   // Class/Enumeration
   if (
-    additionType === NODE_TYPE_CLASS ||
-    additionType === NODE_TYPE_ENUMERATION
+    additionType === dsPathNodeTypes.DS_PATH_NODE_TYPE_CLASS ||
+    additionType === dsPathNodeTypes.DS_PATH_NODE_TYPE_ENUMERATION
   ) {
     return dsPath + "/" + inputForPath.join(","); // inputForPath = sh:class array, e.g. ["schema:Room", "schema:Product"]
   }
   // Reference - Root Node
-  if (additionType === NODE_TYPE_REF_ROOT) {
+  if (additionType === dsPathNodeTypes.DS_PATH_NODE_TYPE_REF_ROOT) {
     return dsPath + "/@$"; // inputForPath is not needed
   }
   // Reference - Internal reference
-  if (additionType === NODE_TYPE_REF_INTERNAL) {
+  if (additionType === dsPathNodeTypes.DS_PATH_NODE_TYPE_REF_INTERNAL) {
     return dsPath + "/@#" + inputForPath.split("#")[1]; // inputForPath = @id of the internal node, e.g. "https://semantify.it/ds/_1hRVOT8Q#sXZwe"
   }
   // Reference - External reference
-  if (additionType === NODE_TYPE_REF_EXTERNAL) {
+  if (additionType === dsPathNodeTypes.DS_PATH_NODE_TYPE_REF_EXTERNAL) {
     return dsPath + "/@" + inputForPath.split("/").pop(); // inputForPath = @id of the external node, e.g. "https://semantify.it/ds/_1hRVOT8Q"
   }
   // Reference - Internal node of an External reference
-  if (additionType === NODE_TYPE_REF_INTERNAL_EXTERNAL) {
+  if (
+    additionType === dsPathNodeTypes.DS_PATH_NODE_TYPE_REF_INTERNAL_EXTERNAL
+  ) {
     return dsPath + "/@" + inputForPath.split("/").pop(); // inputForPath = @id of the internal node from an external reference, e.g. "https://semantify.it/ds/_1hRVOT8Q#sXZwe"
   }
 };
@@ -2238,9 +2467,10 @@ const dsPathAdditionV7 = (dsPath, additionType, inputForPath = undefined) => {
  *
  * @param ds {object} - The input DS
  * @param dsPath {string} - The input ds-path
- * @return {object} - The node at the given ds-path (reference)
+ * @param resolveReference {boolean} - If true, and the last token of the path is a reference node, then the referenced objected will be returned. Else the referencing object will be returned.
+ * @return {object} - The node at the given ds-path (by reference)
  */
-const dsPathGetNodeV7 = (ds, dsPath) => {
+const dsPathGetNodeV7 = (ds, dsPath, resolveReference = false) => {
   // helper function to check if a given class combination array matches another class combination array
   function checkClassMatch(arr1, arr2) {
     return (
@@ -2250,7 +2480,7 @@ const dsPathGetNodeV7 = (ds, dsPath) => {
   }
 
   //  helper function - actDsObj is an array of ranges
-  function getRangeNode(actDsObj, actRestPath, ds) {
+  function getRangeNode(actDsObj, actRestPath, ds, resolveReference) {
     const rootNode = getDsRootNodeV7(ds);
     const pathTokens = actRestPath.split(".");
     const rangeToken = pathTokens[0];
@@ -2309,7 +2539,9 @@ const dsPathGetNodeV7 = (ds, dsPath) => {
       );
     }
     if (pathTokens.length === 1) {
-      if (actRange["sh:node"]) {
+      if (resolveReference && referencedNode) {
+        return referencedNode;
+      } else if (actRange["sh:node"]) {
         return actRange["sh:node"];
       } else {
         return actRange;
@@ -2319,20 +2551,22 @@ const dsPathGetNodeV7 = (ds, dsPath) => {
         return getPropertyNode(
           referencedNode["sh:property"],
           actRestPath.substring(pathTokens[0].length + 1),
-          ds
+          ds,
+          resolveReference
         );
       } else {
         return getPropertyNode(
           actRange["sh:node"]["sh:property"],
           actRestPath.substring(pathTokens[0].length + 1),
-          ds
+          ds,
+          resolveReference
         );
       }
     }
   }
 
   // helper function
-  function getPropertyNode(actDsObj, actRestPath, ds) {
+  function getPropertyNode(actDsObj, actRestPath, ds, resolveReference) {
     const pathTokens = actRestPath.split("/");
     const actProp = actDsObj.find((el) => el["sh:path"] === pathTokens[0]);
     if (!actProp) {
@@ -2347,7 +2581,8 @@ const dsPathGetNodeV7 = (ds, dsPath) => {
       return getRangeNode(
         actProp["sh:or"],
         actRestPath.substring(pathTokens[0].length + 1),
-        ds
+        ds,
+        resolveReference
       );
     }
   }
@@ -2366,13 +2601,18 @@ const dsPathGetNodeV7 = (ds, dsPath) => {
     if (dsPath === "$") {
       return dsRoot;
     } else {
-      return getPropertyNode(dsRoot["sh:property"], dsPath.substring(2), ds);
+      return getPropertyNode(
+        dsRoot["sh:property"],
+        dsPath.substring(2),
+        ds,
+        resolveReference
+      );
     }
   } else {
     // could be:
     // Internal reference definition
     // External reference definition
-    // Internal node of an External reference
+    // Internal node of an External reference definition
     const pathTokens = dsPath.split(".");
     const referenceDefinition = ds["@graph"].find((el) =>
       el["@id"].endsWith(pathTokens[0])
@@ -2389,69 +2629,188 @@ const dsPathGetNodeV7 = (ds, dsPath) => {
       return getPropertyNode(
         referenceDefinition["sh:property"],
         dsPath.substring(pathTokens[0].length + 1),
-        ds
+        ds,
+        resolveReference
       );
     }
   }
 };
 
 /**
- * Returns the type/role of the given DS Node within the given DS
+ * Returns an array of objects, representing the tokens of a given ds-path. (reference)
+ * https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/dspath
+ *
+ * @param ds {object} - The input DS
+ * @param dsPath {string} - The input ds-path
+ * @return {array} - The node at the given ds-path (reference)
+ */
+const tokenizeDsPathV7 = (ds, dsPath) => {
+  let currentPath = "";
+  let restPath = dsPath;
+  let result = [];
+
+  while (restPath !== "") {
+    let currentToken;
+    if (restPath === dsPath && restPath.startsWith("$")) {
+      // root node
+      currentToken = "$";
+    } else if (restPath === dsPath && restPath.startsWith("@context")) {
+      // context node
+      currentToken = "@context";
+    } else if (restPath === dsPath && restPath.startsWith("#")) {
+      // Internal Reference Definition
+      let limiter = restPath.indexOf(".");
+      currentToken = restPath.substring(
+        0,
+        limiter !== -1 ? limiter : undefined
+      );
+    } else if (
+      restPath === dsPath &&
+      !dsPath.startsWith("#") &&
+      !dsPath.startsWith("@") &&
+      !dsPath.startsWith("$")
+    ) {
+      // External Reference Definition
+      let limiter = restPath.indexOf(".");
+      currentToken = restPath.substring(
+        0,
+        limiter !== -1 ? limiter : undefined
+      );
+    } else if (restPath.startsWith(".")) {
+      // property
+      let limiter = restPath.indexOf("/");
+      currentToken = restPath.substring(
+        0,
+        limiter !== -1 ? limiter : undefined
+      );
+    } else if (restPath.startsWith("/")) {
+      // root node reference
+      // internal reference
+      // external reference (without fragment part) or Internal node of external reference (has "#fragmentId" at the end)
+      // class/enumeration, datatype
+      let limiter = restPath.indexOf(".");
+      currentToken = restPath.substring(
+        0,
+        limiter !== -1 ? limiter : undefined
+      );
+    } else {
+      throw new Error(
+        "Could not find a valid token match for '" + restPath + "'."
+      );
+    }
+    currentPath = currentPath + currentToken;
+    restPath = restPath.substring(currentToken.length);
+    result.push(createDsPathToken(ds, currentToken, currentPath, restPath));
+  }
+  return result;
+};
+
+const createDsPathToken = (ds, token, currentPath, restPath) => {
+  const dsNodeResolvedReference = dsPathGetNodeV7(ds, currentPath, true);
+  const dsNodeUnresolvedReference = dsPathGetNodeV7(ds, currentPath, false);
+  const grammarNodeType = identifyDsGrammarNodeTypeV7(
+    dsNodeResolvedReference,
+    ds
+  );
+  const dsPathNodeType = dsPathIdentifyNodeTypeV7(
+    dsNodeUnresolvedReference,
+    ds
+  );
+  let label;
+  if (token === "@context") {
+    label = "@context";
+  } else if (
+    dsPathNodeType === dsPathNodeTypes.DS_PATH_NODE_TYPE_ROOT ||
+    dsPathNodeType === dsPathNodeTypes.DS_PATH_NODE_TYPE_CLASS ||
+    dsPathNodeType === dsPathNodeTypes.DS_PATH_NODE_TYPE_ENUMERATION ||
+    dsPathNodeType === dsPathNodeTypes.DS_PATH_NODE_TYPE_DEF_INTERNAL ||
+    dsPathNodeType === dsPathNodeTypes.DS_PATH_NODE_TYPE_DEF_EXTERNAL ||
+    dsPathNodeType ===
+      dsPathNodeTypes.DS_PATH_NODE_TYPE_DEF_INTERNAL_EXTERNAL ||
+    dsPathNodeType === dsPathNodeTypes.DS_PATH_NODE_TYPE_REF_ROOT ||
+    dsPathNodeType === dsPathNodeTypes.DS_PATH_NODE_TYPE_REF_INTERNAL ||
+    dsPathNodeType === dsPathNodeTypes.DS_PATH_NODE_TYPE_REF_EXTERNAL ||
+    dsPathNodeType === dsPathNodeTypes.DS_PATH_NODE_TYPE_REF_INTERNAL_EXTERNAL
+  ) {
+    label = prettyPrintCompactedIRI(dsNodeResolvedReference["sh:class"]);
+  } else if (dsPathNodeType === dsPathNodeTypes.DS_PATH_NODE_TYPE_PROPERTY) {
+    label = prettyPrintCompactedIRI(dsNodeResolvedReference["sh:path"]);
+  } else if (dsPathNodeType === dsPathNodeTypes.DS_PATH_NODE_TYPE_DATATYPE) {
+    label = dataTypeMappingToLabel[dsNodeResolvedReference["sh:datatype"]];
+  }
+  return {
+    token,
+    label,
+    grammarNodeType,
+    dsPathNodeType,
+    currentPath,
+    restPath,
+  };
+};
+
+/**
+ * Returns the ds-path-type of the given DS Node within the given DS
  *
  * @param dsNode {object?} - the input DS Node
  * @param ds {object} - the input DS
- * @return {string} the type of the given node
+ * @return {string} the ds-path-type of the given node
  */
 const dsPathIdentifyNodeTypeV7 = (dsNode, ds) => {
   const rootNode = getDsRootNodeV7(ds);
-  // if there is only 1 attribute that is @id, then this is a reference node
+  // check if it is @context
+  const contextNode = dsPathGetNodeV7(ds, "@context");
+  if (deepEqual(dsNode, contextNode)) {
+    return dsPathNodeTypes.DS_PATH_NODE_TYPE_CONTEXT;
+  }
+
   if (dsNode["@id"] && Object.keys(dsNode).length === 1) {
+    // if there is only 1 attribute that is @id, then this is a reference node
     if (dsNode["@id"] === rootNode["@id"]) {
-      return NODE_TYPE_REF_ROOT;
+      return dsPathNodeTypes.DS_PATH_NODE_TYPE_REF_ROOT;
     } else if (dsNode["@id"].startsWith(rootNode["@id"])) {
-      return NODE_TYPE_REF_INTERNAL;
+      return dsPathNodeTypes.DS_PATH_NODE_TYPE_REF_INTERNAL;
     } else if (dsNode["@id"].charAt(dsNode["@id"].length - 6) === "#") {
-      return NODE_TYPE_REF_INTERNAL_EXTERNAL;
+      return dsPathNodeTypes.DS_PATH_NODE_TYPE_REF_INTERNAL_EXTERNAL;
     } else {
-      return NODE_TYPE_REF_EXTERNAL;
+      return dsPathNodeTypes.DS_PATH_NODE_TYPE_REF_EXTERNAL;
     }
   }
   // nodes in @graph array
   if (dsNode["@type"] === "ds:DomainSpecification") {
-    return NODE_TYPE_ROOT; // root node
+    return dsPathNodeTypes.DS_PATH_NODE_TYPE_ROOT; // root node
   } else if (
     dsNode["@type"] === "sh:NodeShape" &&
     ds["@graph"].find((el) => el["@id"] === dsNode["@id"]) !== undefined
   ) {
     // a reference definition
     if (dsNode["@id"].startsWith(rootNode["@id"])) {
-      return NODE_TYPE_DEF_INTERNAL;
+      return dsPathNodeTypes.DS_PATH_NODE_TYPE_DEF_INTERNAL;
     } else if (dsNode["@id"].charAt(dsNode["@id"].length - 6) === "#") {
-      return NODE_TYPE_DEF_INTERNAL_EXTERNAL;
+      return dsPathNodeTypes.DS_PATH_NODE_TYPE_DEF_INTERNAL_EXTERNAL;
     } else {
-      return NODE_TYPE_DEF_EXTERNAL;
+      return dsPathNodeTypes.DS_PATH_NODE_TYPE_DEF_EXTERNAL;
     }
   }
   // other nodes
   if (dsNode["@type"] === "sh:PropertyShape") {
-    return NODE_TYPE_PROPERTY;
+    return dsPathNodeTypes.DS_PATH_NODE_TYPE_PROPERTY;
   }
   if (dsNode["sh:datatype"] !== undefined) {
-    return NODE_TYPE_DATATYPE;
+    return dsPathNodeTypes.DS_PATH_NODE_TYPE_DATATYPE;
   }
   if (dsNode["@type"] === "sh:NodeShape" && dsNode["sh:in"] !== undefined) {
-    return NODE_TYPE_ENUMERATION;
+    return dsPathNodeTypes.DS_PATH_NODE_TYPE_ENUMERATION;
   } else if (
     dsNode["@type"] === "sh:NodeShape" &&
     dsNode["sh:property"] !== undefined
   ) {
-    return NODE_TYPE_CLASS;
+    return dsPathNodeTypes.DS_PATH_NODE_TYPE_CLASS;
   } else if (
     dsNode["@type"] === "sh:NodeShape" &&
     dsNode["sh:class"] !== undefined
   ) {
     // this could be a standard class or a standard enumeration, we can not tell for sure without SDO Adapter
-    return NODE_TYPE_CLASS;
+    return dsPathNodeTypes.DS_PATH_NODE_TYPE_CLASS;
   }
 };
 
@@ -2599,10 +2958,15 @@ module.exports = {
   reorderDsV7,
   reorderDsNodeV7,
   generateInnerNodeIdV7,
+  getDataTypeLabelV7,
+  getDsDataTypeForSchemaDataTypeV7,
+  getSchemaDataTypeForDsDataTypeV7,
+  identifyDsGrammarNodeTypeV7,
   dsPathInitV7,
   dsPathAdditionV7,
   dsPathGetNodeV7,
   dsPathIdentifyNodeTypeV7,
+  tokenizeDsPathV7,
   getDsNameV7,
   getDsDescriptionV7,
   getDsAuthorNameV7,
@@ -2610,9 +2974,8 @@ module.exports = {
   getDsVersionV7,
   getDsExternalVocabulariesV7,
   getDsTargetClassesV7,
-  nodeTypesV7,
   checkClassMatchV7,
 };
 
-},{"../../helperFunctions.js":4,"./../data/dataV7.js":13,"nanoid":1}]},{},[5])(5)
+},{"../../helperFunctions.js":4,"../data/dataV7.js":13,"./../data/dataV7.js":13,"./functionsBase.js":14,"nanoid":1}]},{},[5])(5)
 });
