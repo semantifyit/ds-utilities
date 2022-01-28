@@ -11,6 +11,7 @@ testData.dsDs0NoMeta = require("../data/v7/ds-ds0-no-meta.json");
 testData.dsDs0Unordered = require("../data/v7/ds-ds0-unordered.json");
 testData.dsDs1 = require("../data/v7/ds-ds1.json");
 testData.dsDs2 = require("../data/v7/ds-ds2.json");
+testData.dsDs3 = require("../data/v7/ds-ds3.json");
 
 describe("DsUtilitiesV7", () => {
   test("getDsRootNode()", () => {
@@ -149,6 +150,119 @@ describe("DsUtilitiesV7", () => {
     expect(() => {
       dsu.generateInnerNodeId(testData.dsDs0NoRoot);
     }).toThrow("The given DS has no identifiable root node in DS-V7 format.");
+  });
+  test("getDataTypeLabel()", () => {
+    const dsu = new DsUtilitiesV7();
+    expect(dsu.getDataTypeLabel("xsd:string")).toBe("Text");
+    expect(dsu.getDataTypeLabel("rdf:langString")).toBe("Localized Text");
+    expect(dsu.getDataTypeLabel("rdf:HTML")).toBe("HTML Text");
+    expect(dsu.getDataTypeLabel("xsd:boolean")).toBe("Boolean");
+    expect(dsu.getDataTypeLabel("xsd:double")).toBe("Number");
+    expect(() => {
+      dsu.getDataTypeLabel("nothing");
+    }).toThrow(
+      "Given input 'nothing' is not a valid xsd/rdf datatype in DS-V7."
+    );
+  });
+  test("getDsDataTypeForSchemaDataType()", () => {
+    const dsu = new DsUtilitiesV7();
+    expect(dsu.getDsDataTypeForSchemaDataType("schema:Text")).toBe(
+      "xsd:string"
+    );
+    expect(dsu.getDsDataTypeForSchemaDataType("schema:Integer")).toBe(
+      "xsd:integer"
+    );
+    expect(dsu.getDsDataTypeForSchemaDataType("schema:Float")).toBe(
+      "xsd:float"
+    );
+    expect(dsu.getDsDataTypeForSchemaDataType("schema:URL")).toBe("xsd:anyURI");
+    expect(dsu.getDsDataTypeForSchemaDataType("schema:Number")).toBe(
+      "xsd:double"
+    );
+    expect(() => {
+      dsu.getDsDataTypeForSchemaDataType("nothing");
+    }).toThrow(
+      "Given input 'nothing' is not a valid schema.org datatype in DS-V7."
+    );
+  });
+  test("getSchemaDataTypeForDsDataType()", () => {
+    const dsu = new DsUtilitiesV7();
+    expect(dsu.getSchemaDataTypeForDsDataType("xsd:string")).toBe(
+      "schema:Text"
+    );
+    expect(dsu.getSchemaDataTypeForDsDataType("rdf:langString")).toBe(
+      "schema:Text"
+    );
+    expect(dsu.getSchemaDataTypeForDsDataType("rdf:HTML")).toBe("schema:Text");
+    expect(dsu.getSchemaDataTypeForDsDataType("xsd:integer")).toBe(
+      "schema:Integer"
+    );
+    expect(dsu.getSchemaDataTypeForDsDataType("xsd:float")).toBe(
+      "schema:Float"
+    );
+    expect(dsu.getSchemaDataTypeForDsDataType("xsd:anyURI")).toBe("schema:URL");
+    expect(dsu.getSchemaDataTypeForDsDataType("xsd:double")).toBe(
+      "schema:Number"
+    );
+    expect(() => {
+      dsu.getSchemaDataTypeForDsDataType("nothing");
+    }).toThrow(
+      "Given input 'nothing' is not a valid xsd/rdf datatype in DS-V7."
+    );
+  });
+  test("identifyDsGrammarNodeType()", () => {
+    const dsu = new DsUtilitiesV7();
+    const ds = testData.dsDs2;
+    const ds2 = testData.dsDs3;
+    // root node
+    const rootNode = dsu.getDsRootNode(ds);
+    expect(dsu.identifyDsGrammarNodeType(rootNode, ds)).toBe("RootNode");
+    // context
+    expect(dsu.identifyDsGrammarNodeType(ds["@context"], ds)).toBe("Context");
+    // property
+    const propertyNode = dsu.dsPathGetNode(ds, "$.schema:creditText");
+    expect(dsu.identifyDsGrammarNodeType(propertyNode, ds)).toBe("Property");
+    // DataType
+    const dtNode = dsu.dsPathGetNode(ds, "$.schema:keywords/xsd:anyURI");
+    expect(dsu.identifyDsGrammarNodeType(dtNode, ds)).toBe("DataType");
+    // Restricted Class
+    const rcNode = dsu.dsPathGetNode(
+      ds,
+      "#tMMiT.schema:worksFor/schema:Organization"
+    );
+    expect(dsu.identifyDsGrammarNodeType(rcNode, ds)).toBe("RestrictedClass");
+    // Restricted Enumeration
+    const reNode = dsu.dsPathGetNode(
+      ds,
+      "$.schema:about/@gsaTefLCP.ex:animalLivingEnvironment/ex:AnimalLivingEnvironment"
+    );
+    expect(dsu.identifyDsGrammarNodeType(reNode, ds)).toBe(
+      "RestrictedEnumeration"
+    );
+    // Reference node - Restricted Class
+    const internalExternalRefNode = dsu.dsPathGetNode(
+      ds,
+      "$.schema:locationCreated/@kfU7mM0Xy#owwug",
+      false
+    );
+    expect(dsu.identifyDsGrammarNodeType(internalExternalRefNode, ds)).toBe(
+      "RestrictedClass"
+    );
+    // Reference node - Root Node
+    const rootRefNode = dsu.dsPathGetNode(
+      ds2,
+      "$.schema:subjectOf/schema:CreativeWork.schema:about/@$",
+      false
+    );
+    expect(dsu.identifyDsGrammarNodeType(rootRefNode, ds2)).toBe("RootNode");
+    // enumeration member
+    const enumMemberNode = {
+      "@id": "ex:AnimalLivingEnvironmentDomestic",
+    };
+    expect(dsu.identifyDsGrammarNodeType(enumMemberNode, ds)).toBe(
+      "EnumerationMember"
+    );
+    // todo test standard class and standard enumeration, with and without SDO Adapter
   });
 
   test("dsPathInit()", () => {
@@ -298,6 +412,118 @@ describe("DsUtilitiesV7", () => {
     expect(dsu.dsPathGetNode(testData.dsDs2, "gsaTefLCP")["@id"]).toBe(
       "https://semantify.it/ds/gsaTefLCP"
     );
+  });
+
+  test("dsPathTokenizePath()", () => {
+    const dsu = new DsUtilitiesV7();
+    const ds = testData.dsDs2;
+    const ds2 = testData.dsDs3;
+    // @context
+    const tokens1a = dsu.tokenizeDsPath(ds, "@context");
+    expect(tokens1a.length).toBe(1);
+    expect(tokens1a[0].dsPathNodeType).toBe("Context");
+    // root node
+    const tokens1b = dsu.tokenizeDsPath(ds, "$");
+    expect(tokens1b.length).toBe(1);
+    expect(tokens1b[0].dsPathNodeType).toBe("RootNode");
+    expect(tokens1b[0].label).toBe("Drawing");
+    // internal reference definition
+    const tokens1c = dsu.tokenizeDsPath(ds, "#tMMiT");
+    expect(tokens1c.length).toBe(1);
+    expect(tokens1c[0].dsPathNodeType).toBe("InternalReferenceDefinition");
+    expect(tokens1c[0].label).toBe("Person");
+    // external reference definition
+    const tokens1d = dsu.tokenizeDsPath(ds, "yFV-LM7MP");
+    expect(tokens1d.length).toBe(1);
+    expect(tokens1d[0].dsPathNodeType).toBe("ExternalReferenceDefinition");
+    expect(tokens1d[0].label).toBe("odta:Trail");
+    // internal external reference definition
+    const tokens1e = dsu.tokenizeDsPath(ds, "kfU7mM0Xy#owwug");
+    expect(tokens1e.length).toBe(1);
+    expect(tokens1e[0].dsPathNodeType).toBe(
+      "InternalExternalReferenceDefinition"
+    );
+
+    expect(tokens1e[0].label).toBe("Place");
+    // property first level
+    const tokens2a = dsu.tokenizeDsPath(ds, "$.schema:creditText");
+    expect(tokens2a.length).toBe(2);
+    expect(tokens2a[0].dsPathNodeType).toBe("RootNode");
+    expect(tokens2a[1].dsPathNodeType).toBe("Property");
+    expect(tokens2a[1].label).toBe("creditText");
+    // datatype first level
+    const tokens2b = dsu.tokenizeDsPath(ds, "$.schema:creditText/xsd:string");
+    expect(tokens2b.length).toBe(3);
+    expect(tokens2b[0].dsPathNodeType).toBe("RootNode");
+    expect(tokens2b[1].dsPathNodeType).toBe("Property");
+    expect(tokens2b[2].dsPathNodeType).toBe("DataType");
+    expect(tokens2b[2].label).toBe("Text");
+    // class first level: internal reference definition -> property -> Class
+    const tokens2c = dsu.tokenizeDsPath(
+      ds,
+      "#tMMiT.schema:worksFor/schema:Organization"
+    );
+    expect(tokens2c.length).toBe(3);
+    expect(tokens2c[2].dsPathNodeType).toBe("Class");
+    expect(tokens2c[2].label).toBe("Organization");
+    // enumeration first level: external reference definition -> property -> enumeration
+    const tokens2d = dsu.tokenizeDsPath(
+      ds,
+      "gsaTefLCP.ex:animalLivingEnvironment/ex:AnimalLivingEnvironment"
+    );
+    expect(tokens2d.length).toBe(3);
+    expect(tokens2d[2].dsPathNodeType).toBe("Enumeration");
+    expect(tokens2d[2].label).toBe("ex:AnimalLivingEnvironment");
+
+    // root reference: root -> property -> class -> property -> rootReference
+    const tokens3a = dsu.tokenizeDsPath(
+      ds2,
+      "$.schema:subjectOf/schema:CreativeWork.schema:about/@$"
+    );
+    expect(tokens3a.length).toBe(5);
+    expect(tokens3a[4].dsPathNodeType).toBe("RootReference");
+    expect(tokens3a[4].label).toBe(tokens3a[0].label);
+    // internal reference: root -> property -> internal reference
+    const tokens3b = dsu.tokenizeDsPath(ds, "$.schema:creator/@#tMMiT");
+    expect(tokens3b.length).toBe(3);
+    expect(tokens3b[2].dsPathNodeType).toBe("InternalReference");
+    expect(tokens3b[2].label).toBe("Person");
+    // external reference: root -> property ->
+    const tokens3c = dsu.tokenizeDsPath(
+      ds,
+      "$.schema:contentLocation/@yFV-LM7MP"
+    );
+    expect(tokens3c.length).toBe(3);
+    expect(tokens3c[2].dsPathNodeType).toBe("ExternalReference");
+    expect(tokens3c[2].label).toBe("odta:Trail");
+    // internal external reference: root -> property ->
+    const tokens3d = dsu.tokenizeDsPath(
+      ds,
+      "$.schema:locationCreated/@kfU7mM0Xy#owwug"
+    );
+    expect(tokens3d.length).toBe(3);
+    expect(tokens3d[2].dsPathNodeType).toBe("InternalExternalReference");
+    expect(tokens3d[2].label).toBe("Place");
+
+    // internal reference definition -> property
+    const tokens4a = dsu.tokenizeDsPath(ds, "#tMMiT.schema:worksFor");
+    expect(tokens4a.length).toBe(2);
+    expect(tokens4a[1].dsPathNodeType).toBe("Property");
+    expect(tokens4a[1].label).toBe("worksFor");
+    // internal external reference definition -> property -> class -> property -> datatype
+    const tokens4b = dsu.tokenizeDsPath(
+      ds,
+      "kfU7mM0Xy#owwug.schema:address/schema:PostalAddress.schema:addressRegion/xsd:string"
+    );
+    expect(tokens4b.length).toBe(5);
+    expect(tokens4b[4].dsPathNodeType).toBe("DataType");
+    expect(tokens4b[4].label).toBe("Text");
+
+    // root reference: root -> property -> class -> property -> roo rReference
+    const tokens4c = dsu.tokenizeDsPath(ds2, "$.ex:numberOfLegs/xsd:integer");
+    expect(tokens4c.length).toBe(3);
+    expect(tokens4c[2].dsPathNodeType).toBe("DataType");
+    expect(tokens4c[2].label).toBe("Integer");
   });
 
   test("dsPathIdentifyNodeType()", () => {

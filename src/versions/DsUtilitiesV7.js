@@ -17,11 +17,16 @@ class DsUtilitiesV7 extends DsUtilitiesBase {
     this.reorderDs = fV7.reorderDsV7;
     this.reorderDsNode = fV7.reorderDsNodeV7;
     this.generateInnerNodeId = fV7.generateInnerNodeIdV7;
+    this.getDataTypeLabel = fV7.getDataTypeLabelV7;
+    this.getDsDataTypeForSchemaDataType = fV7.getDsDataTypeForSchemaDataTypeV7;
+    this.getSchemaDataTypeForDsDataType = fV7.getSchemaDataTypeForDsDataTypeV7;
+    this.identifyDsGrammarNodeType = fV7.identifyDsGrammarNodeTypeV7;
     // functions for the handling of DS Paths, e.g. "$.schema:address/schema:PostalAddress"
     this.dsPathInit = fV7.dsPathInitV7;
     this.dsPathAddition = fV7.dsPathAdditionV7;
     this.dsPathGetNode = fV7.dsPathGetNodeV7;
-    this.dsPathIdentifyNodeType = fV7.dsPathIdentifyNodeTypeV7;
+    this.dsPathIdentifyNodeType = fV7.dsPathIdentifyNodeTypeV7; // these are the node type for the ds path
+    this.tokenizeDsPath = fV7.tokenizeDsPathV7;
     // functions that ease the UI interaction with DS
     this.getDsName = fV7.getDsNameV7;
     this.getDsDescription = fV7.getDsDescriptionV7;

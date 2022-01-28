@@ -1,5 +1,18 @@
 # Changelog
 
+1.5.0 / 2021-01-27
+==================
+
+* new DS-V7 functions:
+  * `getDataTypeLabel()`
+  * `getDsDataTypeForSchemaDataType()`
+  * `getSchemaDataTypeForDsDataType()`
+  * `identifyDsGrammarNodeType()`
+  * `tokenizeDsPath()`
+* Changes for DS-V7 functions:
+  * `dsPathInit()` also usable with `"Context"` as initial token.
+  * `dsPathGetNode()` now has the new argument "resolveReference" (default is `false`)
+
 1.4.2 / 2021-12-20
 ==================
 

@@ -423,6 +423,92 @@ const standardContext = {
   },
 };
 
+const DS_GRAMMAR_NODE_TYPE_CONTEXT = "Context";
+const DS_GRAMMAR_NODE_TYPE_ROOT = "RootNode"; // root node
+const DS_GRAMMAR_NODE_TYPE_CLASS_S = "StandardClass"; // has no sh:property
+const DS_GRAMMAR_NODE_TYPE_CLASS_R = "RestrictedClass"; // has sh:property
+const DS_GRAMMAR_NODE_TYPE_ENUMERATION_S = "StandardEnumeration"; // has no sh:in
+const DS_GRAMMAR_NODE_TYPE_ENUMERATION_R = "RestrictedEnumeration"; // has sh:in
+const DS_GRAMMAR_NODE_TYPE_PROPERTY = "Property";
+const DS_GRAMMAR_NODE_TYPE_DATATYPE = "DataType";
+const DS_GRAMMAR_NODE_TYPE_ENUMERATIONMEMBER = "EnumerationMember";
+
+const dsGrammarNodeTypesV7 = {
+  DS_GRAMMAR_NODE_TYPE_CONTEXT,
+  DS_GRAMMAR_NODE_TYPE_ROOT,
+  DS_GRAMMAR_NODE_TYPE_CLASS_S,
+  DS_GRAMMAR_NODE_TYPE_CLASS_R,
+  DS_GRAMMAR_NODE_TYPE_ENUMERATION_S,
+  DS_GRAMMAR_NODE_TYPE_ENUMERATION_R,
+  DS_GRAMMAR_NODE_TYPE_PROPERTY,
+  DS_GRAMMAR_NODE_TYPE_DATATYPE,
+  DS_GRAMMAR_NODE_TYPE_ENUMERATIONMEMBER,
+};
+
+const DS_PATH_NODE_TYPE_CONTEXT = "Context"; // "@context" is a special dsPath that points to the @context object of the DS - possible start
+const DS_PATH_NODE_TYPE_ROOT = "RootNode"; // possible start
+const DS_PATH_NODE_TYPE_DEF_INTERNAL = "InternalReferenceDefinition"; // possible start
+const DS_PATH_NODE_TYPE_DEF_EXTERNAL = "ExternalReferenceDefinition"; // possible start
+const DS_PATH_NODE_TYPE_DEF_INTERNAL_EXTERNAL =
+  "InternalExternalReferenceDefinition"; // possible start
+
+const DS_PATH_NODE_TYPE_PROPERTY = "Property";
+const DS_PATH_NODE_TYPE_CLASS = "Class";
+const DS_PATH_NODE_TYPE_ENUMERATION = "Enumeration";
+// add ds path node type for enumeration member (which is in sh:in)? .schema:dayOfWeek/schema:DayOfWeek::schema:Friday ? such a node has no interesting information though, it is only a reference, e.g. { "@id": "schema:Friday" }
+const DS_PATH_NODE_TYPE_DATATYPE = "DataType";
+
+// these are references, although they point to a reference object, e.g. { "@id": "xyz" }, the path functions return the referenced entity instead of the reference object
+const DS_PATH_NODE_TYPE_REF_ROOT = "RootReference";
+const DS_PATH_NODE_TYPE_REF_INTERNAL = "InternalReference";
+const DS_PATH_NODE_TYPE_REF_EXTERNAL = "ExternalReference";
+const DS_PATH_NODE_TYPE_REF_INTERNAL_EXTERNAL = "InternalExternalReference";
+
+const dsPathNodeTypesV7 = {
+  DS_PATH_NODE_TYPE_CONTEXT,
+  DS_PATH_NODE_TYPE_ROOT,
+  DS_PATH_NODE_TYPE_PROPERTY,
+  DS_PATH_NODE_TYPE_CLASS,
+  DS_PATH_NODE_TYPE_ENUMERATION,
+  DS_PATH_NODE_TYPE_DATATYPE,
+  DS_PATH_NODE_TYPE_REF_ROOT,
+  DS_PATH_NODE_TYPE_REF_INTERNAL,
+  DS_PATH_NODE_TYPE_REF_EXTERNAL,
+  DS_PATH_NODE_TYPE_REF_INTERNAL_EXTERNAL,
+  DS_PATH_NODE_TYPE_DEF_INTERNAL,
+  DS_PATH_NODE_TYPE_DEF_EXTERNAL,
+  DS_PATH_NODE_TYPE_DEF_INTERNAL_EXTERNAL,
+};
+
+// https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/domainspecification/datatype#3.1.-datatype-mapping
+const dataTypeMappingToSchema = {
+  "xsd:string": "schema:Text",
+  "rdf:langString": "schema:Text",
+  "rdf:HTML": "schema:Text",
+  "xsd:boolean": "schema:Boolean",
+  "xsd:date": "schema:Date",
+  "xsd:dateTime": "schema:DateTime",
+  "xsd:time": "schema:Time",
+  "xsd:double": "schema:Number",
+  "xsd:integer": "schema:Integer",
+  "xsd:float": "schema:Float",
+  "xsd:anyURI": "schema:URL",
+};
+
+const dataTypeMappingToLabel = {
+  "xsd:string": "Text",
+  "rdf:langString": "Localized Text",
+  "rdf:HTML": "HTML Text",
+  "xsd:boolean": "Boolean",
+  "xsd:date": "Date",
+  "xsd:dateTime": "DateTime",
+  "xsd:time": "Time",
+  "xsd:double": "Number",
+  "xsd:integer": "Integer",
+  "xsd:float": "Float",
+  "xsd:anyURI": "URL",
+};
+
 module.exports = {
   nodeTermsDsObject,
   nodeTermsContext,
@@ -433,4 +519,8 @@ module.exports = {
   nodeTermsDataTypeNode,
   nodeTermsLanguageTaggedValue,
   standardContext,
+  dsGrammarNodeTypesV7,
+  dsPathNodeTypesV7,
+  dataTypeMappingToSchema,
+  dataTypeMappingToLabel,
 };

@@ -1,6 +1,6 @@
 {
   "name": "ds-utilities",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "A helper library that provides functions to handle Domain Specifications.",
   "main": "src/index.js",
   "types": "dist/types/index.d.ts",

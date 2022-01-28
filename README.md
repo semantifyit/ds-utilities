@@ -4,17 +4,25 @@
 <b>
 DS-Utilities provides an API to handle Domain Specifications according to the DS Specification. Usable on Node and Browsers.</b>
 <br><br>
+<a href="https://libraries.io/npm/schema-org-adapter"><img src="https://img.shields.io/librariesio/release/npm/ds-utilities" alt="Dependencies" /></a>
+<a href="https://github.com/semantifyit/ds-utilities/issues"><img src="https://img.shields.io/github/issues/semantifyit/ds-utilities.svg" alt="Issues open" /></a>
+<a href="https://github.com/semantifyit/ds-utilities/issues"><img src="https://img.shields.io/snyk/vulnerabilities/github/semantifyit/ds-utilities" alt="Snyk Vulnerability Test" /></a>
+<br>
 <a href="https://eslint.org/"><img src="https://img.shields.io/badge/code%20style-ESLint-brightgreen" alt="Code style in ESLint" /></a>
+<a href="https://npms.io/search?q=ds-utilities"><img src="https://img.shields.io/npms-io/quality-score/ds-utilities" alt="npms.io Code Quality" /></a>
 <img src="https://raw.githubusercontent.com/semantifyit/ds-utilities/main/coverage/badge-functions.svg?sanitize=true" alt="Jest Test Coverage Functions" />
+<br>
+<a href="https://www.npmjs.com/package/ds-utilities" rel="nofollow"><img src="https://img.shields.io/npm/v/ds-utilities.svg" alt="NPM Version"></a>
+<a href="https://github.com/semantifyit/ds-utilities/"><img src="https://img.shields.io/tokei/lines/github/semantifyit/ds-utilities" alt="Total lines of code" /></a>
 <a href="https://www.apache.org/licenses/LICENSE-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License: CC BY-SA 4.0" /></a>
 </div>
 
 ## Installation
 
-Install via npm directly from GitHub:
+Install via npm:
 
 ```shell
-npm install https://github.com/semantifyit/ds-utilities
+npm install ds-utilities
 ``` 
 
 ## Usage
@@ -22,7 +30,7 @@ npm install https://github.com/semantifyit/ds-utilities
 #### Node
 
 ```javascript 
-const DsUtilities = require("../src/index.js"); // path to the ds-utilities folder
+const DsUtilities = require("ds-utilities"); // path to the ds-utilities folder
 const myDsUtilitiesV7 = DsUtilities.getDsUtilitiesForDsSpecVersion("7.0");
 ``` 
 
@@ -31,7 +39,7 @@ const myDsUtilitiesV7 = DsUtilities.getDsUtilitiesForDsSpecVersion("7.0");
 Include the compiled dist file:
 
 ```html 
-<script src="../dist/ds-utilities.js"></script>
+<script src="/dist/ds-utilities.js"></script>
 ``` 
 
 Use the global DsUtilities class:
@@ -56,3 +64,9 @@ Example files for the different environments are provided at:
 
 * [Browser example](./examples/example-browser.html)
 * [Node.js example](./examples/example-node.js)
+
+
+<div align="center">
+<h3><a href="https://semantify.it/" target="_blank">semantify.it</a></h3>
+Made with &#10084;	 in Tirol!
+</div>

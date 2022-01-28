@@ -98,17 +98,34 @@ A DS @id is mandatory for DS-V7.</p>
 See <a href="https://gitbook.semantify.it/domainspecifications/ds-v7/devnotes#3-generating-ids-for-inner-nodeshape">https://gitbook.semantify.it/domainspecifications/ds-v7/devnotes#3-generating-ids-for-inner-nodeshape</a>
 It is possible to pass the current DS, this way it is ensured that the generated fragment id has not been used yet in the given DS</p>
 </dd>
+<dt><a href="#getDataTypeLabelV7">getDataTypeLabelV7(dsDataType)</a> ⇒ <code>string</code></dt>
+<dd><p>Returns a human-readable label for the given DS-DataType (e.g. &quot;xsd:string&quot; -&gt; &quot;Text&quot;)</p>
+</dd>
+<dt><a href="#getDsDataTypeForSchemaDataTypeV7">getDsDataTypeForSchemaDataTypeV7(schemaDataType)</a> ⇒ <code>string</code></dt>
+<dd><p>Returns the corresponding DS-V7 datatype (XSD/RDF) for a given schema.org datatype.
+ATTENTION: for schema:Text the value xsd:string is always returned (no rdf:langString or rdf:HTML)</p>
+</dd>
+<dt><a href="#getSchemaDataTypeForDsDataTypeV7">getSchemaDataTypeForDsDataTypeV7(dsDataType)</a> ⇒ <code>string</code></dt>
+<dd><p>Returns the corresponding schema.org datatype for a given DS-V7 datatype (XSD/RDF)</p>
+</dd>
+<dt><a href="#identifyDsGrammarNodeTypeV7">identifyDsGrammarNodeTypeV7(dsNode, ds, sdoAdapter)</a> ⇒ <code>string</code></dt>
+<dd><p>Returns the grammar-type of the given DS Node within the given populated DS. It is possible to pass an SDO-Adapter to tell a standard enumeration apart from a standard class. If no SDO-Adapter is given, a standard class is assumed. If a reference node is passed (not an enumeration member) then the grammar type of the referenced node is returned (e.g. internal reference may point to a Restricted Class node -&gt; &quot;RestrictedClass&quot;).</p>
+</dd>
 <dt><a href="#dsPathInitV7">dsPathInitV7([nodeType], [nodeId])</a> ⇒ <code>string</code></dt>
 <dd><p>Initializes a DS Path string, based on the given inputs</p>
 </dd>
 <dt><a href="#dsPathAdditionV7">dsPathAdditionV7(dsPath, additionType, [inputForPath])</a> ⇒ <code>string</code></dt>
 <dd><p>Appends a new token to a given DS Path. The inputs and additions depend on the token type to be added.</p>
 </dd>
-<dt><a href="#dsPathGetNodeV7">dsPathGetNodeV7(ds, dsPath)</a> ⇒ <code>object</code></dt>
+<dt><a href="#dsPathGetNodeV7">dsPathGetNodeV7(ds, dsPath, resolveReference)</a> ⇒ <code>object</code></dt>
 <dd><p>Returns a node within the given DS based on the given ds-path. (reference)</p>
 </dd>
+<dt><a href="#tokenizeDsPathV7">tokenizeDsPathV7(ds, dsPath)</a> ⇒ <code>array</code></dt>
+<dd><p>Returns an array of objects, representing the tokens of a given ds-path. (reference)
+<a href="https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/dspath">https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/dspath</a></p>
+</dd>
 <dt><a href="#dsPathIdentifyNodeTypeV7">dsPathIdentifyNodeTypeV7(dsNode, ds)</a> ⇒ <code>string</code></dt>
-<dd><p>Returns the type/role of the given DS Node within the given DS</p>
+<dd><p>Returns the ds-path-type of the given DS Node within the given DS</p>
 </dd>
 <dt><a href="#getDsNameV7">getDsNameV7(ds, language)</a> ⇒ <code>string</code></dt>
 <dd><p>Returns the name (schema:name) of the given DS.
@@ -421,6 +438,57 @@ It is possible to pass the current DS, this way it is ensured that the generated
 | --- | --- | --- |
 | ds | <code>object</code> | the input DS (optional) |
 
+<a name="getDataTypeLabelV7"></a>
+
+## getDataTypeLabelV7(dsDataType) ⇒ <code>string</code>
+Returns a human-readable label for the given DS-DataType (e.g. "xsd:string" -> "Text")
+
+**Kind**: global function  
+**Returns**: <code>string</code> - - a human-readable label for the given DataType  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| dsDataType | <code>string</code> | a compacted IRI representing a DataType of DS-V7 (from XSD or RDF, e.g. "xsd:string" or "rdf:langString") |
+
+<a name="getDsDataTypeForSchemaDataTypeV7"></a>
+
+## getDsDataTypeForSchemaDataTypeV7(schemaDataType) ⇒ <code>string</code>
+Returns the corresponding DS-V7 datatype (XSD/RDF) for a given schema.org datatype.
+ATTENTION: for schema:Text the value xsd:string is always returned (no rdf:langString or rdf:HTML)
+
+**Kind**: global function  
+**Returns**: <code>string</code> - - the corresponding DS-V7 Datatype (from XSD or RDF)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| schemaDataType | <code>string</code> | a compacted IRI representing a DataType of schema.org (e.g. schema:Text) |
+
+<a name="getSchemaDataTypeForDsDataTypeV7"></a>
+
+## getSchemaDataTypeForDsDataTypeV7(dsDataType) ⇒ <code>string</code>
+Returns the corresponding schema.org datatype for a given DS-V7 datatype (XSD/RDF)
+
+**Kind**: global function  
+**Returns**: <code>string</code> - - the corresponding schema.org Datatype  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| dsDataType | <code>string</code> | a compacted IRI representing a DataType of DS-V7 (from XSD or RDF, e.g. "xsd:string" or "rdf:langString") |
+
+<a name="identifyDsGrammarNodeTypeV7"></a>
+
+## identifyDsGrammarNodeTypeV7(dsNode, ds, sdoAdapter) ⇒ <code>string</code>
+Returns the grammar-type of the given DS Node within the given populated DS. It is possible to pass an SDO-Adapter to tell a standard enumeration apart from a standard class. If no SDO-Adapter is given, a standard class is assumed. If a reference node is passed (not an enumeration member) then the grammar type of the referenced node is returned (e.g. internal reference may point to a Restricted Class node -> "RestrictedClass").
+
+**Kind**: global function  
+**Returns**: <code>string</code> - the type of the given node  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| dsNode | <code>object</code> | the input DS Node |
+| ds | <code>object</code> | the input DS (populated) |
+| sdoAdapter | <code>SDOAdapter</code> | A SDO-Adapter instance (already initialized with the wished vocabularies) - |
+
 <a name="dsPathInitV7"></a>
 
 ## dsPathInitV7([nodeType], [nodeId]) ⇒ <code>string</code>
@@ -450,11 +518,26 @@ Appends a new token to a given DS Path. The inputs and additions depend on the t
 
 <a name="dsPathGetNodeV7"></a>
 
-## dsPathGetNodeV7(ds, dsPath) ⇒ <code>object</code>
+## dsPathGetNodeV7(ds, dsPath, resolveReference) ⇒ <code>object</code>
 Returns a node within the given DS based on the given ds-path. (reference)
 
 **Kind**: global function  
-**Returns**: <code>object</code> - - The node at the given ds-path (reference)  
+**Returns**: <code>object</code> - - The node at the given ds-path (by reference)  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| ds | <code>object</code> |  | The input DS |
+| dsPath | <code>string</code> |  | The input ds-path |
+| resolveReference | <code>boolean</code> | <code>false</code> | If true, and the last token of the path is a reference node, then the referenced objected will be returned. Else the referencing object will be returned. |
+
+<a name="tokenizeDsPathV7"></a>
+
+## tokenizeDsPathV7(ds, dsPath) ⇒ <code>array</code>
+Returns an array of objects, representing the tokens of a given ds-path. (reference)
+https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/dspath
+
+**Kind**: global function  
+**Returns**: <code>array</code> - - The node at the given ds-path (reference)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -464,10 +547,10 @@ Returns a node within the given DS based on the given ds-path. (reference)
 <a name="dsPathIdentifyNodeTypeV7"></a>
 
 ## dsPathIdentifyNodeTypeV7(dsNode, ds) ⇒ <code>string</code>
-Returns the type/role of the given DS Node within the given DS
+Returns the ds-path-type of the given DS Node within the given DS
 
 **Kind**: global function  
-**Returns**: <code>string</code> - the type of the given node  
+**Returns**: <code>string</code> - the ds-path-type of the given node  
 
 | Param | Type | Description |
 | --- | --- | --- |

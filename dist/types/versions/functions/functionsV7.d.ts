@@ -41,6 +41,37 @@ export function reorderDsNodeV7(dsNode: any): void;
  */
 export function generateInnerNodeIdV7(ds?: object): string;
 /**
+ * Returns a human-readable label for the given DS-DataType (e.g. "xsd:string" -> "Text")
+ *
+ * @param {string} dsDataType - a compacted IRI representing a DataType of DS-V7 (from XSD or RDF, e.g. "xsd:string" or "rdf:langString")
+ * @return {string} - a human-readable label for the given DataType
+ */
+export function getDataTypeLabelV7(dsDataType: string): string;
+/**
+ * Returns the corresponding DS-V7 datatype (XSD/RDF) for a given schema.org datatype.
+ * ATTENTION: for schema:Text the value xsd:string is always returned (no rdf:langString or rdf:HTML)
+ *
+ * @param {string} schemaDataType - a compacted IRI representing a DataType of schema.org (e.g. schema:Text)
+ * @return {string} - the corresponding DS-V7 Datatype (from XSD or RDF)
+ */
+export function getDsDataTypeForSchemaDataTypeV7(schemaDataType: string): string;
+/**
+ * Returns the corresponding schema.org datatype for a given DS-V7 datatype (XSD/RDF)
+ *
+ * @param {string} dsDataType - a compacted IRI representing a DataType of DS-V7 (from XSD or RDF, e.g. "xsd:string" or "rdf:langString")
+ * @return {string} - the corresponding schema.org Datatype
+ */
+export function getSchemaDataTypeForDsDataTypeV7(dsDataType: string): string;
+/**
+ * Returns the grammar-type of the given DS Node within the given populated DS. It is possible to pass an SDO-Adapter to tell a standard enumeration apart from a standard class. If no SDO-Adapter is given, a standard class is assumed. If a reference node is passed (not an enumeration member) then the grammar type of the referenced node is returned (e.g. internal reference may point to a Restricted Class node -> "RestrictedClass").
+ *
+ * @param dsNode {object?} - the input DS Node
+ * @param ds {object} - the input DS (populated)
+ * @param sdoAdapter {SDOAdapter?} - A SDO-Adapter instance (already initialized with the wished vocabularies) -
+ * @return {string} the type of the given node
+ */
+export function identifyDsGrammarNodeTypeV7(dsNode: object | null, ds: object, sdoAdapter?: any): string;
+/**
  * Initializes a DS Path string, based on the given inputs
  *
  * @param [nodeType=RootNode] {string} - the type of the initial token, "RootNode" being the standard. Other possibilities are: "InternalReferenceDefinition", "ExternalReferenceDefinition", "InternalExternalReferenceDefinition"
@@ -62,17 +93,27 @@ export function dsPathAdditionV7(dsPath: string, additionType: string, inputForP
  *
  * @param ds {object} - The input DS
  * @param dsPath {string} - The input ds-path
- * @return {object} - The node at the given ds-path (reference)
+ * @param resolveReference {boolean} - If true, and the last token of the path is a reference node, then the referenced objected will be returned. Else the referencing object will be returned.
+ * @return {object} - The node at the given ds-path (by reference)
  */
-export function dsPathGetNodeV7(ds: object, dsPath: string): object;
+export function dsPathGetNodeV7(ds: object, dsPath: string, resolveReference?: boolean): object;
 /**
- * Returns the type/role of the given DS Node within the given DS
+ * Returns the ds-path-type of the given DS Node within the given DS
  *
  * @param dsNode {object?} - the input DS Node
  * @param ds {object} - the input DS
- * @return {string} the type of the given node
+ * @return {string} the ds-path-type of the given node
  */
 export function dsPathIdentifyNodeTypeV7(dsNode: object | null, ds: object): string;
+/**
+ * Returns an array of objects, representing the tokens of a given ds-path. (reference)
+ * https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/dspath
+ *
+ * @param ds {object} - The input DS
+ * @param dsPath {string} - The input ds-path
+ * @return {array} - The node at the given ds-path (reference)
+ */
+export function tokenizeDsPathV7(ds: object, dsPath: string): any[];
 /**
  * Returns the name (schema:name) of the given DS.
  * schema:name is optional in DS-V7.
@@ -131,20 +172,6 @@ export function getDsExternalVocabulariesV7(ds: object): string[];
  * @return {string[]} array with the target classes (empty if none)
  */
 export function getDsTargetClassesV7(ds: object): string[];
-export namespace nodeTypesV7 {
-    export { NODE_TYPE_ROOT };
-    export { NODE_TYPE_PROPERTY };
-    export { NODE_TYPE_CLASS };
-    export { NODE_TYPE_ENUMERATION };
-    export { NODE_TYPE_DATATYPE };
-    export { NODE_TYPE_REF_ROOT };
-    export { NODE_TYPE_REF_INTERNAL };
-    export { NODE_TYPE_REF_EXTERNAL };
-    export { NODE_TYPE_REF_INTERNAL_EXTERNAL };
-    export { NODE_TYPE_DEF_INTERNAL };
-    export { NODE_TYPE_DEF_EXTERNAL };
-    export { NODE_TYPE_DEF_INTERNAL_EXTERNAL };
-}
 /**
  * Returns true if the given classes are a valid match for the given targetClasses following the DS-V7 semantics
  * This matching is important for the Class-SubClass relationship (e.g. subDS, or range subclass)
@@ -157,16 +184,3 @@ export namespace nodeTypesV7 {
  * @return {boolean} - True if the given classes to check are valid for the given target classes
  */
 export function checkClassMatchV7(targetClasses: string[], classesToCheck: string[], sdoAdapter: any): boolean;
-declare const NODE_TYPE_ROOT: "RootNode";
-declare const NODE_TYPE_PROPERTY: "Property";
-declare const NODE_TYPE_CLASS: "Class";
-declare const NODE_TYPE_ENUMERATION: "Enumeration";
-declare const NODE_TYPE_DATATYPE: "DataType";
-declare const NODE_TYPE_REF_ROOT: "RootReference";
-declare const NODE_TYPE_REF_INTERNAL: "InternalReference";
-declare const NODE_TYPE_REF_EXTERNAL: "ExternalReference";
-declare const NODE_TYPE_REF_INTERNAL_EXTERNAL: "InternalExternalReference";
-declare const NODE_TYPE_DEF_INTERNAL: "InternalReferenceDefinition";
-declare const NODE_TYPE_DEF_EXTERNAL: "ExternalReferenceDefinition";
-declare const NODE_TYPE_DEF_INTERNAL_EXTERNAL: "InternalExternalReferenceDefinition";
-export {};

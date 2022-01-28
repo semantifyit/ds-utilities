@@ -8,3 +8,4 @@ export function cloneJson(input: any): any;
 export function getLanguageString(valuesArray: any, language?: any): any;
 export function reorderNodeBasedOnNodeTermArray(dsNode: any, nodeTermArray: any): void;
 export function isObject(val: any): boolean;
+export function deepEqual(object1: any, object2: any): boolean;
