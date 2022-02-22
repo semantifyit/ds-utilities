@@ -1,22 +1,24 @@
 {
   "name": "ds-utilities",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "description": "A helper library that provides functions to handle Domain Specifications.",
-  "main": "src/index.js",
-  "types": "dist/types/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
-    "buildAll": "npm run-script build && npm run-script buildMinified && npm run-script buildtypes",
-    "build": "browserify src/index.js -s DsUtilities | derequire -cm --toplevel > dist/ds-utilities.js",
-    "buildMinified": "browserify src/index.js -s DsUtilities -g [uglifyify] | derequire -cm --toplevel > dist/ds-utilities.min.js",
-    "buildtypes": "npx -p typescript tsc src/**/*.js --declaration --allowJs --emitDeclarationOnly --outDir dist/types",
+    "buildAll": "npm run-script buildTs && npm run-script buildDist && npm run-script buildDistMinified",
+    "buildDist": "browserify lib/dist.js -s DsUtil > dist/ds-utilities.js",
+    "buildDistMinified": "browserify lib/dist.js -p tinyify -s DsUtil > dist/ds-utilities.min.js",
     "test": "jest",
-    "badges": "jest-coverage-badges",
+    "badges": "jest-coverage-badges input './docu/coverage/coverage-summary.json' output './docu/coverage'",
     "test:badges": "npm run-script test && npm run-script badges",
     "getJsDocMD": "jsdoc2md src/index.js src/versions/*.js src/versions/functions/*.js src/verification/**/*.js > API.md",
-    "eslint-check": "eslint \"{**/*,*}.js\"",
-    "eslint-repair": "eslint --fix \"{**/*,*}.js\"",
-    "prettier-check": "prettier --check \"{**/*,*}.js\"",
-    "prettier-repair": "prettier --write \"{**/*,*}.js\""
+    "eslint-check": "eslint 'src/**/*.{ts,*.ts}' 'tests/**/*.test.ts'",
+    "eslint-repair": "eslint --fix 'src/**/*.{ts,*.ts}' 'tests/**/*.test.ts'",
+    "eslint-check-lib": "eslint 'lib/**/*.js' --no-ignore",
+    "prettier-check": "prettier --check 'src/**/*.{ts,*.ts}' 'tests/**/*.test.ts'",
+    "prettier-repair": "prettier --write 'src/**/*.{ts,*.ts}' 'tests/**/*.test.ts'",
+    "buildTs": "tsc -b src",
+    "watchTs": "tsc -b src --watch"
   },
   "keywords": [
     "domain",
@@ -35,13 +37,15 @@
     "nanoid": "^3.1.25"
   },
   "devDependencies": {
+    "@types/jest": "^27.4.0",
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
     "browserify": "^17.0.0",
-    "derequire": "^2.1.1",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-es": "^3.0.1",
     "eslint-plugin-jest": "^24.4.0",
     "eslint-plugin-jsdoc": "^36.1.0",
-    "eslint-plugin-markdown": "^2.2.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.1.1",
@@ -50,23 +54,31 @@
     "jsdoc-to-markdown": "^7.0.1",
     "prettier": "^2.4.0",
     "schema-org-adapter": "^5.0.1",
-    "uglifyify": "^5.0.2"
+    "tinyify": "^3.0.0",
+    "ts-jest": "^27.1.3",
+    "typescript": "^4.5.5"
   },
   "jest": {
+    "preset": "ts-jest/presets/js-with-ts",
     "testEnvironment": "node",
     "testTimeout": 30000,
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/**/*.js"
+      "src/**/*.ts"
     ],
+    "coverageDirectory": "docu/coverage",
     "coverageReporters": [
-      "json-summary",
-      "text",
-      "lcov"
-    ]
+      "json-summary"
+    ],
+    "globals": {
+      "ts-jest": {
+        "isolatedModules": true,
+        "tsconfig": "tests/tsconfig.json"
+      }
+    }
   },
   "files": [
-    "src/**/*",
+    "lib/**/*",
     "dist/**/*",
     "README.md",
     "HISTORY.md",

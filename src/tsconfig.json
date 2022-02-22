@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "lib": ["es2018"],
+    "module": "commonjs",
+    "outDir": "../lib/",
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "rootDir": "./",
+    "sourceRoot": "./",
+    "resolveJsonModule": true,
+    "removeComments": true,
+    "noEmitOnError": true,
+    "strict": true,
+    "experimentalDecorators": true,
+    "declaration": true,
+    "declarationMap": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "./**/*.ts"
+  ]
+}

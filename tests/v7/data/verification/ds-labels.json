@@ -1,0 +1,177 @@
+{
+  "@context": {
+    "ds": "https://vocab.sti2.at/ds/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "schema": "https://schema.org/",
+    "sh": "http://www.w3.org/ns/shacl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "ds:propertyDisplayOrder": {
+      "@container": "@list",
+      "@type": "@id"
+    },
+    "ds:subDSOf": {
+      "@type": "@id"
+    },
+    "ds:usedVocabulary": {
+      "@type": "@id"
+    },
+    "sh:targetClass": {
+      "@type": "@id"
+    },
+    "sh:targetObjectsOf": {
+      "@type": "@id"
+    },
+    "sh:targetSubjectsOf": {
+      "@type": "@id"
+    },
+    "sh:class": {
+      "@type": "@id"
+    },
+    "sh:path": {
+      "@type": "@id"
+    },
+    "sh:datatype": {
+      "@type": "@id"
+    },
+    "sh:equals": {
+      "@type": "@id"
+    },
+    "sh:disjoint": {
+      "@type": "@id"
+    },
+    "sh:lessThan": {
+      "@type": "@id"
+    },
+    "sh:lessThanOrEquals": {
+      "@type": "@id"
+    },
+    "sh:in": {
+      "@container": "@list"
+    },
+    "sh:languageIn": {
+      "@container": "@list"
+    },
+    "sh:or": {
+      "@container": "@list"
+    }
+  },
+  "@graph": [
+    {
+      "@id": "https://semantify.it/ds/Dj8PAhZ4-",
+      "@type": "ds:DomainSpecification",
+      "sh:targetClass": [
+        "schema:Hotel"
+      ],
+      "sh:class": [
+        "schema:Hotel"
+      ],
+      "schema:name": [
+        {
+          "@language": "en",
+          "@value": "Test DS - rdfs:label"
+        },
+        {
+          "@language": "de",
+          "@value": "Test DS - rdfs:label"
+        }
+      ],
+      "schema:description": [
+        {
+          "@language": "en",
+          "@value": "This is my new Domain Specification."
+        }
+      ],
+      "schema:author": {
+        "@type": "schema:Person",
+        "schema:name": "elias",
+        "schema:memberOf": {
+          "@type": "schema:Organization",
+          "schema:name": "STI Innsbruck"
+        }
+      },
+      "ds:version": "7.0",
+      "schema:version": "2.11",
+      "schema:schemaVersion": "13.0",
+      "sh:closed": true,
+      "sh:property": [
+        {
+          "@type": "sh:PropertyShape",
+          "sh:path": "schema:name",
+          "sh:minCount": 1,
+          "sh:or": [
+            {
+              "sh:datatype": "xsd:string"
+            }
+          ],
+          "rdfs:label": [
+            {
+              "@language": "en",
+              "@value": "hotel name"
+            },
+            {
+              "@language": "de",
+              "@value": "Name des Hotels"
+            }
+          ]
+        },
+        {
+          "@type": "sh:PropertyShape",
+          "sh:path": "schema:description",
+          "sh:minCount": 1,
+          "sh:or": [
+            {
+              "sh:datatype": "xsd:string"
+            }
+          ],
+          "rdfs:label": [
+            {
+              "@language": "de",
+              "@value": "Beschreibung"
+            }
+          ]
+        },
+        {
+          "@type": "sh:PropertyShape",
+          "sh:path": "schema:petsAllowed",
+          "sh:minCount": 1,
+          "sh:or": [
+            {
+              "sh:datatype": "xsd:boolean"
+            }
+          ],
+          "rdfs:label": [
+            {
+              "@language": "en",
+              "@value": "pets allowed"
+            },
+            {
+              "@language": "de",
+              "@value": "Haustiere erlaubt"
+            }
+          ]
+        },
+        {
+          "@type": "sh:PropertyShape",
+          "sh:path": "schema:openingHours",
+          "sh:minCount": 1,
+          "sh:or": [
+            {
+              "sh:datatype": "xsd:string"
+            }
+          ],
+          "rdfs:label": [
+            {
+              "@language": "en",
+              "@value": "opening hours"
+            },
+            {
+              "@language": "de",
+              "@value": "Öffnungszeiten"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

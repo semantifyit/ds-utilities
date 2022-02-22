@@ -1,24 +1,28 @@
 {
   "env": {
-    "es6": true,
     "node": true,
-    "jest": true
+    "browser": true,
+    "jest": true,
+    "jest/globals": true
   },
+  "root": true,
   "extends": [
-    "eslint:recommended",
-    "plugin:node/recommended",
-    "plugin:jest/recommended",
-    "prettier"
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "plugin:jest/recommended"
   ],
   "plugins": [
     "jest",
-    "markdown",
-    "node",
-    "prettier"
+    "prettier",
+    "@typescript-eslint"
   ],
-//  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2020,
+    "project": [
+      "src/tsconfig.json",
+      "tests/tsconfig.json"
+    ],
     "sourceType": "module"
   },
   "rules": {
@@ -49,6 +53,7 @@
       }
     ],
     "node/no-unpublished-require": "off",
-    "no-unused-vars": "warn"
+    "no-unused-vars": "warn",
+    "@typescript-eslint/ban-ts-comment": "off"
   }
 }
