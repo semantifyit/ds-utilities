@@ -20,6 +20,16 @@ export const nodeSchemaEnumeration: NodeSchema = [
     valueType: "array",
   },
   {
+    term: "rdfs:label",
+    required: false,
+    valueType: "array"
+  },
+  {
+    term: "rdfs:comment",
+    required: false,
+    valueType: "array"
+  },
+  {
     term: "sh:in",
     required: false,
     valueType: "array",

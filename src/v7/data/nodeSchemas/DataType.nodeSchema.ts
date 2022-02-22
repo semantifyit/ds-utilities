@@ -22,6 +22,16 @@ export const nodeSchemaDataType:NodeSchema = [
     ],
   },
   {
+    term: "rdfs:label",
+    required: false,
+    valueType: "array"
+  },
+  {
+    term: "rdfs:comment",
+    required: false,
+    valueType: "array"
+  },
+  {
     term: "sh:defaultValue",
     required: false,
     valueType: "any",

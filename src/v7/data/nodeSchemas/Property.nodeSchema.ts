@@ -21,6 +21,11 @@ export const nodeSchemaProperty: NodeSchema = [
     valueType: "string"
   },
   {
+    term: "rdfs:label",
+    required: false,
+    valueType: "array"
+  },
+  {
     term: "rdfs:comment",
     required: false,
     valueType: "array"

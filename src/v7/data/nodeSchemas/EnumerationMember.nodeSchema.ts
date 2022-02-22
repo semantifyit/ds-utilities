@@ -7,5 +7,15 @@ export const nodeSchemaEnumerationMember: NodeSchema = [
     term: "@id",
     required: true,
     valueType: "string",
-  }
+  },
+  {
+    term: "rdfs:label",
+    required: false,
+    valueType: "array"
+  },
+  {
+    term: "rdfs:comment",
+    required: false,
+    valueType: "array"
+  },
 ];

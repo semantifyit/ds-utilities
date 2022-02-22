@@ -19,6 +19,7 @@ import dsClassNodeWrong from "../data/verification/ds-classnode-wrong.json" ;
 import dsDataTypeNodeWrong from "../data/verification/ds-datatypenode-wrong.json" ;
 import dsEnumerationNodeWrong from "../data/verification/ds-enumerationnode-wrong.json" ;
 import dsEmptyArrays from "../data/verification/ds-empty-arrays.json" ;
+import dsLabels from "../data/verification/ds-labels.json" ;
 import { semantifyConfig } from "../../../src/v7/data/nodeSchemas/Semantify.nodeSchema";
 
 describe("v7 - verifyDs() Extended", () => {
@@ -159,6 +160,14 @@ describe("v7 - verifyDs() Extended", () => {
     const report = dsu.verifyDs(dsEnumerationNodeWrong);
     expect(report.result).toBe("Invalid");
     expect(report.errors.length).toBe(4);
+  });
+
+  test("verifyDs() - rdfs label and comment", () => {
+    const dsu = new DsUtilitiesV7();
+    // @ts-ignore on purpose
+    const report = dsu.verifyDs(dsLabels);
+    expect(report.result).toBe("Valid");
+    expect(report.errors.length).toBe(0);
   });
 
   test("verifyDs() - empty array", () => {

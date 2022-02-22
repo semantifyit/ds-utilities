@@ -20,6 +20,16 @@ export const nodeSchemaClass: NodeSchema = [
     valueType: "array"
   },
   {
+    term: "rdfs:label",
+    required: false,
+    valueType: "array"
+  },
+  {
+    term: "rdfs:comment",
+    required: false,
+    valueType: "array"
+  },
+  {
     term: "sh:closed",
     required: false,
     valueType: "boolean"
