@@ -1,4 +1,3 @@
-import { DsUtilitiesBase } from "../../src/base/DsUtilitiesBase";
 import v7dsDs0 from "./../v7/data/ds-ds0.json";
 import v7dsDs0NoGraph from "./../v7/data/ds-ds0-no-graph.json";
 import v7dsDs0NoRoot from "./../v7/data/ds-ds0-no-rootnode.json";
@@ -44,9 +43,7 @@ describe("DsUtilitiesBase", () => {
       extractSdoVersionNumber("https://schema.org/docs/releases.html#v10.0")
     ).toBe("10.0");
     expect(
-      extractSdoVersionNumber(
-        "https://schema.org/docs/releases.html#v12.0/"
-      )
+      extractSdoVersionNumber("https://schema.org/docs/releases.html#v12.0/")
     ).toBe("12.0");
     expect(extractSdoVersionNumber("https://schema.org/version/3.4")).toBe(
       "3.4"

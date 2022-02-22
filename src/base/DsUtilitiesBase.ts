@@ -8,11 +8,11 @@ import { extractSdoVersionNumber } from "./functions/extractSdoVersionNumber.fn"
  */
 
 export abstract class DsUtilitiesBase {
-
   // the dsUtilitiesVersion specifies the version of a DsUtilities Class, which is exactly the same as the corresponding DS specification version
   // DsUtilitiesBase is a super-class for all DsUtilities versions, therefore, it has no corresponding Ds specification version
   protected abstract dsUtilitiesVersion: string;
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   protected constructor() {}
 
   getDsUtilitiesVersion(): string {
@@ -23,8 +23,11 @@ export abstract class DsUtilitiesBase {
   functions that handle the structure of DS
   */
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   abstract getDsRootNode: Function;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   abstract getDsStandardContext: Function;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   abstract getDsId: Function;
   getDsSpecificationVersion = getDsSpecificationVersion;
 
@@ -38,16 +41,22 @@ export abstract class DsUtilitiesBase {
 
   prettyPrintCompactedIRIs = prettyPrintCompactedIRIs;
   extractSdoVersionNumber = extractSdoVersionNumber;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   abstract getDsName: Function;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   abstract getDsDescription: Function;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   abstract getDsAuthorName: Function;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   abstract getDsSchemaVersion: Function;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   abstract getDsVersion: Function;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   abstract getDsExternalVocabularies: Function;
-  abstract getDsTargetClasses : Function;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  abstract getDsTargetClasses: Function;
 
   /*
  functions for the meta verification
  */
-
 }

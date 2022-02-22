@@ -71,5 +71,4 @@ export class DsUtilitiesV7 extends DsUtilitiesBase {
   */
   verifyDs = verifyDs;
   checkClassMatch = checkClassMatch;
-
 }

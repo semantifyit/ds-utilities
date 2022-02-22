@@ -10,7 +10,7 @@ DS-Utilities provides an API to handle Domain Specifications according to the DS
 <br>
 <a href="https://eslint.org/"><img src="https://img.shields.io/badge/code%20style-ESLint-brightgreen" alt="Code style in ESLint" /></a>
 <a href="https://npms.io/search?q=ds-utilities"><img src="https://img.shields.io/npms-io/quality-score/ds-utilities" alt="npms.io Code Quality" /></a>
-<img src="https://raw.githubusercontent.com/semantifyit/ds-utilities/main/coverage/badge-functions.svg?sanitize=true" alt="Jest Test Coverage Functions" />
+<img src="https://raw.githubusercontent.com/semantifyit/ds-utilities/main/docu/coverage/badge-functions.svg?sanitize=true" alt="Functions test coverage" />
 <br>
 <a href="https://www.npmjs.com/package/ds-utilities" rel="nofollow"><img src="https://img.shields.io/npm/v/ds-utilities.svg" alt="NPM Version"></a>
 <a href="https://github.com/semantifyit/ds-utilities/"><img src="https://img.shields.io/tokei/lines/github/semantifyit/ds-utilities" alt="Total lines of code" /></a>
@@ -30,8 +30,8 @@ npm install ds-utilities
 #### Node
 
 ```javascript 
-const DsUtilities = require("ds-utilities"); // path to the ds-utilities folder
-const myDsUtilitiesV7 = DsUtilities.getDsUtilitiesForDsSpecVersion("7.0");
+const { DsUtil } = require("ds-utilities");
+const myDsUtilitiesV7 = DsUtil.getDsUtilitiesForDsSpecVersion("7.0");
 ``` 
 
 ### Browser
@@ -42,10 +42,10 @@ Include the compiled dist file:
 <script src="/dist/ds-utilities.js"></script>
 ``` 
 
-Use the global DsUtilities class:
+Use the global variable `DsUtil` to access the library:
 
 ```javascript 
-const myDsUtilitiesV7 = DsUtilities.getDsUtilitiesForDsSpecVersion("7.0");
+const myDsUtilitiesV7 = DsUtil.getDsUtilitiesForDsSpecVersion("7.0");
 ``` 
 
 ## Documentation
