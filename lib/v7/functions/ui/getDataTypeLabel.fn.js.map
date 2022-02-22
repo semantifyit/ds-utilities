@@ -1,0 +1,1 @@
+{"version":3,"file":"getDataTypeLabel.fn.js","sourceRoot":"./","sources":["v7/functions/ui/getDataTypeLabel.fn.ts"],"names":[],"mappings":";;;AACA,8DAAmE;AASnE,SAAgB,gBAAgB,CAAC,UAAwB;IACvD,MAAM,KAAK,GAAG,uCAAsB,CAAC,UAAU,CAAC,CAAC;IACjD,IAAI,CAAC,KAAK,EAAE;QACV,MAAM,IAAI,KAAK,CACb,eAAe;YACf,UAAU;YACV,6CAA6C,CAC9C,CAAC;KACH;IACD,OAAO,KAAK,CAAC;AACf,CAAC;AAVD,4CAUC"}

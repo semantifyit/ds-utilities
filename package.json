@@ -1,9 +1,9 @@
 {
   "name": "ds-utilities",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "description": "A helper library that provides functions to handle Domain Specifications.",
-  "main": "src/index.js",
-  "types": "dist/types/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "buildAll": "npm run-script build && npm run-script buildMinified && npm run-script buildtypes",
     "build": "browserify src/index.js -s DsUtilities | derequire -cm --toplevel > dist/ds-utilities.js",
@@ -13,10 +13,13 @@
     "badges": "jest-coverage-badges",
     "test:badges": "npm run-script test && npm run-script badges",
     "getJsDocMD": "jsdoc2md src/index.js src/versions/*.js src/versions/functions/*.js src/verification/**/*.js > API.md",
-    "eslint-check": "eslint \"{**/*,*}.js\"",
-    "eslint-repair": "eslint --fix \"{**/*,*}.js\"",
-    "prettier-check": "prettier --check \"{**/*,*}.js\"",
-    "prettier-repair": "prettier --write \"{**/*,*}.js\""
+    "eslint-check": "eslint src/*.ts tests/*.ts",
+    "eslint-repair": "eslint --fix src/*.ts tests/*.ts",
+    "eslint-check-lib": "eslint lib/*.js --no-ignore",
+    "prettier-check": "prettier --check src/*.ts tests/*.ts",
+    "prettier-repair": "prettier --write src/*.ts tests/*.ts",
+    "buildTs": "tsc -b src",
+    "watchTs": "tsc -b src --watch"
   },
   "keywords": [
     "domain",
@@ -35,6 +38,9 @@
     "nanoid": "^3.1.25"
   },
   "devDependencies": {
+    "@types/jest": "^27.4.0",
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
     "browserify": "^17.0.0",
     "derequire": "^2.1.1",
     "eslint": "^7.32.0",
@@ -50,20 +56,29 @@
     "jsdoc-to-markdown": "^7.0.1",
     "prettier": "^2.4.0",
     "schema-org-adapter": "^5.0.1",
+    "ts-jest": "^27.1.3",
+    "typescript": "^4.5.5",
     "uglifyify": "^5.0.2"
   },
   "jest": {
+    "preset": "ts-jest/presets/js-with-ts",
     "testEnvironment": "node",
     "testTimeout": 30000,
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/**/*.js"
+      "src/**/*.ts"
     ],
     "coverageReporters": [
       "json-summary",
       "text",
       "lcov"
-    ]
+    ],
+    "globals": {
+      "ts-jest": {
+        "isolatedModules": true,
+        "tsconfig": "tests/tsconfig.json"
+      }
+    }
   },
   "files": [
     "src/**/*",

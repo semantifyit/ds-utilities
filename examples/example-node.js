@@ -1,4 +1,4 @@
-const DsUtilities = require("../src");
+const DsUtilities = require("../lib");
 
 // const myDsUtilitiesV5 = DsUtilities.getDsUtilitiesForDsSpecVersion("5.0");
 const myDsUtilitiesV7 = DsUtilities.getDsUtilitiesForDsSpecVersion("7.0");

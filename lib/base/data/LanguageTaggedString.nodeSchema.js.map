@@ -1,0 +1,1 @@
+{"version":3,"file":"LanguageTaggedString.nodeSchema.js","sourceRoot":"./","sources":["base/data/LanguageTaggedString.nodeSchema.ts"],"names":[],"mappings":";;;AAIa,QAAA,8BAA8B,GAAe;IACxD;QACE,IAAI,EAAE,WAAW;QACjB,QAAQ,EAAE,IAAI;QACd,SAAS,EAAE,QAAQ;KACpB;IACD;QACE,IAAI,EAAE,QAAQ;QACd,QAAQ,EAAE,IAAI;QACd,SAAS,EAAE,QAAQ;KACpB;CACF,CAAC"}

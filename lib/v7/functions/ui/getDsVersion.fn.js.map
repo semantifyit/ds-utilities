@@ -1,0 +1,1 @@
+{"version":3,"file":"getDsVersion.fn.js","sourceRoot":"./","sources":["v7/functions/ui/getDsVersion.fn.ts"],"names":[],"mappings":";;;AACA,oEAA8D;AAS9D,SAAgB,YAAY,CAAC,EAAO;IAClC,MAAM,QAAQ,GAAG,IAAA,gCAAa,EAAC,EAAE,CAAC,CAAC;IACnC,IAAI,QAAQ,CAAC,gBAAgB,CAAC,EAAE;QAC9B,OAAO,QAAQ,CAAC,gBAAgB,CAAC,CAAC;KACnC;IACD,OAAO,SAAS,CAAC;AACnB,CAAC;AAND,oCAMC"}
