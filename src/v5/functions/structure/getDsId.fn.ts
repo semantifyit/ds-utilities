@@ -7,7 +7,7 @@ import { DsV5 } from "../../types/DsGrammarV5.type";
  * @param ds - the input DS
  * @return The @id of the given DS
  */
-export function getDsId(ds: DsV5):string {
+export function getDsId(ds: DsV5): string {
   if (!ds["@id"]) {
     throw new Error(
       "The given DS has no @id, which is mandatory for a DS in DS-V5 format."

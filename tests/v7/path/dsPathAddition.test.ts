@@ -1,4 +1,4 @@
-import { DsUtilitiesV7 } from '../../../src/v7/DsUtilitiesV7';
+import { DsUtilitiesV7 } from "../../../src/v7/DsUtilitiesV7";
 
 describe("v7 - dsPathAddition()", () => {
   test("Property", () => {
@@ -28,7 +28,7 @@ describe("v7 - dsPathAddition()", () => {
     expect(
       dsu.dsPathAddition("$.schema:offer", "Class", [
         "schema:Product",
-        "schema:Room"
+        "schema:Room",
       ])
     ).toBe("$.schema:offer/schema:Product,schema:Room");
   });
@@ -36,7 +36,7 @@ describe("v7 - dsPathAddition()", () => {
     const dsu = new DsUtilitiesV7();
     expect(
       dsu.dsPathAddition("$.schema:dayOfWeek", "Enumeration", [
-        "schema:DayOfWeek"
+        "schema:DayOfWeek",
       ])
     ).toBe("$.schema:dayOfWeek/schema:DayOfWeek");
   });

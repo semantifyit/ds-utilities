@@ -16,4 +16,4 @@ export function getDsSchemaVersion(ds: DsV7): string {
     );
   }
   return rootNode["schema:schemaVersion"];
-};
+}

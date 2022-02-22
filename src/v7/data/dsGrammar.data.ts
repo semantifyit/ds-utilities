@@ -13,7 +13,7 @@ const dsGrammarNodeTypeReference = "Reference"; // any reference node that has o
 export const dsGrammarNodeTypes = {
   ds: dsGrammarNodeTypeDs,
   context: dsGrammarNodeTypeContext,
-  root:dsGrammarNodeTypeRoot,
+  root: dsGrammarNodeTypeRoot,
   classStandard: dsGrammarNodeTypeClassStandard,
   classRestricted: dsGrammarNodeTypeClassRestricted,
   enumerationStandard: dsGrammarNodeTypeEnumerationStandard,
@@ -21,5 +21,5 @@ export const dsGrammarNodeTypes = {
   property: dsGrammarNodeTypeProperty,
   dataType: dsGrammarNodeTypeDataType,
   enumerationMember: dsGrammarNodeTypeEnumerationMember,
-  reference: dsGrammarNodeTypeReference
+  reference: dsGrammarNodeTypeReference,
 } as const;

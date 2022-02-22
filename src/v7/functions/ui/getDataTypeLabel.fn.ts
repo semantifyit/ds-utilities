@@ -1,4 +1,3 @@
-
 import { dataTypeMappingToLabel } from "../../data/datatypes.data";
 import { DataTypeDsV7 } from "../../types/DataTypesV7.type";
 
@@ -13,8 +12,8 @@ export function getDataTypeLabel(dsDataType: DataTypeDsV7): string {
   if (!match) {
     throw new Error(
       "Given input '" +
-      dsDataType +
-      "' is not a valid xsd/rdf datatype in DS-V7."
+        dsDataType +
+        "' is not a valid xsd/rdf datatype in DS-V7."
     );
   }
   return match;

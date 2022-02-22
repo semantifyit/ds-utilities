@@ -22,12 +22,12 @@ export const nodeSchemaEnumeration: NodeSchema = [
   {
     term: "rdfs:label",
     required: false,
-    valueType: "array"
+    valueType: "array",
   },
   {
     term: "rdfs:comment",
     required: false,
-    valueType: "array"
+    valueType: "array",
   },
   {
     term: "sh:in",

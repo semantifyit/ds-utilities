@@ -1,6 +1,6 @@
-import dsDs0 from "../data/ds-ds0.json" ;
-import dsDs0NoRoot from "../data/ds-ds0-no-rootnode.json" ;
-import dsDs0NoMeta from "../data/ds-ds0-no-meta.json" ;
+import dsDs0 from "../data/ds-ds0.json";
+import dsDs0NoRoot from "../data/ds-ds0-no-rootnode.json";
+import dsDs0NoMeta from "../data/ds-ds0-no-meta.json";
 import { DsV5 } from "../../../src/v5/types/DsGrammarV5.type";
 import { DsUtilitiesV5 } from "../../../src/v5/DsUtilitiesV5";
 
@@ -15,9 +15,7 @@ describe("v5 - getDsVersion()", () => {
     expect(() => {
       // @ts-ignore on purpose
       dsu.getDsVersion(dsDs0NoRoot);
-    }).toThrow(
-      "The given DS has no identifiable root node in DS-V5 format."
-    );
+    }).toThrow("The given DS has no identifiable root node in DS-V5 format.");
   });
   test("correct root node with no schema:version", () => {
     const dsu = new DsUtilitiesV5();

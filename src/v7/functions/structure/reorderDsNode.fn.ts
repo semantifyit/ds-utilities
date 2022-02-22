@@ -34,10 +34,7 @@ export function reorderDsNode(dsNode: DsNodeGeneric): void {
       // class node / enumeration node
       case "sh:NodeShape":
         if (dsNode["sh:in"]) {
-          reorderNodeWithSchema(
-            dsNode,
-            nodeSchemaEnumeration
-          );
+          reorderNodeWithSchema(dsNode, nodeSchemaEnumeration);
         } else {
           // class node (restricted, standard class) or standard enumeration - same structure
           reorderNodeWithSchema(dsNode, nodeSchemaClass);

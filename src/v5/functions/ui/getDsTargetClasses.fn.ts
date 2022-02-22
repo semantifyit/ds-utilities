@@ -9,7 +9,7 @@ import { DsV5 } from "../../types/DsGrammarV5.type";
  * @param ds - the input DS
  * @return array with the target classes (empty if none)
  */
-export function getDsTargetClasses (ds: DsV5): string[] {
+export function getDsTargetClasses(ds: DsV5): string[] {
   const rootNode = getDsRootNode(ds);
   if (!rootNode["sh:targetClass"]) {
     throw new Error(

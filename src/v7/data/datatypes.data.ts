@@ -7,7 +7,7 @@ export const dataTypesSchema = {
   boolean: "schema:Boolean",
   time: "schema:Time",
   date: "schema:Date",
-  dateTime: "schema:DateTime"
+  dateTime: "schema:DateTime",
 } as const;
 
 export const dataTypesDs = {
@@ -21,7 +21,7 @@ export const dataTypesDs = {
   boolean: "xsd:boolean",
   time: "xsd:time",
   date: "xsd:date",
-  dateTime: "xsd:dateTime"
+  dateTime: "xsd:dateTime",
 } as const;
 
 // https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/domainspecification/datatype#3.1.-datatype-mapping
@@ -36,7 +36,7 @@ export const dataTypeMapping = {
   [dataTypesDs.double]: dataTypesSchema.number,
   [dataTypesDs.integer]: dataTypesSchema.integer,
   [dataTypesDs.float]: dataTypesSchema.float,
-  [dataTypesDs.url]: dataTypesSchema.url
+  [dataTypesDs.url]: dataTypesSchema.url,
 } as const;
 
 export const dataTypeMappingToLabel = {
@@ -50,5 +50,5 @@ export const dataTypeMappingToLabel = {
   [dataTypesDs.double]: "Number",
   [dataTypesDs.integer]: "Integer",
   [dataTypesDs.float]: "Float",
-  [dataTypesDs.url]: "URL"
+  [dataTypesDs.url]: "URL",
 } as const;

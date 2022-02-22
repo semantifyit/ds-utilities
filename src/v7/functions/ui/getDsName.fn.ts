@@ -10,10 +10,10 @@ import { getLanguageString } from "../../../base/helper/helper";
  * @param language - the wished language for the name (optional)
  * @return The name of the given DS
  */
-export function getDsName(ds: DsV7, language?: string ): string | undefined {
+export function getDsName(ds: DsV7, language?: string): string | undefined {
   const rootNode = getDsRootNode(ds);
   if (rootNode["schema:name"]) {
     return getLanguageString(rootNode["schema:name"], language);
   }
   return undefined;
-};
+}

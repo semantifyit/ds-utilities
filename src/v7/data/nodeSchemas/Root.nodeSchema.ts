@@ -6,87 +6,87 @@ export const nodeSchemaRoot: NodeSchema = [
   {
     term: "@id",
     required: true,
-    valueType: "string"
+    valueType: "string",
   },
   {
     term: "@type",
     required: true,
     valueType: "string",
-    value: "ds:DomainSpecification"
+    value: "ds:DomainSpecification",
   },
   {
     term: "ds:subDSOf",
     required: false,
-    valueType: "string"
+    valueType: "string",
   },
   {
     term: "sh:targetClass",
     required: false,
-    valueType: "array"
+    valueType: "array",
   },
   {
     term: "sh:targetObjectsOf",
     required: false,
-    valueType: "string"
+    valueType: "string",
   },
   {
     term: "sh:targetSubjectsOf",
     required: false,
-    valueType: "string"
+    valueType: "string",
   },
   {
     term: "sh:class",
     required: false,
-    valueType: "array"
+    valueType: "array",
   },
   {
     term: "schema:name",
     required: false,
-    valueType: "array"
+    valueType: "array",
   },
   {
     term: "schema:description",
     required: false,
-    valueType: "array"
+    valueType: "array",
   },
   {
     term: "schema:author",
     required: false,
-    valueType: "object"
+    valueType: "object",
   },
   {
     term: "ds:version",
     required: true,
-    valueType: "string"
+    valueType: "string",
   },
   {
     term: "schema:version",
     required: false,
-    valueType: "string"
+    valueType: "string",
   },
   {
     term: "schema:schemaVersion",
     required: true,
-    valueType: "string"
+    valueType: "string",
   },
   {
     term: "ds:usedVocabulary",
     required: false,
-    valueType: "array"
+    valueType: "array",
   },
   {
     term: "sh:closed",
     required: false,
-    valueType: "boolean"
+    valueType: "boolean",
   },
   {
     term: "ds:propertyDisplayOrder",
     required: false,
-    valueType: "array"
+    valueType: "array",
   },
   {
     term: "sh:property",
     required: true,
-    valueType: "array"
-  }
+    valueType: "array",
+  },
 ];

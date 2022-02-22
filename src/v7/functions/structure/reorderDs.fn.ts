@@ -1,4 +1,4 @@
-import {  DsV7 } from "../../types/DsGrammarV7.type";
+import { DsV7 } from "../../types/DsGrammarV7.type";
 import { isObject, reorderNodeWithSchema } from "../../../base/helper/helper";
 import { LanguageTaggedString } from "../../../base/types/LanguageTaggedString.type";
 import { nodeSchemaLanguageTaggedString } from "../../../base/data/LanguageTaggedString.nodeSchema";
@@ -39,10 +39,10 @@ export function reorderDs(ds: DsV7) {
 
 function reorderClassLikeNode(classNode: DsNodeGeneric) {
   reorderDsNode(classNode);
-  reorderMetaPropertyIfExists(classNode,"schema:name");
-  reorderMetaPropertyIfExists(classNode,"schema:description");
-  reorderMetaPropertyIfExists(classNode,"rdfs:label");
-  reorderMetaPropertyIfExists(classNode,"rdfs:comment");
+  reorderMetaPropertyIfExists(classNode, "schema:name");
+  reorderMetaPropertyIfExists(classNode, "schema:description");
+  reorderMetaPropertyIfExists(classNode, "rdfs:label");
+  reorderMetaPropertyIfExists(classNode, "rdfs:comment");
   if (classNode["sh:property"]) {
     for (const propertyNode of classNode["sh:property"]) {
       reorderPropertyNode(propertyNode);
@@ -52,19 +52,19 @@ function reorderClassLikeNode(classNode: DsNodeGeneric) {
 
 function reorderPropertyNode(propertyNode: DsNodeGeneric) {
   reorderDsNode(propertyNode);
-  reorderMetaPropertyIfExists(propertyNode,"rdfs:label");
-  reorderMetaPropertyIfExists(propertyNode,"rdfs:comment");
+  reorderMetaPropertyIfExists(propertyNode, "rdfs:label");
+  reorderMetaPropertyIfExists(propertyNode, "rdfs:comment");
   for (const rangeNode of propertyNode["sh:or"]) {
     reorderDsNode(rangeNode);
-    reorderMetaPropertyIfExists(rangeNode,"rdfs:label");
-    reorderMetaPropertyIfExists(rangeNode,"rdfs:comment");
+    reorderMetaPropertyIfExists(rangeNode, "rdfs:label");
+    reorderMetaPropertyIfExists(rangeNode, "rdfs:comment");
     if (rangeNode["sh:node"]) {
       reorderClassLikeNode(rangeNode["sh:node"]);
     }
   }
 }
 
-function reorderMetaPropertyIfExists(dsNode: DsNodeGeneric, term:string){
+function reorderMetaPropertyIfExists(dsNode: DsNodeGeneric, term: string) {
   if (dsNode[term]) {
     reorderMetaValues(dsNode[term]);
   }
@@ -72,9 +72,6 @@ function reorderMetaPropertyIfExists(dsNode: DsNodeGeneric, term:string){
 // reorder the meta values (language-tagged strings) in a given array
 function reorderMetaValues(valuesArray: LanguageTaggedString[]) {
   for (const valObj of valuesArray) {
-    reorderNodeWithSchema(
-      valObj,
-      nodeSchemaLanguageTaggedString
-    );
+    reorderNodeWithSchema(valObj, nodeSchemaLanguageTaggedString);
   }
 }

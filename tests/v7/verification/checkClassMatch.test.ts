@@ -2,7 +2,7 @@ import { DsUtilitiesV7 } from "../../../src/v7/DsUtilitiesV7";
 import { create } from "schema-org-adapter";
 
 describe("v7 - checkClassMatch()", () => {
-  test("Class Match Scenarios", async() => {
+  test("Class Match Scenarios", async () => {
     const mySdoAdapter = await create({
       schemaVersion: "13.0",
     });

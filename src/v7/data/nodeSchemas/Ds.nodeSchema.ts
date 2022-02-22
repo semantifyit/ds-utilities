@@ -6,11 +6,11 @@ export const nodeSchemaDs: NodeSchema = [
   {
     term: "@context",
     required: true,
-    valueType: "object"
+    valueType: "object",
   },
   {
     term: "@graph",
     required: true,
-    valueType: "array"
-  }
+    valueType: "array",
+  },
 ];

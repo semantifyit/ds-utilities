@@ -15,7 +15,11 @@ import { DsNodeGeneric } from "../../../base/types/DsGrammarGeneric.type";
  * @param sdoAdapter {SDOAdapter?} - A SDO-Adapter instance (already initialized with the wished vocabularies) -
  * @return {string} the type of the given node
  */
-export function identifyDsGrammarNodeType(dsNode: DsNodeGeneric, ds: DsV7, sdoAdapter?: SDOAdapter): DsGrammarNodeTypeV7 {
+export function identifyDsGrammarNodeType(
+  dsNode: DsNodeGeneric,
+  ds: DsV7,
+  sdoAdapter?: SDOAdapter
+): DsGrammarNodeTypeV7 {
   const rootNode = getDsRootNode(ds);
   // check if it is @context
   const contextNode = dsPathGetNode(ds, "@context");

@@ -5,7 +5,10 @@
  */
 
 import { DsV7 } from "../../types/DsGrammarV7.type";
-import { VerificationConfigV7, VerificationReportV7 } from "../../types/VerificationV7.type";
+import {
+  VerificationConfigV7,
+  VerificationReportV7,
+} from "../../types/VerificationV7.type";
 import { nodeSchemaDs } from "../../data/nodeSchemas/Ds.nodeSchema";
 import { nodeSchemaContext } from "../../data/nodeSchemas/Context.nodeSchema";
 import { VerificationReport } from "./VerificationReport";
@@ -24,7 +27,6 @@ import { dsPathIdentifyNodeType } from "../path/dsPathIdentifyNodeType.fn";
 import { nodeSchemaDataType } from "../../data/nodeSchemas/DataType.nodeSchema";
 import { NodeSchema } from "../../../base/types/NodeSchema.type";
 
-
 /**
  * Returns a meta verification report
  *
@@ -32,7 +34,10 @@ import { NodeSchema } from "../../../base/types/NodeSchema.type";
  * @param config - optional config object with options for the meta verification
  * @return verification report
  */
-export function verifyDs(ds: DsV7, config: VerificationConfigV7 = {}): VerificationReportV7 {
+export function verifyDs(
+  ds: DsV7,
+  config: VerificationConfigV7 = {}
+): VerificationReportV7 {
   const verificationReport = new VerificationReport();
   try {
     if (!isObject(ds)) {
@@ -49,10 +54,7 @@ export function verifyDs(ds: DsV7, config: VerificationConfigV7 = {}): Verificat
       verificationReport,
       null,
       ds,
-      mergeNodeSchemas(
-        nodeSchemaDs,
-        config.nodeSchemaDs
-      )
+      mergeNodeSchemas(nodeSchemaDs, config.nodeSchemaDs)
     );
     // check compliance of the @context
     if (isObject(ds["@context"])) {
@@ -60,10 +62,7 @@ export function verifyDs(ds: DsV7, config: VerificationConfigV7 = {}): Verificat
         verificationReport,
         "@context",
         ds["@context"],
-        mergeNodeSchemas(
-          nodeSchemaContext,
-          config.nodeSchemaContext
-        )
+        mergeNodeSchemas(nodeSchemaContext, config.nodeSchemaContext)
       );
     }
     // check compliance of root node
@@ -85,10 +84,7 @@ export function verifyDs(ds: DsV7, config: VerificationConfigV7 = {}): Verificat
         ds,
         graphNode,
         verificationReport,
-        dsPathInit(
-          PGN.defInt,
-          graphNode["@id"]
-        ),
+        dsPathInit(PGN.defInt, graphNode["@id"]),
         config,
         false
       );
@@ -116,15 +112,9 @@ function verifyClassNode(
 ): void {
   let complianceRules;
   if (isRoot) {
-    complianceRules = mergeNodeSchemas(
-      nodeSchemaRoot,
-      config.nodeSchemaRoot
-    );
+    complianceRules = mergeNodeSchemas(nodeSchemaRoot, config.nodeSchemaRoot);
   } else {
-    complianceRules = mergeNodeSchemas(
-      nodeSchemaClass,
-      config.nodeSchemaClass
-    );
+    complianceRules = mergeNodeSchemas(nodeSchemaClass, config.nodeSchemaClass);
   }
   // check the class node itself
   checkCompliance(verificationReport, path, classNode, complianceRules);
@@ -135,11 +125,7 @@ function verifyClassNode(
         ds,
         pNode,
         verificationReport,
-        dsPathAddition(
-          path,
-          PGN.property,
-          pNode["sh:path"]
-        ),
+        dsPathAddition(path, PGN.property, pNode["sh:path"]),
         config
       );
     }
@@ -158,10 +144,7 @@ function verifyEnumerationNode(
     verificationReport,
     path,
     enumerationNode,
-    mergeNodeSchemas(
-      nodeSchemaEnumeration,
-      config.nodeSchemaEnumeration
-    )
+    mergeNodeSchemas(nodeSchemaEnumeration, config.nodeSchemaEnumeration)
   );
   // check sh:in values, if present
   if (Array.isArray(enumerationNode["sh:in"])) {
@@ -217,10 +200,7 @@ function verifyPropertyNode(
     verificationReport,
     path,
     propertyNode,
-    mergeNodeSchemas(
-      nodeSchemaProperty,
-      config.nodeSchemaProperty
-    )
+    mergeNodeSchemas(nodeSchemaProperty, config.nodeSchemaProperty)
   );
   // recursive check of ranges
   if (Array.isArray(propertyNode["sh:or"])) {
@@ -238,11 +218,7 @@ function verifyPropertyNode(
       switch (nodeType) {
         case PGN.class:
           try {
-            newPath = dsPathAddition(
-              path,
-              nodeType,
-              nodeToCheck["sh:class"]
-            );
+            newPath = dsPathAddition(path, nodeType, nodeToCheck["sh:class"]);
           } catch (e) {
             // class node has no sh:class definition
             newPath = path;
@@ -258,11 +234,7 @@ function verifyPropertyNode(
           break;
         case PGN.enumeration:
           try {
-            newPath = dsPathAddition(
-              path,
-              nodeType,
-              nodeToCheck["sh:class"]
-            );
+            newPath = dsPathAddition(path, nodeType, nodeToCheck["sh:class"]);
           } catch (e) {
             // class node has no sh:class definition
             newPath = path;
@@ -311,10 +283,7 @@ function verifyDataTypeNode(
     verificationReport,
     path,
     dataTypeNode,
-    mergeNodeSchemas(
-      nodeSchemaDataType,
-      config.nodeSchemaDataType
-    )
+    mergeNodeSchemas(nodeSchemaDataType, config.nodeSchemaDataType)
   );
 }
 
@@ -350,12 +319,12 @@ function checkCompliance(
             "Error",
             path,
             "Term '" +
-            termObj.term +
-            "' requires a value with datatype '" +
-            termObj.valueType +
-            "', but has the datatype '" +
-            valType +
-            "'."
+              termObj.term +
+              "' requires a value with datatype '" +
+              termObj.valueType +
+              "', but has the datatype '" +
+              valType +
+              "'."
           )
         );
         continue;
@@ -381,12 +350,12 @@ function checkCompliance(
             "Error",
             path,
             "Term '" +
-            termObj.term +
-            "' requires the value '" +
-            getCleanOutputString(termObj.value) +
-            "', but has the value '" +
-            getCleanOutputString(inputObject[termObj.term]) +
-            "'."
+              termObj.term +
+              "' requires the value '" +
+              getCleanOutputString(termObj.value) +
+              "', but has the value '" +
+              getCleanOutputString(inputObject[termObj.term]) +
+              "'."
           )
         );
       }
@@ -400,10 +369,10 @@ function checkCompliance(
             "Error",
             path,
             "Term '" +
-            termObj.term +
-            "' must have a value from an expected set, which does not include the given value '" +
-            getCleanOutputString(inputObject[termObj.term]) +
-            "'."
+              termObj.term +
+              "' must have a value from an expected set, which does not include the given value '" +
+              getCleanOutputString(inputObject[termObj.term]) +
+              "'."
           )
         );
       }
@@ -455,14 +424,21 @@ function checkSameKeys(obj1: object, obj2: object): boolean {
   return diff1.length === 0 && diff2.length === 0;
 }
 
-type literalType = "array" | "object" | "string" | "boolean" | "number" | "integer" | "undefined";
+type literalType =
+  | "array"
+  | "object"
+  | "string"
+  | "boolean"
+  | "number"
+  | "integer"
+  | "undefined";
 
 // returns the datatype of the given value, "array", "object", "string", "boolean", "number", "integer"
 function getLiteralType(value: any): literalType {
   if (Array.isArray(value)) {
     return "array";
   } else {
-    let result = typeof value;
+    const result = typeof value;
     if (result === "number" && Number.isInteger(value)) {
       return "integer";
     }
@@ -470,7 +446,10 @@ function getLiteralType(value: any): literalType {
   }
 }
 
-function mergeNodeSchemas(nodeData: NodeSchema, configData?: NodeSchema): NodeSchema {
+function mergeNodeSchemas(
+  nodeData: NodeSchema,
+  configData?: NodeSchema
+): NodeSchema {
   let result = cloneJson(nodeData);
   if (!configData) {
     return result;

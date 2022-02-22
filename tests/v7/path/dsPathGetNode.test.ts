@@ -1,6 +1,6 @@
-import { DsUtilitiesV7 } from '../../../src/v7/DsUtilitiesV7';
-import dsDs2 from './../data/ds-ds2.json' ;
-import { DsV7 } from '../../../src/v7/types/DsGrammarV7.type';
+import { DsUtilitiesV7 } from "../../../src/v7/DsUtilitiesV7";
+import dsDs2 from "./../data/ds-ds2.json";
+import { DsV7 } from "../../../src/v7/types/DsGrammarV7.type";
 
 describe("v7 - dsPathGetNode()", () => {
   test("root node", () => {
@@ -29,7 +29,7 @@ describe("v7 - dsPathGetNode()", () => {
     expect(
       dsu.dsPathGetNode(dsDs2 as DsV7, "$.schema:keywords/xsd:anyURI")[
         "sh:datatype"
-        ]
+      ]
     ).toBe("xsd:anyURI");
   });
   test("Class", () => {
@@ -53,9 +53,8 @@ describe("v7 - dsPathGetNode()", () => {
   test("External reference", () => {
     const dsu = new DsUtilitiesV7();
     expect(
-      Object.keys(
-        dsu.dsPathGetNode(dsDs2 as DsV7, "$.schema:about/@gsaTefLCP")
-      ).length
+      Object.keys(dsu.dsPathGetNode(dsDs2 as DsV7, "$.schema:about/@gsaTefLCP"))
+        .length
     ).toBe(1);
     expect(
       dsu.dsPathGetNode(dsDs2 as DsV7, "$.schema:about/@gsaTefLCP")["@id"]

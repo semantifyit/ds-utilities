@@ -6,11 +6,11 @@ export const nodeSchemaLanguageTaggedString: NodeSchema = [
   {
     term: "@language",
     required: true,
-    valueType: "string"
+    valueType: "string",
   },
   {
     term: "@value",
     required: true,
-    valueType: "string"
-  }
+    valueType: "string",
+  },
 ];

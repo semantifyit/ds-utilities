@@ -1,6 +1,6 @@
 import { DsUtilitiesV7 } from "../../../src/v7/DsUtilitiesV7";
-import dsDs0 from "../data/ds-ds0.json" ;
-import dsDsNoRoot from "../data/ds-ds0-no-rootnode.json" ;
+import dsDs0 from "../data/ds-ds0.json";
+import dsDsNoRoot from "../data/ds-ds0-no-rootnode.json";
 import { DsV7 } from "../../../src/v7/types/DsGrammarV7.type";
 
 describe("v7 - verifyDs()", () => {

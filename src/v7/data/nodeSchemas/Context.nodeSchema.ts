@@ -1,4 +1,7 @@
-import { NodeSchema, NodeSchemaEntry } from "../../../base/types/NodeSchema.type";
+import {
+  NodeSchema,
+  NodeSchemaEntry,
+} from "../../../base/types/NodeSchema.type";
 import { standardContext } from "../standardContext.data";
 
 // These are the terms used by the @context for DS-V7
@@ -12,7 +15,7 @@ function constructContextSchema(): NodeSchema {
     const entry: NodeSchemaEntry = {
       term: t,
       required: true,
-      valueType: "string"
+      valueType: "string",
     };
     if (typeof standardContext[t] !== "string") {
       entry.valueType = "object";

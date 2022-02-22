@@ -8,7 +8,7 @@ import { DsV5 } from "../../types/DsGrammarV5.type";
  * @param ds - the input DS
  * @return The name of the given DS
  */
-export function getDsName(ds: DsV5 ): string | undefined {
+export function getDsName(ds: DsV5): string | undefined {
   const rootNode = getDsRootNode(ds);
-  return rootNode["schema:name"]
+  return rootNode["schema:name"];
 }

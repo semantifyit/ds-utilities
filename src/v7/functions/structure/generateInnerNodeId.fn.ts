@@ -1,6 +1,6 @@
 import { getDsId } from "./getDsId.fn";
 import { DsV7 } from "../../types/DsGrammarV7.type";
-const { customAlphabet } = require("nanoid");
+import { customAlphabet } from "nanoid";
 
 /**
  * Creates a new fragment id according to the DS-V7 specification.

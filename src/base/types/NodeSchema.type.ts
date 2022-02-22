@@ -1,5 +1,5 @@
 export type NodeSchemaValueType =
-  "string"
+  | "string"
   | "number"
   | "integer"
   | "object"
@@ -7,14 +7,17 @@ export type NodeSchemaValueType =
   | "boolean"
   | "any"
   | "languageTaggedString";
-export type NodeSchemaValueTypeArray = `${NodeSchemaValueType}[]`
+export type NodeSchemaValueTypeArray = `${NodeSchemaValueType}[]`;
 
 export type NodeSchemaEntry = {
-  term: string,
-  required: boolean,
-  valueType: NodeSchemaValueType | NodeSchemaValueTypeArray | (NodeSchemaValueType | NodeSchemaValueTypeArray)[]
-  value?: any,
-  valueIn?: any[]
+  term: string;
+  required: boolean;
+  valueType:
+    | NodeSchemaValueType
+    | NodeSchemaValueTypeArray
+    | (NodeSchemaValueType | NodeSchemaValueTypeArray)[];
+  value?: any;
+  valueIn?: any[];
 };
 
 export type NodeSchema = NodeSchemaEntry[];

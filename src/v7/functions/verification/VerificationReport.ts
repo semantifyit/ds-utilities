@@ -1,12 +1,14 @@
 import { ErrorEntry } from "./ErrorEntry";
-import { VerificationReportV7, VerificationResultV7 } from "../../types/VerificationV7.type";
+import {
+  VerificationReportV7,
+  VerificationResultV7,
+} from "../../types/VerificationV7.type";
 
 export class VerificationReport {
   constructor(
     public result: VerificationResultV7 = "Valid",
     public errors: ErrorEntry[] = []
-  ) {
-  }
+  ) {}
 
   addErrorEntry(e: ErrorEntry) {
     this.errors.push(e);

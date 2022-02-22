@@ -1,4 +1,4 @@
-import { pathGrammarNodeTypes as PGN} from "../../data/pathGrammar.data";
+import { pathGrammarNodeTypes as PGN } from "../../data/pathGrammar.data";
 import { PathGrammarNodeTypeV7 } from "../../types/PathGrammarV7.type";
 
 /**
@@ -9,7 +9,11 @@ import { PathGrammarNodeTypeV7 } from "../../types/PathGrammarV7.type";
  * @param inputForPath - input that depends on the given additionType, which is used for the dsPath addition
  * @return the resulting DS Path
  */
-export function dsPathAddition(dsPath: string, additionType: PathGrammarNodeTypeV7, inputForPath?: string | string[]): string {
+export function dsPathAddition(
+  dsPath: string,
+  additionType: PathGrammarNodeTypeV7,
+  inputForPath?: string | string[]
+): string {
   // Property
   if (additionType === PGN.property) {
     return dsPath + "." + inputForPath; // inputForPath = IRI of Property, e.g. schema:url
@@ -19,10 +23,7 @@ export function dsPathAddition(dsPath: string, additionType: PathGrammarNodeType
     return dsPath + "/" + inputForPath; // inputForPath = IRI of DataType, e.g. xsd:string
   }
   // Class/Enumeration
-  if (
-    additionType === PGN.class ||
-    additionType === PGN.enumeration
-  ) {
+  if (additionType === PGN.class || additionType === PGN.enumeration) {
     return dsPath + "/" + (inputForPath as string[]).join(","); // inputForPath = sh:class array, e.g. ["schema:Room", "schema:Product"]
   }
   // Reference - Root Node
@@ -38,10 +39,12 @@ export function dsPathAddition(dsPath: string, additionType: PathGrammarNodeType
     return dsPath + "/@" + (inputForPath as string).split("/").pop(); // inputForPath = @id of the external node, e.g. "https://semantify.it/ds/_1hRVOT8Q"
   }
   // Reference - Internal node of an External reference
-  if (
-    additionType === PGN.refIntExt
-  ) {
+  if (additionType === PGN.refIntExt) {
     return dsPath + "/@" + (inputForPath as string).split("/").pop(); // inputForPath = @id of the internal node from an external reference, e.g. "https://semantify.it/ds/_1hRVOT8Q#sXZwe"
   }
-  throw new Error("Given additionType '" + additionType + "' unknown to function dsPathAddition().");
+  throw new Error(
+    "Given additionType '" +
+      additionType +
+      "' unknown to function dsPathAddition()."
+  );
 }

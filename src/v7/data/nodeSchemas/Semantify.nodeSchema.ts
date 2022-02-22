@@ -8,39 +8,39 @@ export const semantifyConfig: VerificationConfigV7 = {
     {
       term: "sh:targetClass",
       required: true,
-      valueType: "array"
+      valueType: "array",
     },
     {
       term: "sh:class",
       required: true,
-      valueType: "array"
+      valueType: "array",
     },
     {
       term: "schema:name",
       required: true,
-      valueType: "array"
+      valueType: "array",
     },
     {
       term: "schema:author",
       required: true,
-      valueType: "object"
+      valueType: "object",
     },
     {
       term: "schema:version",
       required: true,
-      valueType: "string"
+      valueType: "string",
     },
     {
       term: "sh:closed",
       required: true,
-      valueType: "boolean"
-    }
+      valueType: "boolean",
+    },
   ],
   nodeSchemaClass: [
     {
       term: "sh:closed",
       required: true,
-      valueType: "boolean"
-    }
-  ]
+      valueType: "boolean",
+    },
+  ],
 };

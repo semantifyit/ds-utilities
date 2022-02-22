@@ -1,5 +1,5 @@
-import dsDs0 from "../data/ds-ds0.json" ;
-import dsDs0NoId from "../data/ds-ds0-no-id.json" ;
+import dsDs0 from "../data/ds-ds0.json";
+import dsDs0NoId from "../data/ds-ds0-no-id.json";
 import { DsUtilitiesV5 } from "../../../src/v5/DsUtilitiesV5";
 import { DsV5 } from "../../../src/v5/types/DsGrammarV5.type";
 

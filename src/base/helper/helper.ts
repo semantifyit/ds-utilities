@@ -15,7 +15,10 @@ export function cloneJson<T>(input: T): T {
   return JSON.parse(JSON.stringify(input));
 }
 
-export function getLanguageString(valuesArray: LanguageTaggedString[], language?: string) {
+export function getLanguageString(
+  valuesArray: LanguageTaggedString[],
+  language?: string
+) {
   if (!Array.isArray(valuesArray)) {
     throw new Error("Given valuesArray parameter is not an array, as expected");
   }
@@ -40,7 +43,10 @@ export function getLanguageString(valuesArray: LanguageTaggedString[], language?
  * @param dsNode
  * @param nodeSchema
  */
-export function reorderNodeWithSchema(dsNode: DsNodeGeneric, nodeSchema: NodeSchema): void {
+export function reorderNodeWithSchema(
+  dsNode: DsNodeGeneric,
+  nodeSchema: NodeSchema
+): void {
   // always use first the terms used in nodeSchema, then add any terms that are not listed there
   const dsNodeCopy = cloneJson(dsNode);
   // delete all used terms
@@ -64,7 +70,10 @@ export function reorderNodeWithSchema(dsNode: DsNodeGeneric, nodeSchema: NodeSch
 }
 
 // returns true if two given objects are deeply equal
-export function deepEqual(object1: Record<string, any>, object2: Record<string, any>) {
+export function deepEqual(
+  object1: Record<string, any>,
+  object2: Record<string, any>
+) {
   const keys1 = Object.keys(object1);
   const keys2 = Object.keys(object2);
   if (keys1.length !== keys2.length) {
@@ -85,6 +94,6 @@ export function deepEqual(object1: Record<string, any>, object2: Record<string, 
 }
 
 // checks if a given input is really an object
-export function isObject (val: any) {
+export function isObject(val: unknown) {
   return val instanceof Object && !(val instanceof Array);
 }

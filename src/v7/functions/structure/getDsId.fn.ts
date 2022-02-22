@@ -8,7 +8,7 @@ import { getDsRootNode } from "./getDsRootNode.fn";
  * @param ds - the input DS
  * @return The @id of the given DS
  */
-export function getDsId(ds: DsV7):string {
+export function getDsId(ds: DsV7): string {
   const rootNode = getDsRootNode(ds);
   if (!rootNode["@id"]) {
     throw new Error(

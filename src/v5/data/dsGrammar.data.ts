@@ -10,7 +10,7 @@ const dsGrammarNodeTypeEnumerationMember = "EnumerationMember";
 export const dsGrammarNodeTypes = {
   ds: dsGrammarNodeTypeDs,
   context: dsGrammarNodeTypeContext,
-  root:dsGrammarNodeTypeRoot,
+  root: dsGrammarNodeTypeRoot,
   class: dsGrammarNodeTypeClass,
   enumeration: dsGrammarNodeTypeEnumeration,
   property: dsGrammarNodeTypeProperty,

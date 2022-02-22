@@ -1,6 +1,6 @@
 import { DsUtilitiesV7 } from "../../../src/v7/DsUtilitiesV7";
-import dsDs2 from "./../data/ds-ds2.json" ;
-import dsDs3 from "./../data/ds-ds3.json" ;
+import dsDs2 from "./../data/ds-ds2.json";
+import dsDs3 from "./../data/ds-ds3.json";
 import { DsV7 } from "../../../src/v7/types/DsGrammarV7.type";
 
 describe("v7 - tokenizeDsPath()", () => {
@@ -50,7 +50,10 @@ describe("v7 - tokenizeDsPath()", () => {
   });
   test("datatype first level", () => {
     const dsu = new DsUtilitiesV7();
-    const tokens2b = dsu.tokenizeDsPath(dsDs2 as DsV7, "$.schema:creditText/xsd:string");
+    const tokens2b = dsu.tokenizeDsPath(
+      dsDs2 as DsV7,
+      "$.schema:creditText/xsd:string"
+    );
     expect(tokens2b.length).toBe(3);
     expect(tokens2b[0].dsPathNodeType).toBe("RootNode");
     expect(tokens2b[1].dsPathNodeType).toBe("Property");
@@ -58,7 +61,7 @@ describe("v7 - tokenizeDsPath()", () => {
     expect(tokens2b[2].label).toBe("Text");
   });
   test("class first level", () => {
-    //internal reference definition -> property -> Class
+    // internal reference definition -> property -> Class
     const dsu = new DsUtilitiesV7();
     const tokens2c = dsu.tokenizeDsPath(
       dsDs2 as DsV7,
@@ -69,7 +72,7 @@ describe("v7 - tokenizeDsPath()", () => {
     expect(tokens2c[2].label).toBe("Organization");
   });
   test("enumeration first level", () => {
-    //external reference definition -> property -> enumeration
+    // external reference definition -> property -> enumeration
     const dsu = new DsUtilitiesV7();
     const tokens2d = dsu.tokenizeDsPath(
       dsDs2 as DsV7,
@@ -80,7 +83,7 @@ describe("v7 - tokenizeDsPath()", () => {
     expect(tokens2d[2].label).toBe("ex:AnimalLivingEnvironment");
   });
   test("root reference", () => {
-    //root -> property -> class -> property -> rootReference
+    // root -> property -> class -> property -> rootReference
     const dsu = new DsUtilitiesV7();
     const tokens3a = dsu.tokenizeDsPath(
       dsDs3 as DsV7,
@@ -93,7 +96,10 @@ describe("v7 - tokenizeDsPath()", () => {
   test("internal reference", () => {
     // root -> property -> internal reference
     const dsu = new DsUtilitiesV7();
-    const tokens3b = dsu.tokenizeDsPath(dsDs2 as DsV7, "$.schema:creator/@#tMMiT");
+    const tokens3b = dsu.tokenizeDsPath(
+      dsDs2 as DsV7,
+      "$.schema:creator/@#tMMiT"
+    );
     expect(tokens3b.length).toBe(3);
     expect(tokens3b[2].dsPathNodeType).toBe("InternalReference");
     expect(tokens3b[2].label).toBe("Person");
@@ -109,7 +115,7 @@ describe("v7 - tokenizeDsPath()", () => {
     expect(tokens3c[2].dsPathNodeType).toBe("ExternalReference");
     expect(tokens3c[2].label).toBe("odta:Trail");
   });
-  test("internal external reference", () => {
+  test("internal-external reference", () => {
     // root -> property -> external reference
     const dsu = new DsUtilitiesV7();
     const tokens3d = dsu.tokenizeDsPath(
@@ -120,15 +126,18 @@ describe("v7 - tokenizeDsPath()", () => {
     expect(tokens3d[2].dsPathNodeType).toBe("InternalExternalReference");
     expect(tokens3d[2].label).toBe("Place");
   });
-  test("internal reference definition", () => {
+  test("internal reference-definition", () => {
     // internal reference definition -> property
     const dsu = new DsUtilitiesV7();
-    const tokens4a = dsu.tokenizeDsPath( dsDs2 as DsV7, "#tMMiT.schema:worksFor");
+    const tokens4a = dsu.tokenizeDsPath(
+      dsDs2 as DsV7,
+      "#tMMiT.schema:worksFor"
+    );
     expect(tokens4a.length).toBe(2);
     expect(tokens4a[1].dsPathNodeType).toBe("Property");
     expect(tokens4a[1].label).toBe("worksFor");
   });
-  test("internal external reference definition", () => {
+  test("internal-external reference-definition", () => {
     // internal external reference definition -> property -> class -> property -> datatype
     const dsu = new DsUtilitiesV7();
     const tokens4b = dsu.tokenizeDsPath(
@@ -141,7 +150,10 @@ describe("v7 - tokenizeDsPath()", () => {
   });
   test("datatype external vocab", () => {
     const dsu = new DsUtilitiesV7();
-    const tokens4c = dsu.tokenizeDsPath(dsDs3 as DsV7, "$.ex:numberOfLegs/xsd:integer");
+    const tokens4c = dsu.tokenizeDsPath(
+      dsDs3 as DsV7,
+      "$.ex:numberOfLegs/xsd:integer"
+    );
     expect(tokens4c.length).toBe(3);
     expect(tokens4c[2].dsPathNodeType).toBe("DataType");
     expect(tokens4c[2].label).toBe("Integer");

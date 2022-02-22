@@ -1,7 +1,7 @@
 import { DsUtilitiesV7 } from "../../../src/v7/DsUtilitiesV7";
-import dsDs0 from "../data/ds-ds0.json" ;
-import dsDs0NoRoot from "../data/ds-ds0-no-rootnode.json" ;
-import dsDs0NoMeta from "../data/ds-ds0-no-meta.json" ;
+import dsDs0 from "../data/ds-ds0.json";
+import dsDs0NoRoot from "../data/ds-ds0-no-rootnode.json";
+import dsDs0NoMeta from "../data/ds-ds0-no-meta.json";
 import { DsV7 } from "../../../src/v7/types/DsGrammarV7.type";
 
 describe("v7 - getDsId()", () => {
@@ -17,9 +17,7 @@ describe("v7 - getDsId()", () => {
     expect(() => {
       // @ts-ignore on purpose
       dsu.getDsId(dsDs0NoRoot);
-    }).toThrow(
-      "The given DS has no identifiable root node in DS-V7 format."
-    );
+    }).toThrow("The given DS has no identifiable root node in DS-V7 format.");
   });
   test("no meta", () => {
     const dsu = new DsUtilitiesV7();

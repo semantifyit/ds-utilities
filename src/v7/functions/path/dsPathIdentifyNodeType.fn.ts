@@ -13,7 +13,10 @@ import { PathGrammarNodeTypeV7 } from "../../types/PathGrammarV7.type";
  * @param ds - the input DS
  * @return the ds-path-type of the given node
  */
-export function dsPathIdentifyNodeType(dsNode: DsNodeGeneric, ds: DsV7): PathGrammarNodeTypeV7 {
+export function dsPathIdentifyNodeType(
+  dsNode: DsNodeGeneric,
+  ds: DsV7
+): PathGrammarNodeTypeV7 {
   // todo add sdo adapter as optional parameter to identify standard enumerations
   const rootNode = getDsRootNode(ds);
   // check if it is @context
@@ -71,5 +74,7 @@ export function dsPathIdentifyNodeType(dsNode: DsNodeGeneric, ds: DsV7): PathGra
     // this could be a standard class or a standard enumeration, we can not tell for sure without SDO Adapter
     return PGN.class;
   }
-  throw new Error("Could not identify a valid Path Grammar Node Type for the given input.");
+  throw new Error(
+    "Could not identify a valid Path Grammar Node Type for the given input."
+  );
 }

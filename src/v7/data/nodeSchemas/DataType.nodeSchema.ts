@@ -2,7 +2,7 @@ import { NodeSchema } from "../../../base/types/NodeSchema.type";
 
 // These are the terms used by a data type node for DS-V7
 // Listed in the recommended order as they should be listed in their lexical representation
-export const nodeSchemaDataType:NodeSchema = [
+export const nodeSchemaDataType: NodeSchema = [
   {
     term: "sh:datatype",
     required: true,
@@ -24,12 +24,12 @@ export const nodeSchemaDataType:NodeSchema = [
   {
     term: "rdfs:label",
     required: false,
-    valueType: "array"
+    valueType: "array",
   },
   {
     term: "rdfs:comment",
     required: false,
-    valueType: "array"
+    valueType: "array",
   },
   {
     term: "sh:defaultValue",

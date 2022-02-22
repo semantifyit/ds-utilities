@@ -5,7 +5,9 @@
  * @param compactedIRIs - the input IRI or array of IRIs
  * @return The pretty string for the given input
  */
-export function prettyPrintCompactedIRIs(compactedIRIs: string | string[]): string {
+export function prettyPrintCompactedIRIs(
+  compactedIRIs: string | string[]
+): string {
   if (Array.isArray(compactedIRIs)) {
     return compactedIRIs.map(prettyPrintCompactedIRIs).join(" + ");
   } else {

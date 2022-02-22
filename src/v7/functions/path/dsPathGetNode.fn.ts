@@ -1,8 +1,4 @@
-import {
-  DsNodeV7,
-  DsV7,
-  PropertyNodeV7
-} from "../../types/DsGrammarV7.type";
+import { DsNodeV7, DsV7, PropertyNodeV7 } from "../../types/DsGrammarV7.type";
 import { getDsRootNode } from "../structure/getDsRootNode.fn";
 import { DsNodeGeneric } from "../../../base/types/DsGrammarGeneric.type";
 
@@ -14,7 +10,11 @@ import { DsNodeGeneric } from "../../../base/types/DsGrammarGeneric.type";
  * @param resolveReference  - If true, and the last token of the path is a reference node, then the referenced objected will be returned. Else the referencing object will be returned.
  * @return {object} - The node at the given ds-path (by reference)
  */
-export function dsPathGetNode(ds: DsV7, dsPath: string, resolveReference = false): DsNodeV7 {
+export function dsPathGetNode(
+  ds: DsV7,
+  dsPath: string,
+  resolveReference = false
+): DsNodeV7 {
   if (dsPath === "@context") {
     // special case for @context
     if (!ds["@context"]) {
@@ -48,7 +48,7 @@ export function dsPathGetNode(ds: DsV7, dsPath: string, resolveReference = false
     if (!referenceDefinition) {
       throw new Error(
         "Could not find a fitting reference definition for path-token " +
-        pathTokens[0]
+          pathTokens[0]
       );
     }
     if (pathTokens.length === 1) {
@@ -73,7 +73,12 @@ function checkClassMatch(arr1: string[], arr2: string[]) {
 }
 
 //  helper function - actDsObj is an array of ranges
-function getRangeNode(actDsObj: DsNodeGeneric[], actRestPath: string, ds: DsV7, resolveReference: boolean): DsNodeGeneric {
+function getRangeNode(
+  actDsObj: DsNodeGeneric[],
+  actRestPath: string,
+  ds: DsV7,
+  resolveReference: boolean
+): DsNodeGeneric {
   const rootNode = getDsRootNode(ds);
   const pathTokens = actRestPath.split(".");
   const rangeToken = pathTokens[0];
@@ -91,22 +96,24 @@ function getRangeNode(actDsObj: DsNodeGeneric[], actRestPath: string, ds: DsV7, 
       // internal node reference
       actRange = actDsObj.find(
         (el) =>
-          el["sh:node"] && el["sh:node"]["@id"] === rootNode["@id"] + rangeToken.substring(1)
+          el["sh:node"] &&
+          el["sh:node"]["@id"] === rootNode["@id"] + rangeToken.substring(1)
       );
       if (actRange) {
         referencedNode = ds["@graph"].find(
-          (el) => el["@id"] === actRange!["sh:node"]["@id"]
+          (el) => el["@id"] === actRange?.["sh:node"]["@id"]
         );
       }
     } else {
       // external (internal) node reference
       actRange = actDsObj.find(
         (el) =>
-          el["sh:node"] && el["sh:node"]["@id"].endsWith(rangeToken.substring(1))
+          el["sh:node"] &&
+          el["sh:node"]["@id"].endsWith(rangeToken.substring(1))
       );
       if (actRange) {
         referencedNode = ds["@graph"].find(
-          (el) => el["@id"] === actRange!["sh:node"]["@id"]
+          (el) => el["@id"] === actRange?.["sh:node"]["@id"]
         ) as DsNodeGeneric;
       }
     }
@@ -114,8 +121,10 @@ function getRangeNode(actDsObj: DsNodeGeneric[], actRestPath: string, ds: DsV7, 
     actRange = actDsObj.find(
       (el) =>
         el["sh:datatype"] === pathTokens[0] ||
-        (el["sh:node"] && el["sh:node"]["sh:class"] &&
-          checkClassMatch(el["sh:node"]["sh:class"],
+        (el["sh:node"] &&
+          el["sh:node"]["sh:class"] &&
+          checkClassMatch(
+            el["sh:node"]["sh:class"],
             pathTokens[0].split(",")
           )) ||
         (el["sh:node"] &&
@@ -155,7 +164,12 @@ function getRangeNode(actDsObj: DsNodeGeneric[], actRestPath: string, ds: DsV7, 
 }
 
 // helper function
-function getPropertyNode(actDsObj: PropertyNodeV7[], actRestPath: string, ds: DsV7, resolveReference: boolean) {
+function getPropertyNode(
+  actDsObj: PropertyNodeV7[],
+  actRestPath: string,
+  ds: DsV7,
+  resolveReference: boolean
+) {
   const pathTokens = actRestPath.split("/");
   const actProp = actDsObj.find((el) => el["sh:path"] === pathTokens[0]);
   if (!actProp) {

@@ -25,13 +25,13 @@ exports.nodeSchemaLanguageTaggedString = [
     {
         term: "@language",
         required: true,
-        valueType: "string"
+        valueType: "string",
     },
     {
         term: "@value",
         required: true,
-        valueType: "string"
-    }
+        valueType: "string",
+    },
 ];
 
 },{}],3:[function(require,module,exports){
@@ -40,15 +40,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.extractSdoVersionNumber = void 0;
 function extractSdoVersionNumber(schemaVersionValue) {
     if (schemaVersionValue.includes("schema.org/docs/")) {
-        let versionRegex = /.*schema\.org\/docs\/releases\.html#v([0-9.]+)(\/)?/g;
-        let match = versionRegex.exec(schemaVersionValue);
+        const versionRegex = /.*schema\.org\/docs\/releases\.html#v([0-9.]+)(\/)?/g;
+        const match = versionRegex.exec(schemaVersionValue);
         if (match && match[1]) {
             return match[1];
         }
     }
     else if (schemaVersionValue.includes("schema.org/version/")) {
-        let versionRegex = /.*schema\.org\/version\/([0-9.]+)(\/)?/g;
-        let match = versionRegex.exec(schemaVersionValue);
+        const versionRegex = /.*schema\.org\/version\/([0-9.]+)(\/)?/g;
+        const match = versionRegex.exec(schemaVersionValue);
         if (match && match[1]) {
             return match[1];
         }
@@ -252,7 +252,7 @@ exports.dataTypesSchema = {
     boolean: "schema:Boolean",
     time: "schema:Time",
     date: "schema:Date",
-    dateTime: "schema:DateTime"
+    dateTime: "schema:DateTime",
 };
 exports.dataTypesDs = {
     string: "xsd:string",
@@ -263,7 +263,7 @@ exports.dataTypesDs = {
     boolean: "xsd:boolean",
     time: "xsd:time",
     date: "xsd:date",
-    dateTime: "xsd:dateTime"
+    dateTime: "xsd:dateTime",
 };
 exports.dataTypeMapping = {
     [exports.dataTypesDs.string]: exports.dataTypesSchema.text,
@@ -274,7 +274,7 @@ exports.dataTypeMapping = {
     [exports.dataTypesDs.double]: exports.dataTypesSchema.number,
     [exports.dataTypesDs.integer]: exports.dataTypesSchema.integer,
     [exports.dataTypesDs.float]: exports.dataTypesSchema.float,
-    [exports.dataTypesDs.url]: exports.dataTypesSchema.url
+    [exports.dataTypesDs.url]: exports.dataTypesSchema.url,
 };
 exports.dataTypeMappingToLabel = {
     [exports.dataTypesDs.string]: "Text",
@@ -285,7 +285,7 @@ exports.dataTypeMappingToLabel = {
     [exports.dataTypesDs.double]: "Number",
     [exports.dataTypesDs.integer]: "Integer",
     [exports.dataTypesDs.float]: "Float",
-    [exports.dataTypesDs.url]: "URL"
+    [exports.dataTypesDs.url]: "URL",
 };
 
 },{}],10:[function(require,module,exports){
@@ -293,66 +293,66 @@ exports.dataTypeMappingToLabel = {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.standardContext = void 0;
 exports.standardContext = {
-    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-    "sh": "http://www.w3.org/ns/shacl#",
-    "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "schema": "http://schema.org/",
+    rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    rdfs: "http://www.w3.org/2000/01/rdf-schema#",
+    sh: "http://www.w3.org/ns/shacl#",
+    xsd: "http://www.w3.org/2001/XMLSchema#",
+    schema: "http://schema.org/",
     "sh:targetClass": {
         "@id": "sh:targetClass",
-        "@type": "@id"
+        "@type": "@id",
     },
     "sh:property": {
-        "@id": "sh:property"
+        "@id": "sh:property",
     },
     "sh:path": {
         "@id": "sh:path",
-        "@type": "@id"
+        "@type": "@id",
     },
     "sh:datatype": {
         "@id": "sh:datatype",
-        "@type": "@id"
+        "@type": "@id",
     },
     "sh:node": {
-        "@id": "sh:node"
+        "@id": "sh:node",
     },
     "sh:class": {
         "@id": "sh:class",
-        "@type": "@id"
+        "@type": "@id",
     },
     "sh:or": {
         "@id": "sh:or",
-        "@container": "@list"
+        "@container": "@list",
     },
     "sh:in": {
         "@id": "sh:in",
-        "@container": "@list"
+        "@container": "@list",
     },
     "sh:languageIn": {
         "@id": "sh:languageIn",
-        "@container": "@list"
+        "@container": "@list",
     },
     "sh:equals": {
         "@id": "sh:equals",
-        "@type": "@id"
+        "@type": "@id",
     },
     "sh:disjoint": {
         "@id": "sh:disjoint",
-        "@type": "@id"
+        "@type": "@id",
     },
     "sh:lessThan": {
         "@id": "sh:lessThan",
-        "@type": "@id"
+        "@type": "@id",
     },
     "sh:lessThanOrEquals": {
         "@id": "sh:lessThanOrEquals",
-        "@type": "@id"
+        "@type": "@id",
     },
-    "ds": "http://vocab.sti2.at/ds/",
+    ds: "http://vocab.sti2.at/ds/",
     "ds:usedVocabularies": {
         "@id": "ds:usedVocabularies",
-        "@type": "@id"
-    }
+        "@type": "@id",
+    },
 };
 
 },{}],11:[function(require,module,exports){
@@ -599,7 +599,7 @@ exports.dataTypesSchema = {
     boolean: "schema:Boolean",
     time: "schema:Time",
     date: "schema:Date",
-    dateTime: "schema:DateTime"
+    dateTime: "schema:DateTime",
 };
 exports.dataTypesDs = {
     string: "xsd:string",
@@ -612,7 +612,7 @@ exports.dataTypesDs = {
     boolean: "xsd:boolean",
     time: "xsd:time",
     date: "xsd:date",
-    dateTime: "xsd:dateTime"
+    dateTime: "xsd:dateTime",
 };
 exports.dataTypeMapping = {
     [exports.dataTypesDs.string]: exports.dataTypesSchema.text,
@@ -625,7 +625,7 @@ exports.dataTypeMapping = {
     [exports.dataTypesDs.double]: exports.dataTypesSchema.number,
     [exports.dataTypesDs.integer]: exports.dataTypesSchema.integer,
     [exports.dataTypesDs.float]: exports.dataTypesSchema.float,
-    [exports.dataTypesDs.url]: exports.dataTypesSchema.url
+    [exports.dataTypesDs.url]: exports.dataTypesSchema.url,
 };
 exports.dataTypeMappingToLabel = {
     [exports.dataTypesDs.string]: "Text",
@@ -638,7 +638,7 @@ exports.dataTypeMappingToLabel = {
     [exports.dataTypesDs.double]: "Number",
     [exports.dataTypesDs.integer]: "Integer",
     [exports.dataTypesDs.float]: "Float",
-    [exports.dataTypesDs.url]: "URL"
+    [exports.dataTypesDs.url]: "URL",
 };
 
 },{}],25:[function(require,module,exports){
@@ -667,7 +667,7 @@ exports.dsGrammarNodeTypes = {
     property: dsGrammarNodeTypeProperty,
     dataType: dsGrammarNodeTypeDataType,
     enumerationMember: dsGrammarNodeTypeEnumerationMember,
-    reference: dsGrammarNodeTypeReference
+    reference: dsGrammarNodeTypeReference,
 };
 
 },{}],26:[function(require,module,exports){
@@ -678,44 +678,44 @@ exports.nodeSchemaClass = [
     {
         term: "@id",
         required: true,
-        valueType: "string"
+        valueType: "string",
     },
     {
         term: "@type",
         required: true,
         valueType: "string",
-        value: "sh:NodeShape"
+        value: "sh:NodeShape",
     },
     {
         term: "sh:class",
         required: true,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "rdfs:label",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "rdfs:comment",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "sh:closed",
         required: false,
-        valueType: "boolean"
+        valueType: "boolean",
     },
     {
         term: "ds:propertyDisplayOrder",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "sh:property",
         required: false,
-        valueType: "array"
-    }
+        valueType: "array",
+    },
 ];
 
 },{}],27:[function(require,module,exports){
@@ -730,7 +730,7 @@ function constructContextSchema() {
         const entry = {
             term: t,
             required: true,
-            valueType: "string"
+            valueType: "string",
         };
         if (typeof standardContext_data_1.standardContext[t] !== "string") {
             entry.valueType = "object";
@@ -767,12 +767,12 @@ exports.nodeSchemaDataType = [
     {
         term: "rdfs:label",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "rdfs:comment",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "sh:defaultValue",
@@ -859,13 +859,13 @@ exports.nodeSchemaDs = [
     {
         term: "@context",
         required: true,
-        valueType: "object"
+        valueType: "object",
     },
     {
         term: "@graph",
         required: true,
-        valueType: "array"
-    }
+        valueType: "array",
+    },
 ];
 
 },{}],30:[function(require,module,exports){
@@ -892,12 +892,12 @@ exports.nodeSchemaEnumeration = [
     {
         term: "rdfs:label",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "rdfs:comment",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "sh:in",
@@ -919,12 +919,12 @@ exports.nodeSchemaEnumerationMember = [
     {
         term: "rdfs:label",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "rdfs:comment",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
 ];
 
@@ -937,63 +937,63 @@ exports.nodeSchemaProperty = [
         term: "@type",
         required: true,
         valueType: "string",
-        value: "sh:PropertyShape"
+        value: "sh:PropertyShape",
     },
     {
         term: "sh:order",
         required: false,
-        valueType: "integer"
+        valueType: "integer",
     },
     {
         term: "sh:path",
         required: true,
-        valueType: "string"
+        valueType: "string",
     },
     {
         term: "rdfs:label",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "rdfs:comment",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "sh:minCount",
         required: false,
-        valueType: "integer"
+        valueType: "integer",
     },
     {
         term: "sh:maxCount",
         required: false,
-        valueType: "integer"
+        valueType: "integer",
     },
     {
         term: "sh:equals",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "sh:disjoint",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "sh:lessThan",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "sh:lessThanOrEquals",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "sh:or",
         required: true,
-        valueType: "array"
-    }
+        valueType: "array",
+    },
 ];
 
 },{}],33:[function(require,module,exports){
@@ -1004,89 +1004,89 @@ exports.nodeSchemaRoot = [
     {
         term: "@id",
         required: true,
-        valueType: "string"
+        valueType: "string",
     },
     {
         term: "@type",
         required: true,
         valueType: "string",
-        value: "ds:DomainSpecification"
+        value: "ds:DomainSpecification",
     },
     {
         term: "ds:subDSOf",
         required: false,
-        valueType: "string"
+        valueType: "string",
     },
     {
         term: "sh:targetClass",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "sh:targetObjectsOf",
         required: false,
-        valueType: "string"
+        valueType: "string",
     },
     {
         term: "sh:targetSubjectsOf",
         required: false,
-        valueType: "string"
+        valueType: "string",
     },
     {
         term: "sh:class",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "schema:name",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "schema:description",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "schema:author",
         required: false,
-        valueType: "object"
+        valueType: "object",
     },
     {
         term: "ds:version",
         required: true,
-        valueType: "string"
+        valueType: "string",
     },
     {
         term: "schema:version",
         required: false,
-        valueType: "string"
+        valueType: "string",
     },
     {
         term: "schema:schemaVersion",
         required: true,
-        valueType: "string"
+        valueType: "string",
     },
     {
         term: "ds:usedVocabulary",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "sh:closed",
         required: false,
-        valueType: "boolean"
+        valueType: "boolean",
     },
     {
         term: "ds:propertyDisplayOrder",
         required: false,
-        valueType: "array"
+        valueType: "array",
     },
     {
         term: "sh:property",
         required: true,
-        valueType: "array"
-    }
+        valueType: "array",
+    },
 ];
 
 },{}],34:[function(require,module,exports){
@@ -1119,7 +1119,7 @@ exports.pathGrammarNodeTypes = {
     property: exports.pathGrammarNodeTypeProperty,
     class: exports.pathGrammarNodeTypeClass,
     enumeration: exports.pathGrammarNodeTypeEnumeration,
-    dataType: exports.pathGrammarNodeTypeDataType
+    dataType: exports.pathGrammarNodeTypeDataType,
 };
 
 },{}],35:[function(require,module,exports){
@@ -1196,8 +1196,7 @@ function dsPathAddition(dsPath, additionType, inputForPath) {
     if (additionType === pathGrammar_data_1.pathGrammarNodeTypes.dataType) {
         return dsPath + "/" + inputForPath;
     }
-    if (additionType === pathGrammar_data_1.pathGrammarNodeTypes.class ||
-        additionType === pathGrammar_data_1.pathGrammarNodeTypes.enumeration) {
+    if (additionType === pathGrammar_data_1.pathGrammarNodeTypes.class || additionType === pathGrammar_data_1.pathGrammarNodeTypes.enumeration) {
         return dsPath + "/" + inputForPath.join(",");
     }
     if (additionType === pathGrammar_data_1.pathGrammarNodeTypes.refRoot) {
@@ -1212,7 +1211,9 @@ function dsPathAddition(dsPath, additionType, inputForPath) {
     if (additionType === pathGrammar_data_1.pathGrammarNodeTypes.refIntExt) {
         return dsPath + "/@" + inputForPath.split("/").pop();
     }
-    throw new Error("Given additionType '" + additionType + "' unknown to function dsPathAddition().");
+    throw new Error("Given additionType '" +
+        additionType +
+        "' unknown to function dsPathAddition().");
 }
 exports.dsPathAddition = dsPathAddition;
 
@@ -1269,21 +1270,24 @@ function getRangeNode(actDsObj, actRestPath, ds, resolveReference) {
             referencedNode = rootNode;
         }
         else if (rangeToken.startsWith("@#")) {
-            actRange = actDsObj.find((el) => el["sh:node"] && el["sh:node"]["@id"] === rootNode["@id"] + rangeToken.substring(1));
+            actRange = actDsObj.find((el) => el["sh:node"] &&
+                el["sh:node"]["@id"] === rootNode["@id"] + rangeToken.substring(1));
             if (actRange) {
-                referencedNode = ds["@graph"].find((el) => el["@id"] === actRange["sh:node"]["@id"]);
+                referencedNode = ds["@graph"].find((el) => el["@id"] === (actRange === null || actRange === void 0 ? void 0 : actRange["sh:node"]["@id"]));
             }
         }
         else {
-            actRange = actDsObj.find((el) => el["sh:node"] && el["sh:node"]["@id"].endsWith(rangeToken.substring(1)));
+            actRange = actDsObj.find((el) => el["sh:node"] &&
+                el["sh:node"]["@id"].endsWith(rangeToken.substring(1)));
             if (actRange) {
-                referencedNode = ds["@graph"].find((el) => el["@id"] === actRange["sh:node"]["@id"]);
+                referencedNode = ds["@graph"].find((el) => el["@id"] === (actRange === null || actRange === void 0 ? void 0 : actRange["sh:node"]["@id"]));
             }
         }
     }
     else {
         actRange = actDsObj.find((el) => el["sh:datatype"] === pathTokens[0] ||
-            (el["sh:node"] && el["sh:node"]["sh:class"] &&
+            (el["sh:node"] &&
+                el["sh:node"]["sh:class"] &&
                 checkClassMatch(el["sh:node"]["sh:class"], pathTokens[0].split(","))) ||
             (el["sh:node"] &&
                 el["sh:node"]["@id"].endsWith(pathTokens[0].substring(1))));
@@ -1399,7 +1403,7 @@ function dsPathInit(nodeType = pathGrammar_data_1.pathGrammarNodeTypes.root, nod
         case pathGrammar_data_1.pathGrammarNodeTypes.root:
             return "$";
         case pathGrammar_data_1.pathGrammarNodeTypes.defInt:
-            return "#" + nodeId.split("#")[1];
+            return "#" + (nodeId === null || nodeId === void 0 ? void 0 : nodeId.split("#")[1]);
         case pathGrammar_data_1.pathGrammarNodeTypes.defExt:
             return nodeId.split("/").pop();
         case pathGrammar_data_1.pathGrammarNodeTypes.defIntExt:
@@ -1425,7 +1429,7 @@ const getDataTypeLabel_fn_1 = require("../ui/getDataTypeLabel.fn");
 function tokenizeDsPath(ds, dsPath) {
     let currentPath = "";
     let restPath = dsPath;
-    let result = [];
+    const result = [];
     while (restPath !== "") {
         let currentToken;
         if (restPath === dsPath && restPath.startsWith("$")) {
@@ -1435,22 +1439,22 @@ function tokenizeDsPath(ds, dsPath) {
             currentToken = "@context";
         }
         else if (restPath === dsPath && restPath.startsWith("#")) {
-            let limiter = restPath.indexOf(".");
+            const limiter = restPath.indexOf(".");
             currentToken = restPath.substring(0, limiter !== -1 ? limiter : undefined);
         }
         else if (restPath === dsPath &&
             !dsPath.startsWith("#") &&
             !dsPath.startsWith("@") &&
             !dsPath.startsWith("$")) {
-            let limiter = restPath.indexOf(".");
+            const limiter = restPath.indexOf(".");
             currentToken = restPath.substring(0, limiter !== -1 ? limiter : undefined);
         }
         else if (restPath.startsWith(".")) {
-            let limiter = restPath.indexOf("/");
+            const limiter = restPath.indexOf("/");
             currentToken = restPath.substring(0, limiter !== -1 ? limiter : undefined);
         }
         else if (restPath.startsWith("/")) {
-            let limiter = restPath.indexOf(".");
+            const limiter = restPath.indexOf(".");
             currentToken = restPath.substring(0, limiter !== -1 ? limiter : undefined);
         }
         else {
@@ -1487,7 +1491,7 @@ function createDsPathToken(ds, token, currentPath, restPath) {
         grammarNodeType,
         dsPathNodeType,
         currentPath,
-        restPath
+        restPath,
     };
 }
 
@@ -1496,14 +1500,14 @@ function createDsPathToken(ds, token, currentPath, restPath) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateInnerNodeId = void 0;
 const getDsId_fn_1 = require("./getDsId.fn");
-const { customAlphabet } = require("nanoid");
+const nanoid_1 = require("nanoid");
 function generateInnerNodeId(ds) {
     let dsId;
     let newId;
     if (ds) {
         dsId = (0, getDsId_fn_1.getDsId)(ds);
     }
-    const nanoid = customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 5);
+    const nanoid = (0, nanoid_1.customAlphabet)("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 5);
     do {
         newId = nanoid();
     } while (ds !== undefined && JSON.stringify(ds).includes(dsId + "#" + newId));
@@ -1785,7 +1789,6 @@ function getDsDescription(ds, language) {
     return undefined;
 }
 exports.getDsDescription = getDsDescription;
-;
 
 },{"../../../base/helper/helper":6,"../structure/getDsRootNode.fn":44}],53:[function(require,module,exports){
 "use strict";
@@ -1816,7 +1819,6 @@ function getDsName(ds, language) {
     return undefined;
 }
 exports.getDsName = getDsName;
-;
 
 },{"../../../base/helper/helper":6,"../structure/getDsRootNode.fn":44}],55:[function(require,module,exports){
 "use strict";
@@ -1831,7 +1833,6 @@ function getDsSchemaVersion(ds) {
     return rootNode["schema:schemaVersion"];
 }
 exports.getDsSchemaVersion = getDsSchemaVersion;
-;
 
 },{"../structure/getDsRootNode.fn":44}],56:[function(require,module,exports){
 "use strict";
@@ -1847,7 +1848,6 @@ function getDsTargetClasses(ds) {
     return [];
 }
 exports.getDsTargetClasses = getDsTargetClasses;
-;
 
 },{"../../../base/helper/helper":6,"../structure/getDsRootNode.fn":44}],57:[function(require,module,exports){
 "use strict";
@@ -1921,7 +1921,6 @@ function checkClassMatch(targetClasses, classesToCheck, sdoAdapter) {
     return targetClasses.every((tc) => superClassSet.includes(tc));
 }
 exports.checkClassMatch = checkClassMatch;
-;
 
 },{}],61:[function(require,module,exports){
 "use strict";
@@ -2133,7 +2132,7 @@ function getLiteralType(value) {
         return "array";
     }
     else {
-        let result = typeof value;
+        const result = typeof value;
         if (result === "number" && Number.isInteger(value)) {
             return "integer";
         }

@@ -6,42 +6,42 @@ export const nodeSchemaClass: NodeSchema = [
   {
     term: "@id",
     required: true,
-    valueType: "string"
+    valueType: "string",
   },
   {
     term: "@type",
     required: true,
     valueType: "string",
-    value: "sh:NodeShape"
+    value: "sh:NodeShape",
   },
   {
     term: "sh:class",
     required: true,
-    valueType: "array"
+    valueType: "array",
   },
   {
     term: "rdfs:label",
     required: false,
-    valueType: "array"
+    valueType: "array",
   },
   {
     term: "rdfs:comment",
     required: false,
-    valueType: "array"
+    valueType: "array",
   },
   {
     term: "sh:closed",
     required: false,
-    valueType: "boolean"
+    valueType: "boolean",
   },
   {
     term: "ds:propertyDisplayOrder",
     required: false,
-    valueType: "array"
+    valueType: "array",
   },
   {
     term: "sh:property",
     required: false,
-    valueType: "array"
-  }
+    valueType: "array",
+  },
 ];

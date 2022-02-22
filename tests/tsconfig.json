@@ -6,7 +6,6 @@
     "allowJs": true
   },
   "include": [
-    "./**/*.test.ts",
-    "./*.ts"
-  ],
+    "./**/*.test.ts"
+  ]
 }

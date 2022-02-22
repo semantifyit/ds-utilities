@@ -1,6 +1,6 @@
 import { DsUtilitiesV7 } from "../../../src/v7/DsUtilitiesV7";
-import dsDs0Unordered from "../data/ds-ds0-unordered.json" ;
-import dsDs0ExternalVocab from "../data/ds-ds0-external-vocab.json" ;
+import dsDs0Unordered from "../data/ds-ds0-unordered.json";
+import dsDs0ExternalVocab from "../data/ds-ds0-external-vocab.json";
 import { cloneJson, isObject } from "schema-org-adapter/lib/utilities";
 import { DsV7 } from "../../../src/v7/types/DsGrammarV7.type";
 
@@ -63,5 +63,4 @@ describe("v7 - reorderDs()", () => {
 
     checkObjOrder(dsCopy, dsToBe);
   });
-
 });
