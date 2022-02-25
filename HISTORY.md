@@ -1,6 +1,19 @@
 # Changelog
 
-1.5.0 / 2021-01-27
+2.0.1 / 2022-02-25
+==================
+
+* Removed the type `DsV7Unpopulated`, since it was ignoring internal references. Correcting this type results in being the same as `DSV7` (populated), so it was deleted.
+
+2.0.0 / 2022-02-23
+==================
+
+* Refactored the whole library in **TypeScript**. Better support for types and the TS environment.
+* The way how this library is supposed to be imported has changed, see README.MD for details.
+* Function `prettyPrintCompactedIRI()` has been renamed to `prettyPrintCompactedIRIs()` - there is an `s` at the end. There have been other minor renames.
+* Documentation must be updated yet!
+
+1.5.0 / 2022-01-27
 ==================
 
 * new DS-V7 functions:

@@ -12,11 +12,6 @@ export type DsV7 = {
   "@graph": (RootNodeV7 | ClassNodeV7 | EnumerationNodeV7)[];
 };
 
-export type DsV7Unpopulated = {
-  "@context": ContextV7;
-  "@graph": [RootNodeV7];
-};
-
 export type DsNodeV7 =
   | DsV7
   | ContextV7
