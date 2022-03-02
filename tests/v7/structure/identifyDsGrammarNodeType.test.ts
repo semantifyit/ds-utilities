@@ -7,14 +7,14 @@ describe("v7 - identifyDsGrammarNodeType()", () => {
   test("root node", () => {
     const dsu = new DsUtilitiesV7();
     const rootNode = dsu.getDsRootNode(dsDs2 as DsV7);
-    expect(dsu.identifyDsGrammarNodeType(rootNode, dsDs2 as DsV7)).toBe(
+    expect(dsu.identifyDsGrammarNodeType(rootNode, dsDs2 as DsV7, true)).toBe(
       "RootNode"
     );
   });
   test("context", () => {
     const dsu = new DsUtilitiesV7();
     expect(
-      dsu.identifyDsGrammarNodeType(dsDs2["@context"], dsDs2 as DsV7)
+      dsu.identifyDsGrammarNodeType(dsDs2["@context"], dsDs2 as DsV7, true)
     ).toBe("Context");
   });
   test("property", () => {
@@ -23,9 +23,9 @@ describe("v7 - identifyDsGrammarNodeType()", () => {
       dsDs2 as DsV7,
       "$.schema:creditText"
     );
-    expect(dsu.identifyDsGrammarNodeType(propertyNode, dsDs2 as DsV7)).toBe(
-      "Property"
-    );
+    expect(
+      dsu.identifyDsGrammarNodeType(propertyNode, dsDs2 as DsV7, true)
+    ).toBe("Property");
   });
   test("dataType", () => {
     const dsu = new DsUtilitiesV7();
@@ -33,7 +33,7 @@ describe("v7 - identifyDsGrammarNodeType()", () => {
       dsDs2 as DsV7,
       "$.schema:keywords/xsd:anyURI"
     );
-    expect(dsu.identifyDsGrammarNodeType(dtNode, dsDs2 as DsV7)).toBe(
+    expect(dsu.identifyDsGrammarNodeType(dtNode, dsDs2 as DsV7, true)).toBe(
       "DataType"
     );
   });
@@ -43,7 +43,7 @@ describe("v7 - identifyDsGrammarNodeType()", () => {
       dsDs2 as DsV7,
       "#tMMiT.schema:worksFor/schema:Organization"
     );
-    expect(dsu.identifyDsGrammarNodeType(rcNode, dsDs2 as DsV7)).toBe(
+    expect(dsu.identifyDsGrammarNodeType(rcNode, dsDs2 as DsV7, true)).toBe(
       "RestrictedClass"
     );
   });
@@ -53,7 +53,7 @@ describe("v7 - identifyDsGrammarNodeType()", () => {
       dsDs2 as DsV7,
       "$.schema:about/@gsaTefLCP.ex:animalLivingEnvironment/ex:AnimalLivingEnvironment"
     );
-    expect(dsu.identifyDsGrammarNodeType(reNode, dsDs2 as DsV7)).toBe(
+    expect(dsu.identifyDsGrammarNodeType(reNode, dsDs2 as DsV7, true)).toBe(
       "RestrictedEnumeration"
     );
   });
@@ -65,8 +65,19 @@ describe("v7 - identifyDsGrammarNodeType()", () => {
       false
     );
     expect(
-      dsu.identifyDsGrammarNodeType(internalExternalRefNode, dsDs2 as DsV7)
+      dsu.identifyDsGrammarNodeType(
+        internalExternalRefNode,
+        dsDs2 as DsV7,
+        true
+      )
     ).toBe("RestrictedClass");
+    expect(
+      dsu.identifyDsGrammarNodeType(
+        internalExternalRefNode,
+        dsDs2 as DsV7,
+        false
+      )
+    ).toBe("InternalExternalReference");
   });
   test("Reference node - Root Node", () => {
     const dsu = new DsUtilitiesV7();
@@ -75,18 +86,24 @@ describe("v7 - identifyDsGrammarNodeType()", () => {
       "$.schema:subjectOf/schema:CreativeWork.schema:about/@$",
       false
     );
-    expect(dsu.identifyDsGrammarNodeType(rootRefNode, dsDs3 as DsV7)).toBe(
-      "RootNode"
-    );
+    expect(
+      dsu.identifyDsGrammarNodeType(rootRefNode, dsDs3 as DsV7, true)
+    ).toBe("RootNode");
+    expect(
+      dsu.identifyDsGrammarNodeType(rootRefNode, dsDs3 as DsV7, false)
+    ).toBe("RootReference");
   });
   test("enumeration member", () => {
     const dsu = new DsUtilitiesV7();
     const enumMemberNode = {
       "@id": "ex:AnimalLivingEnvironmentDomestic",
     };
-    expect(dsu.identifyDsGrammarNodeType(enumMemberNode, dsDs2 as DsV7)).toBe(
-      "EnumerationMember"
-    );
+    expect(
+      dsu.identifyDsGrammarNodeType(enumMemberNode, dsDs2 as DsV7, true)
+    ).toBe("EnumerationMember");
+    expect(
+      dsu.identifyDsGrammarNodeType(enumMemberNode, dsDs2 as DsV7, false)
+    ).toBe("EnumerationMember");
   });
   // todo test standard class and standard enumeration, with and without SDO Adapter
 });

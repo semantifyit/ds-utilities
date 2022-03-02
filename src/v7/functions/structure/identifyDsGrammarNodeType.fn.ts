@@ -8,16 +8,18 @@ import { dsPathGetNode } from "../path/dsPathGetNode.fn";
 import { DsNodeGeneric } from "../../../base/types/DsGrammarGeneric.type";
 
 /**
- * Returns the grammar-type of the given DS Node within the given populated DS. It is possible to pass an SDO-Adapter to tell a standard enumeration apart from a standard class. If no SDO-Adapter is given, a standard class is assumed. If a reference node is passed (not an enumeration member) then the grammar type of the referenced node is returned (e.g. internal reference may point to a Restricted Class node -> "RestrictedClass").
+ * Returns the grammar-type of the given DS Node within the given POPULATED DS. It is possible to pass an SDO-Adapter to tell a standard enumeration apart from a standard class. If no SDO-Adapter is given, a standard class is assumed. If a reference node is passed (not an enumeration member) then the grammar type of the referenced node is returned (e.g. internal reference may point to a Restricted Class node -> "RestrictedClass").
  *
  * @param dsNode - the input DS Node
- * @param ds {object} - the input DS (populated)
+ * @param ds  - the input DS (populated)
+ * @param followReference - if true, the type of the referenced node is returned, instead of the type of the reference
  * @param sdoAdapter {SDOAdapter?} - A SDO-Adapter instance (already initialized with the wished vocabularies) -
  * @return {string} the type of the given node
  */
 export function identifyDsGrammarNodeType(
   dsNode: DsNodeGeneric,
   ds: DsV7,
+  followReference: boolean,
   sdoAdapter?: SDOAdapter
 ): DsGrammarNodeTypeV7 {
   const rootNode = getDsRootNode(ds);
@@ -68,10 +70,27 @@ export function identifyDsGrammarNodeType(
       return dsNode["@id"] === el["@id"];
     });
     if (match) {
-      // let this function check the referenced object
-      return identifyDsGrammarNodeType(match, ds, sdoAdapter);
+      if (followReference) {
+        // let this function check the referenced object
+        return identifyDsGrammarNodeType(
+          match,
+          ds,
+          followReference,
+          sdoAdapter
+        );
+      } else {
+        // return type of reference itself
+        if (rootNode["@id"] === match["@id"]) {
+          return GNT.refRoot;
+        } else if (match["@id"].startsWith(rootNode["@id"])) {
+          return GNT.refInternal;
+        } else if (match["@id"].includes("#")) {
+          return GNT.refInternalExternal;
+        } else {
+          return GNT.refExternal;
+        }
+      }
     }
-    // todo add followReference as parameter, to maybe return "dsGrammarNodeTypeReference" as result
     // todo use sdo Adapter if available to ensure that it is an enumeration member?
     // else: assume it is an enumeration member
     return GNT.enumerationMember;

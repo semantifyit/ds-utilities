@@ -1,5 +1,10 @@
 # Changelog
 
+2.0.2 / 2022-03-02
+==================
+
+* `identifyDsGrammarNodeType()` now has a parameter called `followReference` (boolean), which tells if the function should follow the reference to return the node type of the referenced node instead of the reference type itself.
+
 2.0.1 / 2022-02-25
 ==================
 

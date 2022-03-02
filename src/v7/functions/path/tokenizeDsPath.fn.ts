@@ -91,7 +91,8 @@ function createDsPathToken(
   const dsNodeUnresolvedReference = dsPathGetNode(ds, currentPath, false);
   const grammarNodeType = identifyDsGrammarNodeType(
     dsNodeResolvedReference,
-    ds
+    ds,
+    true
   );
   const dsPathNodeType = dsPathIdentifyNodeType(dsNodeUnresolvedReference, ds);
   let label;

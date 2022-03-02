@@ -8,7 +8,10 @@ const dsGrammarNodeTypeEnumerationRestricted = "RestrictedEnumeration"; // has s
 const dsGrammarNodeTypeProperty = "Property";
 const dsGrammarNodeTypeDataType = "DataType";
 const dsGrammarNodeTypeEnumerationMember = "EnumerationMember";
-const dsGrammarNodeTypeReference = "Reference"; // any reference node that has only @id, excluding EnumerationMember
+const dsGrammarNodeTypeReferenceRoot = "RootReference";
+const dsGrammarNodeTypeReferenceInternal = "InternalReference";
+const dsGrammarNodeTypeReferenceExternal = "ExternalReference";
+const dsGrammarNodeTypeReferenceInternalExternal = "InternalExternalReference";
 
 export const dsGrammarNodeTypes = {
   ds: dsGrammarNodeTypeDs,
@@ -21,5 +24,8 @@ export const dsGrammarNodeTypes = {
   property: dsGrammarNodeTypeProperty,
   dataType: dsGrammarNodeTypeDataType,
   enumerationMember: dsGrammarNodeTypeEnumerationMember,
-  reference: dsGrammarNodeTypeReference,
+  refRoot: dsGrammarNodeTypeReferenceRoot,
+  refInternal: dsGrammarNodeTypeReferenceInternal,
+  refExternal: dsGrammarNodeTypeReferenceExternal,
+  refInternalExternal: dsGrammarNodeTypeReferenceInternalExternal,
 } as const;

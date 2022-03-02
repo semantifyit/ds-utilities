@@ -655,7 +655,10 @@ const dsGrammarNodeTypeEnumerationRestricted = "RestrictedEnumeration";
 const dsGrammarNodeTypeProperty = "Property";
 const dsGrammarNodeTypeDataType = "DataType";
 const dsGrammarNodeTypeEnumerationMember = "EnumerationMember";
-const dsGrammarNodeTypeReference = "Reference";
+const dsGrammarNodeTypeReferenceRoot = "RootReference";
+const dsGrammarNodeTypeReferenceInternal = "InternalReference";
+const dsGrammarNodeTypeReferenceExternal = "ExternalReference";
+const dsGrammarNodeTypeReferenceInternalExternal = "InternalExternalReference";
 exports.dsGrammarNodeTypes = {
     ds: dsGrammarNodeTypeDs,
     context: dsGrammarNodeTypeContext,
@@ -667,7 +670,10 @@ exports.dsGrammarNodeTypes = {
     property: dsGrammarNodeTypeProperty,
     dataType: dsGrammarNodeTypeDataType,
     enumerationMember: dsGrammarNodeTypeEnumerationMember,
-    reference: dsGrammarNodeTypeReference,
+    refRoot: dsGrammarNodeTypeReferenceRoot,
+    refInternal: dsGrammarNodeTypeReferenceInternal,
+    refExternal: dsGrammarNodeTypeReferenceExternal,
+    refInternalExternal: dsGrammarNodeTypeReferenceInternalExternal,
 };
 
 },{}],26:[function(require,module,exports){
@@ -1470,7 +1476,7 @@ exports.tokenizeDsPath = tokenizeDsPath;
 function createDsPathToken(ds, token, currentPath, restPath) {
     const dsNodeResolvedReference = (0, dsPathGetNode_fn_1.dsPathGetNode)(ds, currentPath, true);
     const dsNodeUnresolvedReference = (0, dsPathGetNode_fn_1.dsPathGetNode)(ds, currentPath, false);
-    const grammarNodeType = (0, identifyDsGrammarNodeType_fn_1.identifyDsGrammarNodeType)(dsNodeResolvedReference, ds);
+    const grammarNodeType = (0, identifyDsGrammarNodeType_fn_1.identifyDsGrammarNodeType)(dsNodeResolvedReference, ds, true);
     const dsPathNodeType = (0, dsPathIdentifyNodeType_fn_1.dsPathIdentifyNodeType)(dsNodeUnresolvedReference, ds);
     let label;
     if (token === "@context") {
@@ -1589,7 +1595,7 @@ const getDsRootNode_fn_1 = require("./getDsRootNode.fn");
 const helper_1 = require("../../../base/helper/helper");
 const dsGrammar_data_1 = require("../../data/dsGrammar.data");
 const dsPathGetNode_fn_1 = require("../path/dsPathGetNode.fn");
-function identifyDsGrammarNodeType(dsNode, ds, sdoAdapter) {
+function identifyDsGrammarNodeType(dsNode, ds, followReference, sdoAdapter) {
     const rootNode = (0, getDsRootNode_fn_1.getDsRootNode)(ds);
     const contextNode = (0, dsPathGetNode_fn_1.dsPathGetNode)(ds, "@context");
     if ((0, helper_1.deepEqual)(dsNode, contextNode)) {
@@ -1629,7 +1635,23 @@ function identifyDsGrammarNodeType(dsNode, ds, sdoAdapter) {
             return dsNode["@id"] === el["@id"];
         });
         if (match) {
-            return identifyDsGrammarNodeType(match, ds, sdoAdapter);
+            if (followReference) {
+                return identifyDsGrammarNodeType(match, ds, followReference, sdoAdapter);
+            }
+            else {
+                if (rootNode["@id"] === match["@id"]) {
+                    return dsGrammar_data_1.dsGrammarNodeTypes.refRoot;
+                }
+                else if (match["@id"].startsWith(rootNode["@id"])) {
+                    return dsGrammar_data_1.dsGrammarNodeTypes.refInternal;
+                }
+                else if (match["@id"].includes("#")) {
+                    return dsGrammar_data_1.dsGrammarNodeTypes.refInternalExternal;
+                }
+                else {
+                    return dsGrammar_data_1.dsGrammarNodeTypes.refExternal;
+                }
+            }
         }
         return dsGrammar_data_1.dsGrammarNodeTypes.enumerationMember;
     }
