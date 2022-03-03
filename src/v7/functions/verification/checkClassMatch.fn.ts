@@ -1,4 +1,4 @@
-import { SDOAdapter } from "schema-org-adapter/lib/SDOAdapter";
+import { SDOAdapter } from "schema-org-adapter";
 
 /**
  * Returns true if the given classes are a valid match for the given targetClasses following the DS-V7 semantics

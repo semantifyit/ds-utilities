@@ -1,3 +1,7 @@
+2.1.1 / 2022-03-03
+==================
+* TypeScript: Now exports all classes provided by this library.
+
 2.1.0 / 2022-03-03
 ==================
 * Node/TypeScript: All types and interfaces that may be interesting for the user are being reexported in index.d.ts now.

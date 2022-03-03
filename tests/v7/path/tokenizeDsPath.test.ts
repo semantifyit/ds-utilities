@@ -1,7 +1,7 @@
 import { DsUtilitiesV7 } from "../../../src/v7/DsUtilitiesV7";
 import dsDs2 from "./../data/ds-ds2.json";
 import dsDs3 from "./../data/ds-ds3.json";
-import { DsV7 } from "../../../src/v7/types/DsGrammarV7.type";
+import { DsV7 } from "../../../src";
 
 describe("v7 - tokenizeDsPath()", () => {
   test("context", () => {

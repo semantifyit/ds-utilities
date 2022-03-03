@@ -2,7 +2,7 @@ import { DsUtilitiesV5 } from "../../../src/v5/DsUtilitiesV5";
 import dsDs0 from "../data/ds-ds0.json";
 import dsDs0NoGraph from "../data/ds-ds0-no-graph.json";
 import dsDs0NoRoot from "../data/ds-ds0-no-rootnode.json";
-import { DsV5 } from "../../../src/v5/types/DsGrammarV5.type";
+import { DsV5 } from "../../../src";
 
 describe("v5 - getDsRootNode()", () => {
   test("correct root node", () => {

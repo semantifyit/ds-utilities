@@ -10,3 +10,7 @@ export * from "./v7/types/DataTypesV7.type";
 export * from "./v7/types/DsGrammarV7.type";
 export * from "./v7/types/PathGrammarV7.type";
 export * from "./v7/types/VerificationV7.type";
+// export types for the classes provided for this library
+export type { DsUtilitiesBase } from "./base/DsUtilitiesBase";
+export type { DsUtilitiesV5 } from "./v5/DsUtilitiesV5";
+export type { DsUtilitiesV7 } from "./v7/DsUtilitiesV7";

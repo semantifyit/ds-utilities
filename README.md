@@ -4,7 +4,7 @@
 <b>
 DS-Utilities provides an API to handle Domain Specifications according to the DS Specification. Usable on Node and Browsers.</b>
 <br><br>
-<a href="https://libraries.io/npm/schema-org-adapter"><img src="https://img.shields.io/librariesio/release/npm/ds-utilities" alt="Dependencies" /></a>
+<a href="https://libraries.io/npm/ds-utilities"><img src="https://img.shields.io/librariesio/release/npm/ds-utilities" alt="Dependencies" /></a>
 <a href="https://github.com/semantifyit/ds-utilities/issues"><img src="https://img.shields.io/github/issues/semantifyit/ds-utilities.svg" alt="Issues open" /></a>
 <a href="https://github.com/semantifyit/ds-utilities/issues"><img src="https://img.shields.io/snyk/vulnerabilities/github/semantifyit/ds-utilities" alt="Snyk Vulnerability Test" /></a>
 <br>

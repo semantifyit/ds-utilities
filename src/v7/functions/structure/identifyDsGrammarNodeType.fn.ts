@@ -1,5 +1,5 @@
 import { DsGrammarNodeTypeV7, DsV7 } from "../../types/DsGrammarV7.type";
-import { SDOAdapter } from "schema-org-adapter/lib/SDOAdapter";
+import { SDOAdapter } from "schema-org-adapter";
 import { getDsRootNode } from "./getDsRootNode.fn";
 import { deepEqual } from "../../../base/helper/helper";
 

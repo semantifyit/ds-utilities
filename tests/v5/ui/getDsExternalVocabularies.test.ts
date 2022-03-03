@@ -1,6 +1,6 @@
 import dsDs0ExternalVocab from "../data/ds-ds0-external-vocab.json";
 import dsDs0NoRoot from "../data/ds-ds0-no-rootnode.json";
-import { DsV5 } from "../../../src/v5/types/DsGrammarV5.type";
+import { DsV5 } from "../../../src";
 import { DsUtilitiesV5 } from "../../../src/v5/DsUtilitiesV5";
 
 describe("v5 - getDsExternalVocabularies()", () => {
