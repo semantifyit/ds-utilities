@@ -10,7 +10,7 @@ import { dsPathIdentifyNodeType } from "./dsPathIdentifyNodeType.fn";
 import { prettyPrintCompactedIRIs } from "../../../base/functions/prettyPrintCompactedIRIs.fn";
 import { pathGrammarNodeTypes } from "../../data/pathGrammar.data";
 import { getDataTypeLabel } from "../ui/getDataTypeLabel.fn";
-import { PathTokenObject } from "../../types/PathGrammarV7.type";
+import { PathTokenObjectV7 } from "../../types/PathGrammarV7.type";
 
 /**
  * Returns an array of objects, representing the tokens of a given ds-path. (reference)
@@ -20,10 +20,10 @@ import { PathTokenObject } from "../../types/PathGrammarV7.type";
  * @param dsPath  - The input ds-path
  * @return an Array of path-tokens based on the given input
  */
-export function tokenizeDsPath(ds: DsV7, dsPath: string): PathTokenObject[] {
+export function tokenizeDsPath(ds: DsV7, dsPath: string): PathTokenObjectV7[] {
   let currentPath = "";
   let restPath = dsPath;
-  const result: PathTokenObject[] = [];
+  const result: PathTokenObjectV7[] = [];
 
   while (restPath !== "") {
     let currentToken;
@@ -86,7 +86,7 @@ function createDsPathToken(
   token: string,
   currentPath: string,
   restPath: string
-): PathTokenObject {
+): PathTokenObjectV7 {
   const dsNodeResolvedReference = dsPathGetNode(ds, currentPath, true);
   const dsNodeUnresolvedReference = dsPathGetNode(ds, currentPath, false);
   const grammarNodeType = identifyDsGrammarNodeType(

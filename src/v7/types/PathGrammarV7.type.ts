@@ -4,7 +4,7 @@ import { DsGrammarNodeTypeV7 } from "./DsGrammarV7.type";
 export type PathGrammarNodeTypeV7 =
   typeof pathGrammarNodeTypes[keyof typeof pathGrammarNodeTypes];
 
-export type PathTokenObject = {
+export type PathTokenObjectV7 = {
   token: string;
   label: string;
   grammarNodeType: DsGrammarNodeTypeV7;

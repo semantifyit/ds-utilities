@@ -1,4 +1,8 @@
-# Changelog
+2.1.0 / 2022-03-03
+==================
+* Node/TypeScript: All types and interfaces that may be interesting for the user are being reexported in index.d.ts now.
+* Update of dependencies.
+* Renamed type `PathTokenObject` to `PathTokenObjectV7`.
 
 2.0.2 / 2022-03-02
 ==================
