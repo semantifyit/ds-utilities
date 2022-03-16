@@ -18,6 +18,7 @@ export type DsNodeV7 =
   | RootNodeV7
   | PropertyNodeV7
   | PropertyRangeNodeV7
+  | PropertyRangeShNodeV7
   | ClassNodeV7
   | EnumerationNodeV7
   | EnumerationMemberNodeV7
