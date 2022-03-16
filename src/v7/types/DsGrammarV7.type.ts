@@ -51,11 +51,11 @@ export type RootNodeV7 = {
   "sh:property": PropertyNodeV7[];
 };
 
-export type PropertyRangeNodeV7 =
-  | {
-      "sh:node": ReferenceNodeV7 | ClassNodeV7 | EnumerationNodeV7;
-    }
-  | DataTypeNodeV7;
+export type PropertyRangeShNodeV7 = {
+  "sh:node": ReferenceNodeV7 | ClassNodeV7 | EnumerationNodeV7;
+};
+
+export type PropertyRangeNodeV7 = PropertyRangeShNodeV7 | DataTypeNodeV7;
 
 export type PropertyNodeV7 = {
   "@type": "sh:PropertyShape";

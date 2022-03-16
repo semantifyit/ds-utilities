@@ -1,4 +1,15 @@
-import { DsNodeV7, DsV7, PropertyNodeV7 } from "../../types/DsGrammarV7.type";
+import {
+  ClassNodeV7,
+  DataTypeNodeV7,
+  DsNodeV7,
+  DsV7,
+  EnumerationNodeV7,
+  PropertyNodeV7,
+  PropertyRangeNodeV7,
+  PropertyRangeShNodeV7,
+  RestrictedClassNodeV7,
+  RootNodeV7,
+} from "../../types/DsGrammarV7.type";
 import { getDsRootNode } from "../structure/getDsRootNode.fn";
 import { DsNodeGeneric } from "../../../base/types/DsGrammarGeneric.type";
 
@@ -74,7 +85,7 @@ function checkClassMatch(arr1: string[], arr2: string[]) {
 
 //  helper function - actDsObj is an array of ranges
 function getRangeNode(
-  actDsObj: DsNodeGeneric[],
+  actDsObj: PropertyRangeNodeV7[],
   actRestPath: string,
   ds: DsV7,
   resolveReference: boolean
@@ -82,53 +93,63 @@ function getRangeNode(
   const rootNode = getDsRootNode(ds);
   const pathTokens = actRestPath.split(".");
   const rangeToken = pathTokens[0];
-  let actRange: DsNodeGeneric | undefined;
-  let referencedNode;
+  let actRange: PropertyRangeNodeV7 | undefined;
+  let referencedNode: RootNodeV7 | ClassNodeV7 | EnumerationNodeV7 | undefined;
   // reference node
   if (rangeToken.startsWith("@")) {
     if (rangeToken === "@$") {
       // root node reference
-      actRange = actDsObj.find(
+      actRange = (actDsObj as PropertyRangeShNodeV7[]).find(
         (el) => el["sh:node"] && el["sh:node"]["@id"] === rootNode["@id"]
       );
       referencedNode = rootNode;
     } else if (rangeToken.startsWith("@#")) {
       // internal node reference
-      actRange = actDsObj.find(
+      actRange = (actDsObj as PropertyRangeShNodeV7[]).find(
         (el) =>
           el["sh:node"] &&
           el["sh:node"]["@id"] === rootNode["@id"] + rangeToken.substring(1)
       );
       if (actRange) {
         referencedNode = ds["@graph"].find(
-          (el) => el["@id"] === actRange?.["sh:node"]["@id"]
+          (el) =>
+            el["@id"] ===
+            (actRange as PropertyRangeShNodeV7)?.["sh:node"]["@id"]
         );
       }
     } else {
       // external (internal) node reference
-      actRange = actDsObj.find(
+      actRange = (actDsObj as PropertyRangeShNodeV7[]).find(
         (el) =>
           el["sh:node"] &&
           el["sh:node"]["@id"].endsWith(rangeToken.substring(1))
       );
       if (actRange) {
         referencedNode = ds["@graph"].find(
-          (el) => el["@id"] === actRange?.["sh:node"]["@id"]
-        ) as DsNodeGeneric;
+          (el) =>
+            el["@id"] ===
+            (actRange as PropertyRangeShNodeV7)?.["sh:node"]["@id"]
+        );
       }
     }
   } else {
     actRange = actDsObj.find(
       (el) =>
-        el["sh:datatype"] === pathTokens[0] ||
-        (el["sh:node"] &&
-          el["sh:node"]["sh:class"] &&
+        (el as DataTypeNodeV7)["sh:datatype"] === pathTokens[0] ||
+        ((el as PropertyRangeShNodeV7)["sh:node"] &&
+          ((el as PropertyRangeShNodeV7)["sh:node"] as ClassNodeV7)[
+            "sh:class"
+          ] &&
           checkClassMatch(
-            el["sh:node"]["sh:class"],
+            ((el as PropertyRangeShNodeV7)["sh:node"] as ClassNodeV7)[
+              "sh:class"
+            ],
             pathTokens[0].split(",")
           )) ||
-        (el["sh:node"] &&
-          el["sh:node"]["@id"].endsWith(pathTokens[0].substring(1)))
+        ((el as PropertyRangeShNodeV7)["sh:node"] &&
+          (el as PropertyRangeShNodeV7)["sh:node"]["@id"].endsWith(
+            pathTokens[0].substring(1)
+          ))
     );
   }
   if (!actRange) {
@@ -139,22 +160,26 @@ function getRangeNode(
   if (pathTokens.length === 1) {
     if (resolveReference && referencedNode) {
       return referencedNode;
-    } else if (actRange["sh:node"]) {
-      return actRange["sh:node"];
+    } else if ((actRange as PropertyRangeShNodeV7)["sh:node"]) {
+      return (actRange as PropertyRangeShNodeV7)["sh:node"];
     } else {
-      return actRange;
+      return actRange as DataTypeNodeV7;
     }
   } else {
     if (referencedNode) {
       return getPropertyNode(
-        referencedNode["sh:property"],
+        (referencedNode as RestrictedClassNodeV7)["sh:property"],
         actRestPath.substring(pathTokens[0].length + 1),
         ds,
         resolveReference
       );
     } else {
       return getPropertyNode(
-        actRange["sh:node"]["sh:property"],
+        (
+          (actRange as PropertyRangeShNodeV7)[
+            "sh:node"
+          ] as RestrictedClassNodeV7
+        )["sh:property"],
         actRestPath.substring(pathTokens[0].length + 1),
         ds,
         resolveReference
@@ -169,7 +194,7 @@ function getPropertyNode(
   actRestPath: string,
   ds: DsV7,
   resolveReference: boolean
-) {
+): DsNodeGeneric {
   const pathTokens = actRestPath.split("/");
   const actProp = actDsObj.find((el) => el["sh:path"] === pathTokens[0]);
   if (!actProp) {

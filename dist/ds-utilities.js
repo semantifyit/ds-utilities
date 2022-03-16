@@ -1279,14 +1279,16 @@ function getRangeNode(actDsObj, actRestPath, ds, resolveReference) {
             actRange = actDsObj.find((el) => el["sh:node"] &&
                 el["sh:node"]["@id"] === rootNode["@id"] + rangeToken.substring(1));
             if (actRange) {
-                referencedNode = ds["@graph"].find((el) => el["@id"] === (actRange === null || actRange === void 0 ? void 0 : actRange["sh:node"]["@id"]));
+                referencedNode = ds["@graph"].find((el) => el["@id"] ===
+                    (actRange === null || actRange === void 0 ? void 0 : actRange["sh:node"]["@id"]));
             }
         }
         else {
             actRange = actDsObj.find((el) => el["sh:node"] &&
                 el["sh:node"]["@id"].endsWith(rangeToken.substring(1)));
             if (actRange) {
-                referencedNode = ds["@graph"].find((el) => el["@id"] === (actRange === null || actRange === void 0 ? void 0 : actRange["sh:node"]["@id"]));
+                referencedNode = ds["@graph"].find((el) => el["@id"] ===
+                    (actRange === null || actRange === void 0 ? void 0 : actRange["sh:node"]["@id"]));
             }
         }
     }

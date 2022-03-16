@@ -1,3 +1,7 @@
+2.1.2 / 2022-03-16
+==================
+* TypeScript: Added type `PropertyRangeShNodeV7` which is a property range wrapped by `sh:node`.
+
 2.1.1 / 2022-03-03
 ==================
 * TypeScript: Now exports all classes provided by this library.
