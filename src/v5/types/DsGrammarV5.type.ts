@@ -66,7 +66,7 @@ export type DataTypeNodeV5 = {
   "sh:maxLength"?: number;
   "sh:minLength"?: number;
   "sh:pattern"?: string[];
-  "sh:flag"?: string;
+  "sh:flags"?: string;
   "sh:languageIn"?: string[];
   "sh:uniqueLang"?: boolean;
   "sh:in"?: (string | number | boolean)[];

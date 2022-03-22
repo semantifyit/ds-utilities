@@ -75,7 +75,7 @@ const dsNodePropertyOrder = [
   "sh:minLength",
   "sh:maxLength",
   "sh:pattern",
-  "sh:flag",
+  "sh:flags",
   "sh:languageIn",
   "ds:hasLanguage",
   "sh:uniqueLang",

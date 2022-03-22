@@ -141,7 +141,7 @@ export type DataTypeNodeV7 = {
   "sh:minLength"?: number;
   "sh:maxLength"?: number;
   "sh:pattern"?: string[];
-  "sh:flag"?: string;
+  "sh:flags"?: string;
   "sh:languageIn"?: string[];
   "ds:hasLanguage"?: string[];
   "sh:uniqueLang"?: boolean;

@@ -77,7 +77,7 @@ export const nodeSchemaDataType: NodeSchema = [
     valueType: "array",
   },
   {
-    term: "sh:flag",
+    term: "sh:flags",
     required: false,
     valueType: "string",
   },

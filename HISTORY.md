@@ -1,3 +1,7 @@
+2.1.3 / 2022-03-22
+==================
+* Fix: `sh:flag` should be `sh:flags`, there was a small error in the DS Specification page.
+
 2.1.2 / 2022-03-16
 ==================
 * TypeScript: Added type `PropertyRangeShNodeV7` which is a property range wrapped by `sh:node`.
