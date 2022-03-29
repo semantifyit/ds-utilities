@@ -14,12 +14,20 @@ import { getDsRootNode } from "../structure/getDsRootNode.fn";
 import { DsNodeGeneric } from "../../../base/types/DsGrammarGeneric.type";
 
 /**
- * Returns a node within the given DS based on the given ds-path. (reference)
+ * Returns the corresponding node within the given Domain Specification based on the given [DS-Path](https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/dspath). (As reference, not as deep copy)
  *
- * @param ds - The input DS
- * @param dsPath - The input ds-path
- * @param resolveReference  - If true, and the last token of the path is a reference node, then the referenced objected will be returned. Else the referencing object will be returned.
- * @return {object} - The node at the given ds-path (by reference)
+ * The parameter `resolveReference` (default = `false`) allows to set the behaviour with reference nodes: If `true`, and the last token of the path is a reference node, then the referenced objected will be returned. Else the reference object will be returned.
+ *
+ * @example
+ * ```JS
+ * const targetNode = myDsUtilitiesV7.dsPathGetNode(exampleDs, "$.schema:address/schema:PostalAddress");
+ * // the resolved target node is a class node for "schema:PostalAddress" within the Domain Specification "exampleDs"
+ * ```
+ *
+ * @param ds - The input Domain Specification
+ * @param dsPath - The input DS-Path
+ * @param resolveReference  - If `true`, and the last token of the path is a reference node, then the referenced objected will be returned. Else the referencing object will be returned.
+ * @return The node at the given DS-Path (by reference)
  */
 export function dsPathGetNode(
   ds: DsV7,

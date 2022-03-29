@@ -7,6 +7,7 @@ export type NodeSchemaValueType =
   | "boolean"
   | "any"
   | "languageTaggedString";
+
 export type NodeSchemaValueTypeArray = `${NodeSchemaValueType}[]`;
 
 export type NodeSchemaEntry = {

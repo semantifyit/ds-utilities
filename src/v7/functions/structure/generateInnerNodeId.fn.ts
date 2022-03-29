@@ -3,12 +3,18 @@ import { DsV7 } from "../../types/DsGrammarV7.type";
 import { customAlphabet } from "nanoid";
 
 /**
- * Creates a new fragment id according to the DS-V7 specification.
- * See https://gitbook.semantify.it/domainspecifications/ds-v7/devnotes#3-generating-ids-for-inner-nodeshape
- * It is possible to pass the current DS, this way it is ensured that the generated fragment id has not been used yet in the given DS
+ * Creates a new **fragment-id** according to the [DS-V7 specification](https://gitbook.semantify.it/domainspecifications/ds-v7/devnotes#3.-generating-ids-for-inner-nodeshape).
  *
- * @param ds - the input DS
- * @return returns a new the fragment id
+ * It is possible to pass a Domain Specification as parameter to ensured that the generated fragment-id has not been used in the given DS yet.
+ *
+ * @example
+ * ```JS
+ * const newFragmentId = myDsUtilitiesV7.generateInnerNodeId(exampleDs);
+ * // "AfgGa"
+ * ```
+ *
+ * @param ds - the input Domain Specification
+ * @return A new the fragment-id
  */
 export function generateInnerNodeId(ds?: DsV7): string {
   let dsId;

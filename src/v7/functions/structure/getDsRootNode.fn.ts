@@ -1,10 +1,16 @@
 import { DsV7, RootNodeV7 } from "../../types/DsGrammarV7.type";
 
 /**
- * Returns a reference to the root node of the given Domain Specification
+ * Returns a reference to the root node of the given Domain Specification.
+ *
+ * @example
+ * ```JS
+ * const rootNode = myDsUtilitiesV7.getDsRootNode(exampleDs);
+ * // returns a JS object reference to the root node
+ * ```
  *
  * @param ds - The input Domain Specification
- * @return The root node if the given DS
+ * @return The root node of the given Domain Specification
  */
 export function getDsRootNode(ds: DsV7): RootNodeV7 {
   if (!ds["@graph"]) {

@@ -4,6 +4,11 @@ import dsV7 from "./v7/data/ds-ds0.json";
 import dsNoGraphV7 from "./v7/data/ds-ds0-no-graph.json";
 
 describe("index", () => {
+  test("getAvailableVersions()", () => {
+    expect(Array.isArray(DsUtil.getAvailableVersions())).toBe(true);
+    expect(DsUtil.getAvailableVersions().length >= 2).toBe(true);
+    expect(typeof DsUtil.getAvailableVersions()[0]).toBe("string");
+  });
   test("getDsUtilitiesForDsSpecVersion()", () => {
     expect(
       DsUtil.getDsUtilitiesForDsSpecVersion("5.0").getDsUtilitiesVersion()

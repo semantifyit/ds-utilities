@@ -1,7 +1,9 @@
 import { NodeSchema } from "../types/NodeSchema.type";
 
-// These are the terms used by a language tagged value for DS-V7 (e.g. value of schema:name)
-// Listed in the recommended order as they should be listed in their lexical representation
+/**
+ * These are the terms used by a language tagged value for DS-V7 (e.g. value of schema:name)
+ * Listed in the recommended order as they should be listed in their lexical representation
+ * */
 export const nodeSchemaLanguageTaggedString: NodeSchema = [
   {
     term: "@language",

@@ -3,21 +3,22 @@ import { prettyPrintCompactedIRIs } from "./functions/prettyPrintCompactedIRIs.f
 import { extractSdoVersionNumber } from "./functions/extractSdoVersionNumber.fn";
 
 /**
- * This is the super class for all DsUtilities classes
- * It includes functions that are shared by all DsUtilities classes
+ *
+ * This is the super class for all DS-Utilities classes
+ * It includes functions that are shared by all DS-Utilities classes
  */
-
 export abstract class DsUtilitiesBase {
-  // the dsUtilitiesVersion specifies the version of a DsUtilities Class, which is exactly the same as the corresponding DS specification version
-  // DsUtilitiesBase is a super-class for all DsUtilities versions, therefore, it has no corresponding Ds specification version
-  protected abstract dsUtilitiesVersion: string;
-
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   protected constructor() {}
 
-  getDsUtilitiesVersion(): string {
-    return this.dsUtilitiesVersion;
-  }
+  // the dsUtilitiesVersion specifies the version of a DS-Utilities Class, which is exactly the same as the corresponding DS specification version
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  protected abstract getDsUtilitiesVersion: Function;
+
+  /** @category General */
+  getDsSpecificationVersion = getDsSpecificationVersion;
+  /** @category General */
+  extractSdoVersionNumber = extractSdoVersionNumber;
 
   /*
   functions that handle the structure of DS
@@ -29,7 +30,6 @@ export abstract class DsUtilitiesBase {
   abstract getDsStandardContext: Function;
   // eslint-disable-next-line @typescript-eslint/ban-types
   abstract getDsId: Function;
-  getDsSpecificationVersion = getDsSpecificationVersion;
 
   /*
   functions for the handling of DS Paths, e.g. "$.schema:address/schema:PostalAddress"
@@ -39,8 +39,8 @@ export abstract class DsUtilitiesBase {
   functions that ease the UI interaction with DS
   */
 
+  /** @category UI-Interaction */
   prettyPrintCompactedIRIs = prettyPrintCompactedIRIs;
-  extractSdoVersionNumber = extractSdoVersionNumber;
   // eslint-disable-next-line @typescript-eslint/ban-types
   abstract getDsName: Function;
   // eslint-disable-next-line @typescript-eslint/ban-types

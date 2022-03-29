@@ -2,12 +2,31 @@ import { pathGrammarNodeTypes as PGN } from "../../data/pathGrammar.data";
 import { PathGrammarNodeTypeV7 } from "../../types/PathGrammarV7.type";
 
 /**
- * Appends a new token to a given DS Path. The inputs and additions depend on the token type to be added.
+ * Appends a new token to a given [DS-Path](https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/dspath).
  *
- * @param dsPath - the given DS Path to augment
+ * A DS-Path can be initialized with the function {@link dsPathInit | dsPathInit()}.
+ *
+ * The `inputForPath`-parameter and the resulting addition to the DS-Path depend on the token type (parameter `additionType`) to be added:
+ *
+ * * `additionType` = `Property` -> `inputForPath` must be the IRI of the Property, e.g. `schema:url`
+ * * `additionType` = `DataType` -> `inputForPath` must be the IRI of the DataType, e.g. `xsd:string`
+ * * `additionType` = `Class` or `Enumeration` -> `inputForPath` must be the IRIs of classes/enumeration as array, e.g. `[ "schema:Room", "schema:Product" ]` or `[ "schema:DayOfWeek" ]`
+ * * `additionType` = `RootReference` -> `inputForPath` is not needed
+ * * `additionType` = `InternalReference` -> `inputForPath` must be the `@id` of the internal node, e.g. `https://semantify.it/ds/_1hRVOT8Q#sXZwe`
+ * * `additionType` = `ExternalReference` -> `inputForPath` must be the `@id` of the external node, e.g. `https://semantify.it/ds/_1hRVOT8Q`
+ * * `additionType` = `InternalExternalReference` -> `inputForPath` must be the `@id` of the internal node from an external node, e.g. `https://semantify.it/ds/_1hRVOT8Q#sXZwe`
+ *
+ * @example
+ * ```JS
+ * const oldPath = "$.schema:address";
+ * const newPath = myDsUtilitiesV7.dsPathAddition(oldPath, "Class", [ "schema:PostalAddress" ] );
+ * // "$.schema:address/schema:PostalAddress"
+ * ```
+ *
+ * @param dsPath - the given DS-Path to augment
  * @param additionType - the kind of addition to be added
  * @param inputForPath - input that depends on the given additionType, which is used for the dsPath addition
- * @return the resulting DS Path
+ * @return the resulting DS-Path
  */
 export function dsPathAddition(
   dsPath: string,

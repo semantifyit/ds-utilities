@@ -13,11 +13,18 @@ import { getDataTypeLabel } from "../ui/getDataTypeLabel.fn";
 import { PathTokenObjectV7 } from "../../types/PathGrammarV7.type";
 
 /**
- * Returns an array of objects, representing the tokens of a given ds-path. (reference)
- * https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/dspath
+ * Returns an array of objects, representing the tokens of a given [DS-Path](https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/dspath).
  *
- * @param ds  - The input DS
- * @param dsPath  - The input ds-path
+ * There is a dedicated documentation for such a {@link PathTokenObjectV7 | DS-Path-Token-Object}.
+ *
+ * @example
+ * ```JS
+ * const dsPathTokens = myDsUtilitiesV7.tokenizeDsPath(exampleDs, "$.schema:creditText/xsd:string");
+ * // creates an array with 3 DS-Path-Token-Objects, each one representing a token of the given DS-Path
+ * ```
+ *
+ * @param ds - The input Domain Specification
+ * @param dsPath - The input DS-Path
  * @return an Array of path-tokens based on the given input
  */
 export function tokenizeDsPath(ds: DsV7, dsPath: string): PathTokenObjectV7[] {

@@ -4,6 +4,7 @@ import { DsV5 } from "../../types/DsGrammarV5.type";
 
 /**
  * Returns the used external vocabularies (ds:usedVocabularies) of the given DS (clone - no reference).
+ *
  * ds:usedVocabularies is optional in DS-V5.
  *
  * @param ds - the input DS

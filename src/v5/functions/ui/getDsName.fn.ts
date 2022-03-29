@@ -3,6 +3,7 @@ import { DsV5 } from "../../types/DsGrammarV5.type";
 
 /**
  * Returns the name (schema:name) of the given DS.
+ *
  * schema:name is optional in DS-V5.
  *
  * @param ds - the input DS

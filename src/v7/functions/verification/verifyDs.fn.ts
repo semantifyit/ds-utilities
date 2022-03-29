@@ -28,10 +28,18 @@ import { nodeSchemaDataType } from "../../data/nodeSchemas/DataType.nodeSchema";
 import { NodeSchema } from "../../../base/types/NodeSchema.type";
 
 /**
- * Returns a meta verification report
+ * Verifies if the given Domain Specification complies to the [DS-V7 specification](https://gitbook.semantify.it/domainspecifications/ds-v7).
  *
- * @param ds - the input DS
- * @param config - optional config object with options for the meta verification
+ * It is possible to pass a config object to this verification, where the expected grammar of the DS can be configured. This function returns a {@link VerificationReportV7 | meta verification report}.
+ *
+ * @example
+ * ```JS
+ * const verificationReport = myDsUtilitiesV7.verifyDs(exampleDs);
+ * // returns a verification report for the exampleDs
+ * ```
+ *
+ * @param ds - the input Domain Specification
+ * @param config - config object with options for the meta verification
  * @return verification report
  */
 export function verifyDs(

@@ -11,9 +11,16 @@ import { nodeSchemaLanguageTaggedString } from "../../../base/data/LanguageTagge
 import { nodeSchemaEnumerationMember } from "../../data/nodeSchemas/EnumerationMember.nodeSchema";
 
 /**
- * Reorders the given DS node according to the DS specification for DS-V7. The corresponding node type is detected automatically. Works only for certain ds grammar node types.
+ * Reorders the attributes of the given DS-Node according to their order in the Key-Value table in the [DsV7-Specification](https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/domainspecification).
  *
- * @param dsNode
+ * The corresponding node type is detected automatically. Works only for certain ds grammar node types.
+ *
+ * @example
+ * ```JS
+ * myDsUtilitiesV7.reorderDsNode(exampleDsNode);
+ * ```
+ *
+ * @param dsNode - the input node from a Domain Specification
  */
 export function reorderDsNode(dsNode: DsNodeGeneric): void {
   // automatically detect the dsNode type

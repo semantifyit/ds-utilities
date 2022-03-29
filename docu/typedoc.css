@@ -1,0 +1,51 @@
+.tsd-hierarchy, .tsd-sources {
+    display: none;
+}
+
+ul.tsd-descriptions > li > :first-child {
+    margin-top: 18px !important;
+}
+
+/* hide normal signature*/
+div.tsd-signature.tsd-kind-icon {
+    display: none;
+}
+
+/* hide type declaration header */
+div.tsd-type-declaration > h4 {
+    display: none !important;
+}
+
+/* change icon in declaration */
+li.tsd-signature.tsd-kind-icon:before {
+    background-position: -51px 0 !important;
+}
+
+/* change icon in menu on the right */
+.tsd-kind-property.tsd-parent-kind-class.tsd-is-inherited > .tsd-kind-icon:before {
+    background-position: -51px 0 !important;
+}
+
+div.tsd-filter-group {
+    display: none !important;
+}
+
+div.tsd-legend-group {
+    display: none !important;
+}
+
+footer > div > :first-child {
+    display: none !important;
+}
+
+h4.tsd-type-parameters-title {
+    display: none !important;
+}
+
+ul.tsd-type-parameters {
+    display: none !important;
+}
+
+.tsd-navigation.secondary li.current {
+    margin-top: 0 !important;
+}

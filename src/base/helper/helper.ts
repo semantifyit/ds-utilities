@@ -1,13 +1,13 @@
-/** @ignore
+import { LanguageTaggedString } from "../types/LanguageTaggedString.type";
+import { NodeSchema } from "../types/NodeSchema.type";
+import { DsNodeGeneric } from "../types/DsGrammarGeneric.type";
+
+/**
  * Creates a clone of the given JSON input (without reference to the original input)
  *
  * @param input - the JSON element that should be copied
  * @returns copy of the given JSON element
  */
-import { LanguageTaggedString } from "../types/LanguageTaggedString.type";
-import { NodeSchema } from "../types/NodeSchema.type";
-import { DsNodeGeneric } from "../types/DsGrammarGeneric.type";
-
 export function cloneJson<T>(input: T): T {
   if (input === undefined) {
     return input;
@@ -15,6 +15,13 @@ export function cloneJson<T>(input: T): T {
   return JSON.parse(JSON.stringify(input));
 }
 
+/**
+ * Returns the corresponding value for the specified language tag, or the first value in the given array of values if no language tag was specified
+ *
+ * @param valuesArray - an array of language-tagged strings
+ * @param language -  a specific language
+ * @returns the corresponding value
+ */
 export function getLanguageString(
   valuesArray: LanguageTaggedString[],
   language?: string
@@ -40,8 +47,9 @@ export function getLanguageString(
 
 /**
  * Alters the order of the properties for the given node, according to the given NodeSchema
- * @param dsNode
- * @param nodeSchema
+ *
+ * @param dsNode - the node that should be altered
+ * @param nodeSchema - a node schema that should be used to alter the given node
  */
 export function reorderNodeWithSchema(
   dsNode: DsNodeGeneric,
@@ -69,7 +77,13 @@ export function reorderNodeWithSchema(
   }
 }
 
-// returns true if two given objects are deeply equal
+/**
+ * checks if two given objects are deeply equal (they have recursively the same properties and values)
+ *
+ * @param object1 - the first object to compare
+ * @param object2 - the seconds object to compare
+ * @returns true, if both given objects are deeply equal
+ */
 export function deepEqual(
   object1: Record<string, any>,
   object2: Record<string, any>
@@ -93,7 +107,12 @@ export function deepEqual(
   return true;
 }
 
-// checks if a given input is really an object
+/**
+ * checks if a given input is really an object
+ *
+ * @param val - the value to check
+ * @returns true, if the given value is an object
+ */
 export function isObject(val: unknown) {
   return val instanceof Object && !(val instanceof Array);
 }

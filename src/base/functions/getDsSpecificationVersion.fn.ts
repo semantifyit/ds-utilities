@@ -1,10 +1,16 @@
 import { DsGeneric } from "../types/DsGrammarGeneric.type";
 
 /**
- * Returns the used DS specification version used in the given DS.
+ * Identifies the used DS-Specification version used by the given Domain Specification.
  *
- * @param ds - The input DS
- * @return The detected DS specification version used
+ * @example
+ * ```JS
+ * const usedVersion = myDsUtilities.getDsSpecificationVersion(exampleDs);
+ * // "7.0" (assuming the given DS 'exampleDs' uses DsV7)
+ * ```
+ *
+ * @param ds - The input Domain Specification
+ * @return The detected DS-Specification version
  */
 export function getDsSpecificationVersion(ds: DsGeneric): string {
   if (!Array.isArray(ds["@graph"])) {

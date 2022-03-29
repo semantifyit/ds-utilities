@@ -8,11 +8,8 @@ const extractSdoVersionNumber_fn_1 = require("./functions/extractSdoVersionNumbe
 class DsUtilitiesBase {
     constructor() {
         this.getDsSpecificationVersion = getDsSpecificationVersion_fn_1.getDsSpecificationVersion;
-        this.prettyPrintCompactedIRIs = prettyPrintCompactedIRIs_fn_1.prettyPrintCompactedIRIs;
         this.extractSdoVersionNumber = extractSdoVersionNumber_fn_1.extractSdoVersionNumber;
-    }
-    getDsUtilitiesVersion() {
-        return this.dsUtilitiesVersion;
+        this.prettyPrintCompactedIRIs = prettyPrintCompactedIRIs_fn_1.prettyPrintCompactedIRIs;
     }
 }
 exports.DsUtilitiesBase = DsUtilitiesBase;
@@ -178,22 +175,25 @@ exports.isObject = isObject;
 },{}],7:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getDsUtilitiesForDs = exports.getDsUtilitiesForDsSpecVersion = exports.availableVersions = void 0;
+exports.getDsUtilitiesForDs = exports.getDsUtilitiesForDsSpecVersion = exports.getAvailableVersions = void 0;
 const DsUtilitiesV7_1 = require("./v7/DsUtilitiesV7");
 const getDsSpecificationVersion_fn_1 = require("./base/functions/getDsSpecificationVersion.fn");
 const DsUtilitiesV5_1 = require("./v5/DsUtilitiesV5");
-const availableVersions = {
+const AV = {
     "7.0": DsUtilitiesV7_1.DsUtilitiesV7,
     "5.0": DsUtilitiesV5_1.DsUtilitiesV5,
 };
-exports.availableVersions = availableVersions;
+function getAvailableVersions() {
+    return Object.keys(AV);
+}
+exports.getAvailableVersions = getAvailableVersions;
 function getDsUtilitiesForDsSpecVersion(dsSpecVersion) {
-    if (!Object.keys(availableVersions).includes(dsSpecVersion)) {
+    if (!Object.keys(AV).includes(dsSpecVersion)) {
         throw new Error("The given DS Specification Version " +
             dsSpecVersion +
             " is unknown to DsUtilities.");
     }
-    return new availableVersions[dsSpecVersion]();
+    return new AV[dsSpecVersion]();
 }
 exports.getDsUtilitiesForDsSpecVersion = getDsUtilitiesForDsSpecVersion;
 function getDsUtilitiesForDs(ds) {
@@ -219,10 +219,13 @@ const getDsSchemaVersion_fn_1 = require("./functions/ui/getDsSchemaVersion.fn");
 const getDsVersion_fn_1 = require("./functions/ui/getDsVersion.fn");
 const getDsExternalVocabularies_fn_1 = require("./functions/ui/getDsExternalVocabularies.fn");
 const getDsTargetClasses_fn_1 = require("./functions/ui/getDsTargetClasses.fn");
+function getDsUtilitiesVersion() {
+    return "5.0";
+}
 class DsUtilitiesV5 extends DsUtilitiesBase_1.DsUtilitiesBase {
     constructor() {
         super();
-        this.dsUtilitiesVersion = "5.0";
+        this.getDsUtilitiesVersion = getDsUtilitiesVersion;
         this.getDsRootNode = getDsRootNode_fn_1.getDsRootNode;
         this.getDsStandardContext = getDsStandardContext_fn_1.getDsStandardContext;
         this.getDsId = getDsId_fn_1.getDsId;
@@ -554,10 +557,13 @@ const dsPathIdentifyNodeType_fn_1 = require("./functions/path/dsPathIdentifyNode
 const tokenizeDsPath_fn_1 = require("./functions/path/tokenizeDsPath.fn");
 const verifyDs_fn_1 = require("./functions/verification/verifyDs.fn");
 const checkClassMatch_fn_1 = require("./functions/verification/checkClassMatch.fn");
+function getDsUtilitiesVersion() {
+    return "7.0";
+}
 class DsUtilitiesV7 extends DsUtilitiesBase_1.DsUtilitiesBase {
     constructor() {
         super();
-        this.dsUtilitiesVersion = "7.0";
+        this.getDsUtilitiesVersion = getDsUtilitiesVersion;
         this.getDsRootNode = getDsRootNode_fn_1.getDsRootNode;
         this.getDsStandardContext = getDsStandardContext_fn_1.getDsStandardContext;
         this.getDsId = getDsId_fn_1.getDsId;

@@ -1,6 +1,6 @@
 {
   "name": "ds-utilities",
-  "version": "2.1.3",
+  "version": "2.2.0",
   "description": "A helper library that provides functions to handle Domain Specifications.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -11,14 +11,15 @@
     "test": "jest",
     "badges": "jest-coverage-badges input './docu/coverage/coverage-summary.json' output './docu/coverage'",
     "test:badges": "npm run-script test && npm run-script badges",
-    "getJsDocMD": "jsdoc2md src/index.js src/versions/*.js src/versions/functions/*.js src/verification/**/*.js > API.md",
     "eslint-check": "eslint 'src/**/*.{ts,*.ts}' 'tests/**/*.test.ts'",
     "eslint-repair": "eslint --fix 'src/**/*.{ts,*.ts}' 'tests/**/*.test.ts'",
     "eslint-check-lib": "eslint 'lib/**/*.js' --no-ignore",
     "prettier-check": "prettier --check 'src/**/*.{ts,*.ts}' 'tests/**/*.test.ts'",
     "prettier-repair": "prettier --write 'src/**/*.{ts,*.ts}' 'tests/**/*.test.ts'",
     "buildTs": "tsc -b src",
-    "watchTs": "tsc -b src --watch"
+    "watchTs": "tsc -b src --watch",
+    "genTypeDoc": "typedoc",
+    "watchTypeDoc": "typedoc --watch"
   },
   "keywords": [
     "domain",
@@ -45,17 +46,16 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-es": "^3.0.1",
     "eslint-plugin-jest": "^24.4.0",
-    "eslint-plugin-jsdoc": "^36.1.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.1.1",
     "jest-coverage-badges": "^1.1.2",
-    "jsdoc": "^3.6.7",
-    "jsdoc-to-markdown": "^7.0.1",
     "prettier": "^2.4.0",
     "schema-org-adapter": "^5.2.0",
     "tinyify": "^3.0.0",
     "ts-jest": "^27.1.3",
+    "typedoc": "^0.22.13",
+    "typedoc-plugin-merge-modules": "^3.1.0",
     "typescript": "^4.5.5"
   },
   "jest": {

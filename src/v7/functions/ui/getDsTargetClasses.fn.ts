@@ -3,11 +3,18 @@ import { getDsRootNode } from "../structure/getDsRootNode.fn";
 import { cloneJson } from "../../../base/helper/helper";
 
 /**
- * Returns the target classes (sh:targetClass) of the given DS (clone - no reference).
- * sh:targetClass is optional in DS-V7.
+ * Returns the target classes of the given DS.
  *
- * @param ds - the input DS
- * @return array with the target classes (empty if none)
+ * `sh:targetClass` is [optional in DS-V7](https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/domainspecification/domainspecification#2.-key-value-table).
+ *
+ * @example
+ * ```JS
+ * const targetClasses = myDsUtilitiesV7.getDsTargetClasses(exampleDs);
+ * // [ "schema:Hotel", "schema:Restaurant" ]
+ * ```
+ *
+ * @param ds - the input Domain Specification
+ * @return Array with the target classes (empty if none)
  */
 export function getDsTargetClasses(ds: DsV7): string[] {
   const rootNode = getDsRootNode(ds);

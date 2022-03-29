@@ -8,9 +8,14 @@ import { nodeSchemaDs } from "../../data/nodeSchemas/Ds.nodeSchema";
 import { nodeSchemaContext } from "../../data/nodeSchemas/Context.nodeSchema";
 
 /**
- * Reorders all nodes of the given DS according to the DS specification for DS-V7
+ * Reorders the attributes of all nodes of the given Domain Specification according to their order in the Key-Value tables in the [DsV7-Specification](https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/domainspecification).
  *
- * @param ds - the input DS
+ * @example
+ * ```JS
+ * myDsUtilitiesV7.reorderDs(exampleDs);
+ * ```
+ *
+ * @param ds - the input Domain Specification
  */
 export function reorderDs(ds: DsV7) {
   if (!isObject(ds)) {

@@ -8,12 +8,24 @@ import { dsPathGetNode } from "../path/dsPathGetNode.fn";
 import { DsNodeGeneric } from "../../../base/types/DsGrammarGeneric.type";
 
 /**
- * Returns the grammar-type of the given DS Node within the given POPULATED DS. It is possible to pass an SDO-Adapter to tell a standard enumeration apart from a standard class. If no SDO-Adapter is given, a standard class is assumed. If a reference node is passed (not an enumeration member) then the grammar type of the referenced node is returned (e.g. internal reference may point to a Restricted Class node -> "RestrictedClass").
+ * Returns the grammar-type of the given DS-Node within the given [Populated Domain Specification](https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/domainspecification/domainspecification#3.5.-ds-hierarchy).
+ *
+ * It is possible to pass an [SDO-Adapter](https://www.npmjs.com/package/schema-org-adapter) to tell a standard enumeration apart from a standard class. If no SDO-Adapter is given, a standard class is assumed.
+ *
+ * If a reference node is passed and the parameter `followReference` is set to `true`, then the grammar type of the referenced node is returned (e.g. internal reference that points to a Restricted Class -> `RestrictedClass`) instead of the type of the reference node itself.
+ *
+ * The possible DS-Grammar Node types are listed in the documentation of {@link PathTokenObjectV7 | PathTokenObjectV7}.
+ *
+ * @example
+ * ```JS
+ * const nodeDsGrammarType = myDsUtilitiesV7.identifyDsGrammarNodeType(exampleNode, exampleDs, true);
+ * // "RestrictedClass" - assume 'exampleNode' is a Restricted Class Node
+ * ```
  *
  * @param dsNode - the input DS Node
  * @param ds  - the input DS (populated)
  * @param followReference - if true, the type of the referenced node is returned, instead of the type of the reference
- * @param sdoAdapter {SDOAdapter?} - A SDO-Adapter instance (already initialized with the wished vocabularies) -
+ * @param sdoAdapter {SDOAdapter?} - A SDO-Adapter instance (already initialized with the wished vocabularies)
  * @return {string} the type of the given node
  */
 export function identifyDsGrammarNodeType(

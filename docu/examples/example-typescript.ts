@@ -1,6 +1,6 @@
-const { DsUtil } = require("../lib");
+const { DsUtil } = require("../../src/index");
 
-console.log(DsUtil.availableVersions);
+console.log(DsUtil.getAvailableVersions());
 const myDsUtilitiesV5 = DsUtil.getDsUtilitiesForDsSpecVersion("5.0");
 const myDsUtilitiesV7 = DsUtil.getDsUtilitiesForDsSpecVersion("7.0");
 console.log(myDsUtilitiesV5.getDsStandardContext());

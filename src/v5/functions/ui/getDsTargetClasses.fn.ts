@@ -4,6 +4,7 @@ import { DsV5 } from "../../types/DsGrammarV5.type";
 
 /**
  * Returns the target classes (sh:targetClass) of the given DS (clone - no reference).
+ *
  * sh:targetClass is mandatory in DS-V5.
  *
  * @param ds - the input DS

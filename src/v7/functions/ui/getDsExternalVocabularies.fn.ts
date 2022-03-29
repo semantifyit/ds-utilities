@@ -3,11 +3,18 @@ import { getDsRootNode } from "../structure/getDsRootNode.fn";
 import { cloneJson } from "../../../base/helper/helper";
 
 /**
- * Returns the used external vocabularies (ds:usedVocabulary) of the given DS (clone - no reference).
- * ds:usedVocabulary is optional in DS-V7.
+ * Returns the used external vocabularies of the given DS.
  *
- * @param ds {- the input DS
- * @return array with the used external vocabularies (empty if none)
+ * `ds:usedVocabulary` is [optional in DS-V7](https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/domainspecification/domainspecification#2.-key-value-table).
+ *
+ * @example
+ * ```JS
+ * const name = myDsUtilitiesV7.getDsExternalVocabularies(exampleDs);
+ * // [ "https://semantify.it/voc/IaiA2RES_" ]
+ * ```
+ *
+ * @param ds - the input Domain Specification
+ * @return Array with the used external vocabularies (empty if none)
  */
 export function getDsExternalVocabularies(ds: DsV7): string[] {
   const rootNode = getDsRootNode(ds);

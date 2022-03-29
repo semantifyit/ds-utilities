@@ -30,7 +30,11 @@ npm install ds-utilities
 #### Node
 
 ```javascript 
-const { DsUtil } = require("ds-utilities");
+const { DsUtil } = require('ds-utilities');
+// or
+import { DsUtil } from 'ds-utilities';
+
+// Use the global variable `DsUtil` to access the library:
 const myDsUtilitiesV7 = DsUtil.getDsUtilitiesForDsSpecVersion("7.0");
 ``` 
 
@@ -50,7 +54,7 @@ const myDsUtilitiesV7 = DsUtil.getDsUtilitiesForDsSpecVersion("7.0");
 
 ## Documentation
 
-* [API](API.md)
+* [Technical API documentation](https://semantifyit.github.io/ds-utilities/)
 * [Changelog](HISTORY.md)
 
 ### Supported DS Specification Versions
@@ -62,8 +66,8 @@ const myDsUtilitiesV7 = DsUtil.getDsUtilitiesForDsSpecVersion("7.0");
 
 Example files for the different environments are provided at:
 
-* [Browser example](./examples/example-browser.html)
-* [Node.js example](./examples/example-node.js)
+* [Browser example](./docu/examples/example-browser.html)
+* [Node.js example](./docu/examples/example-node.js)
 
 
 <div align="center">

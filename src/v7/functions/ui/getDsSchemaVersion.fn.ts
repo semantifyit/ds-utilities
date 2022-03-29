@@ -2,11 +2,18 @@ import { DsV7 } from "../../types/DsGrammarV7.type";
 import { getDsRootNode } from "../structure/getDsRootNode.fn";
 
 /**
- * Returns the used schema.org version (schema:schemaVersion) of the given DS.
- * schema:schemaVersion is mandatory in DS-V7.
+ * Returns the used schema.org version of the given DS.
  *
- * @param ds - the input DS
- * @return  the schema.org version identifier as simple string, e.g. "11.0"
+ * `schema:schemaVersion` is [mandatory in DS-V7](https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/domainspecification/domainspecification#2.-key-value-table).
+ *
+ * @example
+ * ```JS
+ * const sdoVersion = myDsUtilitiesV7.getDsSchemaVersion(exampleDs);
+ * // "11.0"
+ * ```
+ *
+ * @param ds - the input Domain Specification
+ * @return The schema.org version identifier as string, e.g. `"11.0"`
  */
 export function getDsSchemaVersion(ds: DsV7): string {
   const rootNode = getDsRootNode(ds);

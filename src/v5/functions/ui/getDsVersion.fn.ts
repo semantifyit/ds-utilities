@@ -3,6 +3,7 @@ import { DsV5 } from "../../types/DsGrammarV5.type";
 
 /**
  * Returns the used ds version (schema:version) of the given DS.
+ *
  * schema:version is optional in DS-V5.
  *
  * @param ds - the input DS

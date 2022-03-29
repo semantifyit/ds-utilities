@@ -7,11 +7,19 @@ import { pathGrammarNodeTypes as PGN } from "../../data/pathGrammar.data";
 import { PathGrammarNodeTypeV7 } from "../../types/PathGrammarV7.type";
 
 /**
- * Returns the ds-path-type of the given DS Node within the given DS
+ * Returns the [DS-Path-type](https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/dspath) of the given DS-Node within the given Domain Specification. The syntax and `@id` of the given node are analyzed to determine its DS-Path-type.
  *
- * @param dsNode - the input DS Node
- * @param ds - the input DS
- * @return the ds-path-type of the given node
+ * The different DS-Path-types (a.k.a. DS-Path-token-type) are listed in the documentation of {@link PathTokenObjectV7 | PathTokenObjectV7}.
+ *
+ * @example
+ * ```JS
+ * const nodeType = myDsUtilitiesV7.dsPathIdentifyNodeType(exampleDsNode, exampleDs);
+ * // "InternalReference" (assuming the given exampleDsNode is such an internal reference)
+ * ```
+ *
+ * @param dsNode - the input DS-Node
+ * @param ds - the input Domain Specification
+ * @return the DS-Path-type of the given node
  */
 export function dsPathIdentifyNodeType(
   dsNode: DsNodeGeneric,

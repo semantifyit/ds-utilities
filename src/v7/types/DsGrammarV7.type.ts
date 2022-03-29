@@ -9,8 +9,10 @@ export type ContextV7 = typeof standardContext & ContextGeneric;
 // populated DS is the standard type for DS: can have other nodes in @graph besides the root node
 export type DsV7 = {
   "@context": ContextV7;
-  "@graph": (RootNodeV7 | ClassNodeV7 | EnumerationNodeV7)[];
+  "@graph": GraphNodeV7[];
 };
+
+export type GraphNodeV7 = RootNodeV7 | ClassNodeV7 | EnumerationNodeV7;
 
 export type DsNodeV7 =
   | DsV7

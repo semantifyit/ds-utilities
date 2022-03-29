@@ -1,0 +1,28 @@
+{
+  "out": "docs",
+  "entryPoints": [
+    "./src/v5/DsUtilitiesV5.ts",
+    "./src/v7/DsUtilitiesV7.ts",
+    "./src/dist.ts",
+    "./src/base/types/AvailableVersions.type.ts"
+  ],
+  "entryPointStrategy": "Expand",
+  "tsconfig": "./src/tsconfig.json",
+  "disableSources": true,
+  "excludeTags": [
+    "privateremarks"
+  ],
+  "categorizeByGroup": false,
+  "categoryOrder": [
+    "General",
+    "UI-Interaction",
+    "DS-Structure",
+    "DS-Path",
+    "Verification",
+    "*"
+  ],
+  "hideGenerator": true,
+  "customCss": "./docu/typedoc.css",
+  "readme": "./docu/docuReadme.md",
+  "name": "DS-Utilities"
+}

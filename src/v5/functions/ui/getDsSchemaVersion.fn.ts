@@ -4,10 +4,11 @@ import { extractSdoVersionNumber } from "../../../base/functions/extractSdoVersi
 
 /**
  * Returns the used schema.org version (schema:schemaVersion) of the given DS.
+ *
  * schema:schemaVersion is mandatory in DS-V5.
  *
  * @param ds - the input DS
- * @return  the schema.org version identifier as simple string, e.g. "11.0"
+ * @return the schema.org version identifier as simple string, e.g. "11.0"
  */
 export function getDsSchemaVersion(ds: DsV5): string {
   const rootNode = getDsRootNode(ds);

@@ -2,10 +2,17 @@ import { dataTypeMapping } from "../../data/datatypes.data";
 import { DataTypeDsV7, DataTypeSchemaV7 } from "../../types/DataTypesV7.type";
 
 /**
- * Returns the corresponding DS-V7 datatype (XSD/RDF) for a given schema.org datatype.
- * ATTENTION: for schema:Text the value xsd:string is always returned (no rdf:langString or rdf:HTML)
+ * Returns the corresponding DS-V7 datatype (XSD/RDF) for a given schema.org datatype, according to the [DsV7-DataType-Mapping](https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/domainspecification/datatype#3.1.-datatype-mapping).
  *
- * @param schemaDataType - a compacted IRI representing a DataType of schema.org (e.g. schema:Text)
+ * ATTENTION: for `schema:Text` the value `xsd:string` is always returned (no `rdf:langString` or `rdf:HTML`)
+ *
+ * @example
+ * ```JS
+ * const dsDataType = myDsUtilitiesV7.getDsDataTypeForSchemaDataType("schema:URL");
+ * // "xsd:anyURI"
+ * ```
+ *
+ * @param schemaDataType - a compacted IRI representing a DataType of schema.org (e.g. `schema:Text`)
  * @return the corresponding DS-V7 Datatype (from XSD or RDF)
  */
 export function getDsDataTypeForSchemaDataType(

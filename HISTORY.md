@@ -1,3 +1,9 @@
+2.2.0 / 2022-03-22
+==================
+* [Technical API documentation](https://semantifyit.github.io/ds-utilities/) updated and published.
+* `DsUtil.availableVersions` is now provided by a function instead: `DsUtil.getAvailableVersions()`
+* TypeScript: Added wrapper-type for nodes in the `@graph` array: `GraphNodeV7`
+
 2.1.3 / 2022-03-22
 ==================
 * Fix: `sh:flag` should be `sh:flags`, there was a small error in the DS Specification page.

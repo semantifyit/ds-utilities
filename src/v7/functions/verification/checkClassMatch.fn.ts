@@ -1,15 +1,26 @@
 import { SDOAdapter } from "schema-org-adapter";
 
 /**
- * Returns true if the given classes are a valid match for the given targetClasses following the DS-V7 semantics
+ * Returns `true` if the given classes are a valid match for the given targetClasses following the [DS-V7 semantics](https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/verificationreport/ds-verification#semantics-for-class-matching).
+ *
  * This matching is important for the Class-SubClass relationship (e.g. subDS, or range subclass)
- * https://gitbook.semantify.it/domainspecifications/ds-v7/grammar/verificationreport/ds-verification#semantics-for-class-matching
- * This function needs the SDO-Adapter library to work - https://www.npmjs.com/package/schema-org-adapter
+ *
+ * This function needs the [SDO-Adapter library](https://www.npmjs.com/package/schema-org-adapter) to work. The given `sdoAdapter` must be already initialized with the wished vocabularies.
+ *
+ * @example
+ * ```JS
+ * const isMatch = myDsUtilitiesV7.checkClassMatch(
+ *  [ "schema:LodgingBusiness" ],
+ *  [ "schema:Hotel" ],
+ *  sdoAdapterInstance
+ * );
+ * // "true" - (Hotel is a subclass of LodgingBusiness)
+ * ```
  *
  * @param targetClasses - The target classes (DS)
  * @param classesToCheck  - The classes to be checked (Data)
- * @param sdoAdapter - A SDO-Adapter instance (already initialized with the wished vocabularies)
- * @return True if the given classes to check are valid for the given target classes
+ * @param sdoAdapter - A SDO-Adapter instance
+ * @return `true` if the given classes to check are valid for the given target classes
  */
 export function checkClassMatch(
   targetClasses: string[],
