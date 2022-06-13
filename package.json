@@ -35,28 +35,28 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "nanoid": "^3.1.25"
+    "nanoid": "^3.3.4"
   },
   "devDependencies": {
-    "@types/jest": "^27.4.0",
-    "@typescript-eslint/eslint-plugin": "^5.12.0",
-    "@typescript-eslint/parser": "^5.12.0",
+    "@types/jest": "^28.1.1",
+    "@typescript-eslint/eslint-plugin": "^5.27.1",
+    "@typescript-eslint/parser": "^5.27.1",
     "browserify": "^17.0.0",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-es": "^3.0.1",
-    "eslint-plugin-jest": "^24.4.0",
+    "eslint": "^8.17.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-es": "^4.1.0",
+    "eslint-plugin-jest": "^26.5.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "jest": "^27.1.1",
+    "jest": "^28.1.1",
     "jest-coverage-badges": "^1.1.2",
-    "prettier": "^2.4.0",
+    "prettier": "^2.6.2",
     "schema-org-adapter": "^5.2.0",
     "tinyify": "^3.0.0",
-    "ts-jest": "^27.1.3",
-    "typedoc": "^0.22.13",
+    "ts-jest": "^28.0.4",
+    "typedoc": "^0.22.17",
     "typedoc-plugin-merge-modules": "^3.1.0",
-    "typescript": "^4.5.5"
+    "typescript": "^4.7.3"
   },
   "jest": {
     "preset": "ts-jest/presets/js-with-ts",
