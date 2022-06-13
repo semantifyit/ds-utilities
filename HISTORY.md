@@ -1,3 +1,7 @@
+2.3.0 / 2022-06-12
+==================
+* Changed range of `ds:defaultLanguage` from string to array of strings.
+
 2.2.0 / 2022-03-22
 ==================
 * [Technical API documentation](https://semantifyit.github.io/ds-utilities/) updated and published.

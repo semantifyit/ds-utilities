@@ -135,7 +135,7 @@ export type DataTypeNodeV7 = {
   "rdfs:label"?: LanguageTaggedString[];
   "rdfs:comment"?: LanguageTaggedString[];
   "sh:defaultValue"?: string | number | boolean | LanguageTaggedString;
-  "ds:defaultLanguage"?: string;
+  "ds:defaultLanguage"?: string[];
   "sh:minExclusive"?: string | number;
   "sh:minInclusive"?: string | number;
   "sh:maxExclusive"?: string | number;

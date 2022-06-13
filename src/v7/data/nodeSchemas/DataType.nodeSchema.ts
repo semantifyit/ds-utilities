@@ -39,7 +39,7 @@ export const nodeSchemaDataType: NodeSchema = [
   {
     term: "ds:defaultLanguage",
     required: false,
-    valueType: "string",
+    valueType: "array",
   },
   {
     term: "sh:minExclusive",

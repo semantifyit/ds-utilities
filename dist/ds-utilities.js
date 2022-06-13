@@ -794,7 +794,7 @@ exports.nodeSchemaDataType = [
     {
         term: "ds:defaultLanguage",
         required: false,
-        valueType: "string",
+        valueType: "array",
     },
     {
         term: "sh:minExclusive",

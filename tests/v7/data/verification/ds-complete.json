@@ -258,7 +258,9 @@
             {
               "sh:datatype": "rdf:langString",
               "sh:defaultValue": "Vienna",
-              "ds:defaultLanguage": "en",
+              "ds:defaultLanguage": [
+                "en"
+              ],
               "sh:languageIn": [
                 "en",
                 "de"
